@@ -5,19 +5,31 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.Date;
+
+import javafx.beans.Observable;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 
 
 
 //Singleton Instance
 public class DB_Model {
+	
+	/*Printing Logs*/
 	public void log(Object o){
         System.out.println(o);
     }
 	
+	/*Class Attributes*/
 	private static DB_Model single_instance = null;
     private Connection conn;
     
+    /*Connects to the db*/
     public void connect() throws SQLException {
 
         String url = "jdbc:sqlite:src/model/table.db";
@@ -26,6 +38,8 @@ public class DB_Model {
 
     }
 	
+    /*Checks if a table exists
+     * True on Success, False otherwise*/
     public boolean tableExists(String table_name) throws SQLException {
         String q = "SELECT * FROM sqlite_master WHERE tbl_name = '" + table_name + "'";
         log(q);
@@ -33,6 +47,7 @@ public class DB_Model {
         return rs.next();
     }
     
+    /*Performs a query and returns the ResultSet*/
     public ResultSet runQuery(String q) throws SQLException {
 
         ResultSet rs = null;
@@ -42,12 +57,14 @@ public class DB_Model {
 
     }
     
+    /*Performs a statement*/
     public void runStatement(String s) throws SQLException {
 
         Statement stmt  = conn.createStatement();
         stmt.executeUpdate(s);
     }
     
+    /*Creates tables if necessary and inserts first Physicians/Patients records*/
     private DB_Model() throws SQLException
     {
         connect();
@@ -140,14 +157,39 @@ public class DB_Model {
             resetMeasurementSymptomTable();
         };
         
-        log("DONE");
+        deleteDataFromTable("physician");
         
+        ObservableList<Physician> allPhys = getPhysicians();
+        for (Physician p: allPhys) {
+        	System.out.println(p);
+        }
         
-     
+        try {
+			Physician p = insertPhysician("LDGLSN02S18F861T", "alealde012@gmail.com", "password", "Alessandro", "Aldegheri", "M", LocalDate.of(2002, 11, 18), "Italian", "Danieli", 21, 37141, "Verona", "3497086640");
+			Physician p1 = insertPhysician("LDGLSN02S18F861Z", "alealde012@gmail.com", "password", "Alessandro", "Aldegheri", "M", LocalDate.of(2002, 11, 18), "Italian", "Danieli", 21, 37141, "Verona", "3497086640");
+			Physician p2 = insertPhysician("LDGLSN02S18F861I", "alealde012@gmail.com", "password", "Alessandro", "Aldegheri", "M", LocalDate.of(2002, 11, 18), "Italian", "Danieli", 21, 37141, "Verona", "3497086640");
+
+        		
+        } catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			System.out.println(e.getMessage());
+		}
+        allPhys = getPhysicians();
+        for (Physician p: allPhys) {
+        	System.out.println(p);
+        }
+        
+        //conn.close();
         /*loadPeople();
         loadOccupations();*/
     }
     
+    /*Resets and creates the Measurent_Symptom Table*/
     public void resetMeasurementSymptomTable() throws SQLException{
     	String s = "DROP TABLE IF EXISTS measurement_symptom;" +
                 "CREATE TABLE measurement_symptom( " +
@@ -161,6 +203,7 @@ public class DB_Model {
         runStatement(s);
     }
     
+    /*Resets and creates the Symptom Table*/
     public void resetSymptomTable() throws SQLException{
     	String s = "DROP TABLE IF EXISTS symptom;" +
     			"CREATE TABLE symptom( " +
@@ -171,6 +214,7 @@ public class DB_Model {
         runStatement(s);
     }
     
+    /*Resets and creates the Measurent Table*/
     public void resetMeasurementTable() throws SQLException{
     	String s = "DROP TABLE IF EXISTS measurement;" +
     			"CREATE TABLE measurement( " +
@@ -186,6 +230,7 @@ public class DB_Model {
         runStatement(s);
     }
     
+    /*Resets and creates the Patient_Pathology Table*/
     public void resetPatientPathologyTable() throws SQLException{
     	String s = "DROP TABLE IF EXISTS patient_pathology;" +
                 "CREATE TABLE patient_pathology( " +
@@ -201,6 +246,7 @@ public class DB_Model {
         runStatement(s);
     }
     
+    /*Resets and creates the Pathology Table*/
     public void resetPathologyTable() throws SQLException{
     	String s = "DROP TABLE IF EXISTS pathology;" +
     			"CREATE TABLE pathology( " +
@@ -211,6 +257,7 @@ public class DB_Model {
         runStatement(s);
     }
     
+    /*Resets and creates the DrugIntakes Table*/
     public void resetDrugIntakesTable() throws SQLException{
         String s = "DROP TABLE IF EXISTS drugIntakes;" +
                 "CREATE TABLE drugIntakes( " +
@@ -224,6 +271,7 @@ public class DB_Model {
         runStatement(s);
     }
 
+    /*Resets and creates the Therapy Table*/
     public void resetTherapyTable() throws SQLException{
         String s = "DROP TABLE IF EXISTS therapy;" +
                 "CREATE TABLE therapy( " +
@@ -243,6 +291,7 @@ public class DB_Model {
         runStatement(s);
     }
     
+    /*Resets and creates the Drug Table*/
     public void resetDrugTable() throws SQLException{
         String s = "DROP TABLE IF EXISTS drug;" +
                 "CREATE TABLE drug( " +
@@ -254,6 +303,7 @@ public class DB_Model {
         runStatement(s);
     }
     
+    /*Resets and creates the Patient Table*/
     public void resetPatientTable() throws SQLException{
         String s = "DROP TABLE IF EXISTS patient;" +
                 "CREATE TABLE patient( " +
@@ -278,6 +328,7 @@ public class DB_Model {
         runStatement(s);
     }
 
+    /*Resets and creates the Log Table*/
     public void resetLogTable() throws SQLException{
         String s = "DROP TABLE IF EXISTS log;" +
                 "CREATE TABLE log( " +
@@ -291,6 +342,7 @@ public class DB_Model {
         runStatement(s);
     }
     
+    /*Resets and creates the Physician Table*/
     public void resetPhysicianTable() throws SQLException{
         String s = "DROP TABLE IF EXISTS physician;" +
                 "CREATE TABLE physician( " +
@@ -311,6 +363,8 @@ public class DB_Model {
         log(s);
         runStatement(s);
     }
+    
+    /*Deletes all the tables from the db*/
     public void clearAll() throws SQLException{
         String s = "DROP TABLE physician;" +
                 "DROP TABLE log;" +
@@ -322,14 +376,83 @@ public class DB_Model {
         runStatement(s);
     }
     
+    /*Performs a statement and returns the number of rows affected*/
+    public int runStatementWithOutput(String s) throws SQLException {
+
+        int r;
+        Statement stmt  = conn.createStatement();
+        r = stmt.executeUpdate(s);
+        return r;
+    }
     
+    /*Deletes all records from the specified table*/
+    public void deleteDataFromTable(String table) throws SQLException {
+    	String q = "DELETE FROM " + table;
+    	log(q);
+    	runStatement(q);
+    }
     
+    /*Returns a ObservableList of all Physicians*/
+    public ObservableList<Physician> getPhysicians() throws SQLException{
+    	ObservableList<Physician> physicians = FXCollections.<Physician>observableArrayList(
+                physician -> new Observable[] {
+                        physician.CFProperty(), physician.emailProperty(), physician.passwordProperty(), physician.nameProperty(), physician.surnameProperty(), physician.sexProperty(), physician.birthdateProperty(), 
+                        physician.nationalityProperty(), physician.streetProperty(), physician.civicNumberProperty(), physician.capProperty(), physician.cityProperty(), physician.phoneNumberProperty()}
+        );
+    	
+    	String q = "SELECT * FROM physician";
+    	log(q);
+    	ResultSet rs = runQuery(q);
+    	
+    	while(rs.next()) {
+    		physicians.add(new Physician(
+    				rs.getString("CF"), 
+    				rs.getString("email"), 
+    				rs.getString("password"), 
+    				rs.getString("name"), 
+    				rs.getString("surname"), 
+    				rs.getString("sex"), 
+    				rs.getDate("birthdate").toLocalDate(), 
+    				rs.getString("nationality"), 
+    				rs.getString("street"), 
+    				rs.getInt("civicnumber"), 
+    				rs.getInt("cap"), 
+    				rs.getString("city"), 
+    				rs.getString("phonenumber")
+    				));
+    	}
+    	
+    	return physicians;
+    }
     
+    /*Tries to insert a new Physician*/
+    public Physician insertPhysician(String CF, String email, String password, String name, String surname, String sex, LocalDate birthdate, String nationality, String street, int civic_number, int cap, String city, String phone_number) throws SQLException, ParseException {
+    	log("Add Physician " + CF);
+    	SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        System.out.println(((Date) df.parse(birthdate.toString())).getTime());
+        Long bdate = df.parse(birthdate.toString()).getTime();
+        
+        Physician physician = new Physician(CF, email, password, name, surname, sex, birthdate, nationality, street, civic_number, cap, city, phone_number);
+        
+        String q = "INSERT INTO Physician(CF, email, password, name, surname, sex, birthdate, nationality, street, civicnumber, cap, city, phonenumber)\n" +
+                "VALUES ('"+ physician.getCF() + "', '"+ physician.getEmail() + "', '" + physician.getPassword() + "', '"+ physician.getName() +"', '"+ physician.getSurname() + "', '"+ physician.getSex() +"', '" + bdate + "', '"+ physician.getNationality() + "', '"+ physician.getStreet() + "', '"+ physician.getCivicNumber() + "', '"+ physician.getCAP() + "', '"+ physician.getCity() + "', '"+ physician.getPhoneNumber() +"')\n" +
+                ";";
+        int id = runStatementWithOutput(q);
+        if (id != 0)return physician;
+        return null;
+    }
+    
+    /*Initializes the db instance or return the one already initialized*/
     public static synchronized DB_Model getInstance() throws SQLException
     {
         if (single_instance == null)
             single_instance = new DB_Model();
 
         return single_instance;
+    }
+    
+    /*Closes the connection to the db*/
+    public void closeConnection() throws SQLException {
+    	conn.close();
     }
 }

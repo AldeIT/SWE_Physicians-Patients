@@ -23,20 +23,26 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) throws IOException {
 		
+		
+		/*Starting the database*/
 		try {
 			DB_Model db = DB_Model.getInstance();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println("Done");
 		
-        /*FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Prova.fxml"));
-        System.out.println("diocane");
+		/*Load the Login View*/
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../view/login.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
-        System.out.println("diocane2");
+        
+        /*Handling the closing event of the scene*/
+        loginController controller = fxmlLoader.getController();
+        primaryStage.setOnCloseRequest(controller::handleCloseRequest);
+        
+        /*Showing the first View*/
         primaryStage.setScene(scene);
-        primaryStage.show();*/
+        primaryStage.show();
 	}
 	
 	public static void main(String[] args) {
