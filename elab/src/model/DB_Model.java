@@ -1,5 +1,8 @@
 package model;
 
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -425,8 +428,19 @@ public class DB_Model {
     public ObservableList<Physician> getPhysicians() throws SQLException{
     	ObservableList<Physician> physicians = FXCollections.<Physician>observableArrayList(
                 physician -> new Observable[] {
-                        physician.CFProperty(), physician.emailProperty(), physician.passwordProperty(), physician.nameProperty(), physician.surnameProperty(), physician.sexProperty(), physician.birthdateProperty(), 
-                        physician.nationalityProperty(), physician.streetProperty(), physician.civicNumberProperty(), physician.capProperty(), physician.cityProperty(), physician.phoneNumberProperty()}
+                        physician.CFProperty(), 
+                        physician.emailProperty(),
+                        physician.passwordProperty(), 
+                        physician.nameProperty(), 
+                        physician.surnameProperty(), 
+                        physician.sexProperty(), 
+                        physician.birthdateProperty(), 
+                        physician.nationalityProperty(), 
+                        physician.streetProperty(), 
+                        physician.civicNumberProperty(),
+                        physician.capProperty(), 
+                        physician.cityProperty(), 
+                        physician.phoneNumberProperty()}
         );
     	
     	String q = "SELECT * FROM physician";
@@ -458,9 +472,21 @@ public class DB_Model {
     public ObservableList<Patient> getPatients() throws SQLException{
     	ObservableList<Patient> patients = FXCollections.<Patient>observableArrayList(
                 patient -> new Observable[] {
-                        patient.CFProperty(), patient.emailProperty(), patient.passwordProperty(), patient.nameProperty(), patient.surnameProperty(), patient.sexProperty(), patient.birthdateProperty(), 
-                        patient.nationalityProperty(), patient.streetProperty(), patient.civicNumberProperty(), patient.capProperty(), patient.cityProperty(), patient.phoneNumberProperty(), 
-                        patient.informationsProperty(), patient.CFPhysicianProperty()}
+                        patient.CFProperty(), 
+                        patient.emailProperty(), 
+                        patient.passwordProperty(), 
+                        patient.nameProperty(), 
+                        patient.surnameProperty(), 
+                        patient.sexProperty(), 
+                        patient.birthdateProperty(), 
+                        patient.nationalityProperty(), 
+                        patient.streetProperty(), 
+                        patient.civicNumberProperty(), 
+                        patient.capProperty(), 
+                        patient.cityProperty(), 
+                        patient.phoneNumberProperty(), 
+                        patient.informationsProperty(), 
+                        patient.CFPhysicianProperty()}
         );
     	
     	String q = "SELECT * FROM patient";
@@ -493,10 +519,11 @@ public class DB_Model {
     /*Tries to insert a new Physician*/
     public Physician insertPhysician(String CF, String email, String password, String name, String surname, String sex, LocalDate birthdate, String nationality, String street, int civic_number, int cap, String city, String phone_number) throws SQLException, ParseException {
     	log("Add Physician " + CF);
-    	SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        System.out.println(((Date) df.parse(birthdate.toString())).getTime());
-        Long bdate = df.parse(birthdate.toString()).getTime();
-        
+    	//SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        //System.out.println(((Date) df.parse(birthdate.toString())).getTime());
+        //Long bdate = df.parse(birthdate.toString()).getTime();
+        Long bdate = LocalDateToLong(birthdate);
+        password = hashPassword(password);
         Physician physician = new Physician(CF, email, password, name, surname, sex, birthdate, nationality, street, civic_number, cap, city, phone_number);
         
         String q = "INSERT INTO Physician(CF, email, password, name, surname, sex, birthdate, nationality, street, civicnumber, cap, city, phonenumber)\n" +
@@ -510,10 +537,12 @@ public class DB_Model {
     /*Tries to insert a new Patient*/
 	public Patient insertPatient(String CF, String email, String password, String name, String surname, String sex, LocalDate birthdate, String nationality, String street, int civic_number, int cap, String city, String phone_number,String informations, String CFPhysician) throws SQLException, ParseException {
 		log("Add Patient " + CF);
-    	SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        System.out.println(((Date) df.parse(birthdate.toString())).getTime());
-        Long bdate = df.parse(birthdate.toString()).getTime();
+    	//SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        //System.out.println(((Date) df.parse(birthdate.toString())).getTime());
+        //Long bdate = df.parse(birthdate.toString()).getTime();
         
+		Long bdate = LocalDateToLong(birthdate);
+		password = hashPassword(password);
         Patient patient = new Patient(CF, email, password, name, surname, sex, birthdate, nationality, street, civic_number, cap, city, phone_number, informations, CFPhysician);
         
         String q = "INSERT INTO Patient(CF, email, password, name, surname, sex, birthdate, nationality, street, civicnumber, cap, city, phonenumber, informations, CFphysician)\n" +
@@ -525,6 +554,27 @@ public class DB_Model {
         return null;
 	}
 	
+	public String hashPassword(String password) {
+		try {
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            byte[] hash = md.digest(password.getBytes(StandardCharsets.UTF_8));
+            StringBuilder sb = new StringBuilder();
+            for (byte b : hash) {
+                sb.append(String.format("%02x", b));
+            }
+            return sb.toString();
+        } catch (NoSuchAlgorithmException ex) {
+            throw new RuntimeException(ex);
+        }
+		
+	}
+	
+	public Long LocalDateToLong(LocalDate birthdate) throws ParseException {
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        System.out.println(((Date) df.parse(birthdate.toString())).getTime());
+        Long bdate = df.parse(birthdate.toString()).getTime();
+        return bdate;
+	}
 	    
     /*Initializes the db instance or return the one already initialized*/
     public static synchronized DB_Model getInstance() throws SQLException

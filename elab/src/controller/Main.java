@@ -4,19 +4,11 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 import javafx.application.Application;
-import javafx.beans.binding.Bindings;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
 import model.DB_Model;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.BorderPane;
 
 
 public class Main extends Application {
@@ -34,11 +26,14 @@ public class Main extends Application {
 		
 		/*Load the Login View*/
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../view/login.fxml"));
-        Scene scene = new Scene(fxmlLoader.load());
+        Parent root = fxmlLoader.load();
+        Scene scene = new Scene(root);
         
         /*Handling the closing event of the scene*/
-        loginController controller = fxmlLoader.getController();
-        primaryStage.setOnCloseRequest(controller::handleCloseRequest);
+        //loginController controller = fxmlLoader.getController();
+        stageController stageController = new stageController();
+        stageController.setStage(primaryStage);
+        primaryStage.setOnCloseRequest(stageController::handleCloseRequest);
         
         /*Showing the first View*/
         primaryStage.setScene(scene);
