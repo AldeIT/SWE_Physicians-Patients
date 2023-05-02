@@ -1,6 +1,7 @@
 package model;
 
 import java.time.LocalDate;
+import java.util.regex.Pattern;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
@@ -8,16 +9,11 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.*;
 
-public class Physician extends User{
-	
-	
-	
+public abstract class User {
+
 	/*Declaring all the Class properties*/
-	/*private StringProperty CF = new SimpleStringProperty(this, "CF");
+	private StringProperty CF = new SimpleStringProperty(this, "CF");
 	private StringProperty email = new SimpleStringProperty(this, "email");
 	private StringProperty password = new SimpleStringProperty(this, "password");
 	private StringProperty name = new SimpleStringProperty(this, "name");
@@ -30,9 +26,8 @@ public class Physician extends User{
 	private IntegerProperty cap = new SimpleIntegerProperty(this, "cap");
 	private StringProperty city = new SimpleStringProperty(this, "city");
 	private StringProperty phone_number = new SimpleStringProperty(this, "phone_number");
-
 	
-	public Physician(String CF, String email, String password, String name, String surname, String sex, LocalDate birthdate, String nationality, String street, int civic_number, int cap, String city, String phone_number) {
+	public User(String CF, String email, String password, String name, String surname, String sex, LocalDate birthdate, String nationality, String street, int civic_number, int cap, String city, String phone_number) {
 		if (CF == null || email == null || password == null || name == null || surname == null || sex == null || birthdate == null || nationality == null || street == null || city == null || phone_number == null)
 			throw new IllegalArgumentException("Something is null!");
 		//checking if the given values are valid
@@ -57,11 +52,11 @@ public class Physician extends User{
 		this.cap.set(cap);
 		this.city.set(city);
 		this.phone_number.set(phone_number);
-	}*/
+	}
 	
 	/*Checks if the given CF is a valid "Codice Fiscale"
 	 * returns true if valid, false otherwise*/
-	/*private boolean isValidCF(String CF) {
+	private boolean isValidCF(String CF) {
 		if (CF.length() != 16)return false;
 		CF = CF.toUpperCase();
 		int i;
@@ -83,22 +78,22 @@ public class Physician extends User{
 		}
 		if (Character.isDigit(CF.charAt(15)))return false;
 		return true;
-	}*/
+	}
 	
 	/*Checks if the given phone_number is valid 
 	 * returns true if valid, false otherwise*/
-	/*private boolean isValidPhoneNumber(String phone_number) {	
+	private boolean isValidPhoneNumber(String phone_number) {	
 		if (phone_number.length() != 10)return false;
 		
 		for (int i=0; i<phone_number.length(); i++) {
 			if (Character.isAlphabetic(phone_number.charAt(i)))return false;
 		}
 		return true;
-	}*/
+	}
 	
 	/*Checks if the given email is valid 
 	 * returns true if valid, false otherwise*/
-	/*public static boolean isValidEmail(String email){
+	public static boolean isValidEmail(String email){
         String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+
                             "[a-zA-Z0-9_+&*-]+)*@" +
                             "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
@@ -108,19 +103,139 @@ public class Physician extends User{
         if (email == null)
             return false;
         return pat.matcher(email).matches();
-    }*/
+    }
 
 	
-	
-	
-	public Physician(String CF, String email, String password, String name, String surname, String sex,
-			LocalDate birthdate, String nationality, String street, int civic_number, int cap, String city,
-			String phone_number) {
-		super(CF, email, password, name, surname, sex, birthdate, nationality, street, civic_number, cap, city, phone_number);
-		// TODO Auto-generated constructor stub
+	/*gets the CF*/
+	public String getCF() {
+		return CF.get();
 	}
-
-	public String toString() {
-		return "Physician: " + getCF() + ", " + getEmail() + ", " + getName() + ", " + getSurname();
+	
+	/*gets the CFProperty*/
+	public StringProperty CFProperty() {
+		return CF;
 	}
+	
+	/*gets the email*/
+	public String getEmail() {
+		return email.get();
+	}
+	
+	/*gets the emailProperty*/
+	public StringProperty emailProperty() {
+		return email;
+	}
+	
+	/*gets the password*/
+	public String getPassword() {
+		return password.get();
+	}
+	
+	/*gets the passwordProperty*/
+	public StringProperty passwordProperty() {
+		return password;
+	}
+	
+	/*gets the name*/
+	public String getName() {
+		return name.get();
+	}
+	
+	/*gets the nameProperty*/
+	public StringProperty nameProperty() {
+		return name;
+	}
+	
+	/*gets the surname*/
+	public String getSurname() {
+		return surname.get();
+	}
+	
+	/*gets the surnameProperty*/
+	public StringProperty surnameProperty() {
+		return surname;
+	}
+	
+	/*gets the sex*/
+	public String getSex() {
+		return sex.get();
+	}
+	
+	/*gets the sexProperties*/
+	public StringProperty sexProperty() {
+		return sex;
+	}
+	
+	/*gets the birthdate*/
+	public LocalDate getBirthdate() {
+		return birthdate.get();
+	}
+	
+	/*gets the birthdateProperty*/
+	public ObjectProperty<LocalDate> birthdateProperty() {
+		return birthdate;
+	}
+	
+	/*gets the nationality*/
+	public String getNationality() {
+		return nationality.get();
+	}
+	
+	/*gets the nationalityProperty*/
+	public StringProperty nationalityProperty() {
+		return nationality;
+	}
+	
+	/*gets the street*/
+	public String getStreet() {
+		return street.get();
+	}
+	
+	/*gets the streetProperty*/
+	public StringProperty streetProperty() {
+		return street;
+	}
+	
+	/*gets the civicNumber*/
+	public int getCivicNumber() {
+		return civic_number.get();
+	}
+	
+	/*gets the civicNumberProperty*/
+	public IntegerProperty civicNumberProperty() {
+		return civic_number;
+	}
+	
+	/*gets the CAP*/
+	public int getCAP() {
+		return cap.get();
+	}
+	
+	/*gets the capProperty*/
+	public IntegerProperty capProperty() {
+		return cap;
+	}
+	
+	/*gets the city*/
+	public String getCity() {
+		return city.get();
+	}
+	
+	/*gets the cityProperty*/
+	public StringProperty cityProperty() {
+		return city;
+	}
+	
+	/*gets the phoneNumber*/
+	public String getPhoneNumber() {
+		return phone_number.get();
+	}
+	
+	/*gets the phoneNumberProperty*/
+	public StringProperty phoneNumberProperty() {
+		return phone_number;
+	}
+	
+	public abstract String toString();
+	
 }

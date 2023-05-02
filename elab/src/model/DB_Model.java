@@ -34,6 +34,8 @@ public class DB_Model {
 
         String url = "jdbc:sqlite:src/model/table.db";
         conn = DriverManager.getConnection(url);
+        Statement stmt = conn.createStatement();
+        stmt.executeUpdate("PRAGMA foreign_keys = ON;");
         System.out.println("Connection to SQLite has been established.");
 
     }
@@ -156,31 +158,52 @@ public class DB_Model {
             log("measurement_symptom table DO NOT exists");
             resetMeasurementSymptomTable();
         };
-        
+        deleteDataFromTable("patient");
         deleteDataFromTable("physician");
         
+        
+        System.out.println("Physicians: ");
         ObservableList<Physician> allPhys = getPhysicians();
         for (Physician p: allPhys) {
         	System.out.println(p);
         }
         
+        System.out.println("Patients: ");
+        ObservableList<Patient> allPat = getPatients();
+        for (Patient p: allPat) {
+        	System.out.println(p);
+        }
+        
+        
         try {
 			Physician p = insertPhysician("LDGLSN02S18F861T", "alealde012@gmail.com", "password", "Alessandro", "Aldegheri", "M", LocalDate.of(2002, 11, 18), "Italian", "Danieli", 21, 37141, "Verona", "3497086640");
 			Physician p1 = insertPhysician("LDGLSN02S18F861Z", "alealde012@gmail.com", "password", "Alessandro", "Aldegheri", "M", LocalDate.of(2002, 11, 18), "Italian", "Danieli", 21, 37141, "Verona", "3497086640");
 			Physician p2 = insertPhysician("LDGLSN02S18F861I", "alealde012@gmail.com", "password", "Alessandro", "Aldegheri", "M", LocalDate.of(2002, 11, 18), "Italian", "Danieli", 21, 37141, "Verona", "3497086640");
-
+			Patient pat = insertPatient("VNTDVD02D17L949I", "venturi.davide17@gmail.com", "password", "Davide", "Venturi", "M", LocalDate.of(2002,04,17), "Italian", "Marconi", 89, 37060, "Verona", "3402938423", "Ansia", "LDGLSN02S18F861T");
+			Patient pat1 = insertPatient("VNTDVD02D17L949Z", "venturi.davide17@gmail.com", "password", "Davide", "Venturi", "M", LocalDate.of(2002,04,17), "Italian", "Marconi", 89, 37060, "Verona", "3402938423", "Ansia", "LDGLSN02S18F861Z");
+			Patient pat2 = insertPatient("VNTDVD02D17L949T", "venturi.davide17@gmail.com", "password", "Davide", "Venturi", "M", LocalDate.of(2002,04,17), "Italian", "Marconi", 89, 37060, "Verona", "3402938423", "Ansia", "LDGLSN02S18F861I");
         		
         } catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			//e.printStackTrace();
+        	System.out.println("Problema nel db");
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IllegalArgumentException e) {
 			System.out.println(e.getMessage());
 		}
+        
+        System.out.println("Physicians: ");
         allPhys = getPhysicians();
         for (Physician p: allPhys) {
+        	System.out.println(p);
+        }
+        
+        
+        System.out.println("Patients: ");
+        allPat = getPatients();
+        for (Patient p: allPat) {
         	System.out.println(p);
         }
         
@@ -321,8 +344,8 @@ public class DB_Model {
                 "city VARCHAR(255), " +
                 "phonenumber VARCHAR(10), " +
                 "informations VARCHAR(1024), " +
-                "CFphysician VARCHAR(16), " +
-                "FOREIGN KEY(CFphysician) REFERENCES physician(CF)" + 
+                "CFphysician VARCHAR(16) NOT NULL, " +
+                "FOREIGN KEY (CFphysician) REFERENCES physician(CF) ON UPDATE CASCADE" + 
                 ");";
         log(s);
         runStatement(s);
@@ -366,14 +389,20 @@ public class DB_Model {
     
     /*Deletes all the tables from the db*/
     public void clearAll() throws SQLException{
-        String s = "DROP TABLE physician;" +
-                "DROP TABLE log;" +
-                "DROP TABLE patient;" +
-                "DROP TABLE drug;" +
-                "DROP TABLE therapy;"+ 
-                "DROP TABLE drugIntakes;";
-        log(s);
-        runStatement(s);
+        String q = "DROP TABLE measurement_symptom;" +
+        		"DROP TABLE symptom;"+
+        		"DROP TABLE measurement;"+
+        		"DROP TABLE patient_pathology;"+
+        		"DROP TABLE pathology;"+
+        		"DROP TABLE drugIntakes;"+
+        		"DROP TABLE therapy;"+ 
+        		"DROP TABLE drug;" +
+        		"DROP TABLE patient;" +
+        		"DROP TABLE log;" +
+        		"DROP TABLE physician;"
+        		;
+        log(q);
+        runStatement(q);
     }
     
     /*Performs a statement and returns the number of rows affected*/
@@ -425,6 +454,42 @@ public class DB_Model {
     	return physicians;
     }
     
+    /*Returns a ObservableList of all Patients*/
+    public ObservableList<Patient> getPatients() throws SQLException{
+    	ObservableList<Patient> patients = FXCollections.<Patient>observableArrayList(
+                patient -> new Observable[] {
+                        patient.CFProperty(), patient.emailProperty(), patient.passwordProperty(), patient.nameProperty(), patient.surnameProperty(), patient.sexProperty(), patient.birthdateProperty(), 
+                        patient.nationalityProperty(), patient.streetProperty(), patient.civicNumberProperty(), patient.capProperty(), patient.cityProperty(), patient.phoneNumberProperty(), 
+                        patient.informationsProperty(), patient.CFPhysicianProperty()}
+        );
+    	
+    	String q = "SELECT * FROM patient";
+    	log(q);
+    	ResultSet rs = runQuery(q);
+    	
+    	while(rs.next()) {
+    		patients.add(new Patient(
+    				rs.getString("CF"), 
+    				rs.getString("email"), 
+    				rs.getString("password"), 
+    				rs.getString("name"), 
+    				rs.getString("surname"), 
+    				rs.getString("sex"), 
+    				rs.getDate("birthdate").toLocalDate(), 
+    				rs.getString("nationality"), 
+    				rs.getString("street"), 
+    				rs.getInt("civicnumber"), 
+    				rs.getInt("cap"), 
+    				rs.getString("city"), 
+    				rs.getString("phonenumber"),
+    				rs.getString("informations"),
+    				rs.getString("CFphysician")
+    				));
+    	}
+    	
+    	return patients;
+    }
+    
     /*Tries to insert a new Physician*/
     public Physician insertPhysician(String CF, String email, String password, String name, String surname, String sex, LocalDate birthdate, String nationality, String street, int civic_number, int cap, String city, String phone_number) throws SQLException, ParseException {
     	log("Add Physician " + CF);
@@ -442,6 +507,25 @@ public class DB_Model {
         return null;
     }
     
+    /*Tries to insert a new Patient*/
+	public Patient insertPatient(String CF, String email, String password, String name, String surname, String sex, LocalDate birthdate, String nationality, String street, int civic_number, int cap, String city, String phone_number,String informations, String CFPhysician) throws SQLException, ParseException {
+		log("Add Patient " + CF);
+    	SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        System.out.println(((Date) df.parse(birthdate.toString())).getTime());
+        Long bdate = df.parse(birthdate.toString()).getTime();
+        
+        Patient patient = new Patient(CF, email, password, name, surname, sex, birthdate, nationality, street, civic_number, cap, city, phone_number, informations, CFPhysician);
+        
+        String q = "INSERT INTO Patient(CF, email, password, name, surname, sex, birthdate, nationality, street, civicnumber, cap, city, phonenumber, informations, CFphysician)\n" +
+                "VALUES ('"+ patient.getCF() + "', '"+ patient.getEmail() + "', '" + patient.getPassword() + "', '"+ patient.getName() +"', '"+ patient.getSurname() + "', '"+ patient.getSex() +"', '" + bdate + "', '"+ patient.getNationality() + "', '"+ patient.getStreet() + "', '"+ patient.getCivicNumber() + "', '"+ patient.getCAP() + "', '"+ patient.getCity() + "', '"+ patient.getPhoneNumber() +"', '"+ patient.getInformations() +"', '"+ patient.getCFPhysician() +"')\n" +
+                ";";
+        int id = runStatementWithOutput(q);
+        if (id != 0)return patient;
+        System.out.println("qui");
+        return null;
+	}
+	
+	    
     /*Initializes the db instance or return the one already initialized*/
     public static synchronized DB_Model getInstance() throws SQLException
     {
