@@ -18,6 +18,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import model.DB_Model;
+import model.Physician;
+import model.Patient;
 
 /*The controller for the login view*/
 public class loginController {
@@ -47,12 +49,14 @@ public class loginController {
 		boolean isRadioBtnPatientSelected = radioBtnPatient.isSelected();
 		
 		DB_Model db = null;
+		String password = null;
 		try {
 			db = DB_Model.getInstance();
 			if (isRadioBtnPhysicianSelected) {
 				String q = "SELECT * FROM physician WHERE CF='" + labelCF.getText() + "' AND password='" + db.hashPassword(labelPassword.getText()) + "';";
 				ResultSet st = null;
 				st = db.runQuery(q);
+				password = labelPassword.getText();
 				labelCF.setText("");
 				labelPassword.setText("");
 				if (st.getString("CF") == null) {
@@ -63,18 +67,34 @@ public class loginController {
 				}else {
 					System.out.println(st.getString("CF"));
 					System.out.println("Andiamo in un'altra schermata Physician");
-					
+					Physician session = new Physician(st.getString("CF"), 
+							st.getString("email"), 
+							password, 
+							st.getString("name"), 
+							st.getString("surname"), 
+							st.getString("sex"), 
+							st.getDate("birthdate").toLocalDate(), 
+							st.getString("nationality"), 
+		    				st.getString("street"), 
+		    				st.getInt("civicnumber"), 
+		    				st.getInt("cap"), 
+		    				st.getString("city"), 
+		    				st.getString("phonenumber"));
 					/*Getting the fxml*/
 					FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/physicianView.fxml"));
 					Parent root = loader.load();
 					/*Getting the controller*/
 					physicianViewController controller = loader.getController();
-					controller.setWelcomeLabelText(st.getString("CF"));
+					controller.setSession(session);
+					controller.initInfo();
 					System.out.println("Switchamo Scene");
 					/*Setting the scene*/
 					Scene scene = new Scene(root);
 					Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 					stage.setScene(scene);
+					stage.setMinWidth(1000);
+			        stage.setMinHeight(1000);
+			        stage.setResizable(true);
 					stage.show();
 				}
 			}else if(isRadioBtnPatientSelected){
@@ -92,18 +112,36 @@ public class loginController {
 					System.out.println(st.getString("CF"));
 					System.out.println("Andiamo in un'altra schermata Patient");
 					
-					
+					Patient session = new Patient(st.getString("CF"), 
+							st.getString("email"), 
+							password, 
+							st.getString("name"), 
+							st.getString("surname"), 
+							st.getString("sex"), 
+							st.getDate("birthdate").toLocalDate(), 
+							st.getString("nationality"), 
+		    				st.getString("street"), 
+		    				st.getInt("civicnumber"), 
+		    				st.getInt("cap"), 
+		    				st.getString("city"), 
+		    				st.getString("phonenumber"),
+							st.getString("informations"),
+							st.getString("CFPhysician"));
 					/*Getting the fxml*/
 					FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/patientView.fxml"));
 					Parent root = loader.load();
 					/*Getting the controller*/
 					patientViewController controller = loader.getController();
+					controller.setSession(session);
 					controller.setWelcomeLabelText(st.getString("CF"));
 					System.out.println("Switchamo Scene");
 					/*Setting the scene*/
 					Scene scene = new Scene(root);
 					Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 					stage.setScene(scene);
+					stage.setMinWidth(1000);
+			        stage.setMinHeight(1000);
+			        stage.setResizable(true);
 					stage.show();
 					
 				}
