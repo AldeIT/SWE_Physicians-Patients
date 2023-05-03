@@ -73,7 +73,7 @@ public class DB_Model {
     private DB_Model() throws SQLException
     {
         connect();
-        /*clearAll();*/
+        //clearAll();
         if (tableExists("physician"))
         {
             log("physician table exists");
@@ -219,7 +219,7 @@ public class DB_Model {
     public void resetMeasurementSymptomTable() throws SQLException{
     	String s = "DROP TABLE IF EXISTS measurement_symptom;" +
                 "CREATE TABLE measurement_symptom( " +
-                "IDmeasurement VARCHAR(16), " +
+                "IDmeasurement INTEGER, " +
                 "IDsymptom INTEGER, " +
                 "FOREIGN KEY(IDmeasurement) REFERENCES measurement(id), " +
                 "FOREIGN KEY(IDsymptom) REFERENCES symptom(id), " +
