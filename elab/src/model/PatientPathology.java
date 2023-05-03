@@ -1,6 +1,6 @@
 package model;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
@@ -10,12 +10,12 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 public class PatientPathology {
-	private ObjectProperty<LocalDate> startDate = new SimpleObjectProperty<>(this, "date", null);
-	private ObjectProperty<LocalDate> endDate = new SimpleObjectProperty<>(this, "date", null);
+	private ObjectProperty<LocalDateTime> startDate = new SimpleObjectProperty<>(this, "date", null);
+	private ObjectProperty<LocalDateTime> endDate = new SimpleObjectProperty<>(this, "date", null);
 	private StringProperty CFPatient = new SimpleStringProperty(this, "CFPhysician");
 	private IntegerProperty idPathology = new SimpleIntegerProperty(this,"done");
 	
-	public PatientPathology(LocalDate startDate, LocalDate endDate, String CFPatient, int idPathology) {
+	public PatientPathology(LocalDateTime startDate, LocalDateTime endDate, String CFPatient, int idPathology) {
 		this.startDate.set(startDate);
 		this.endDate.set(endDate);
 		this.CFPatient.set(CFPatient);
@@ -23,22 +23,22 @@ public class PatientPathology {
 	}
 	
 	/*get the startDate*/
-	public LocalDate getStartDate() {
+	public LocalDateTime getStartDate() {
 		return startDate.get();
 	}
 	
 	/*get the startDate property*/
-	public ObjectProperty<LocalDate> startDateProperty() {
+	public ObjectProperty<LocalDateTime> startDateProperty() {
 		return startDate;
 	}
 	
 	/*get the endDate*/
-	public LocalDate getEndDate() {
+	public LocalDateTime getEndDate() {
 		return endDate.get();
 	}
 	
 	/*get the endDate property*/
-	public ObjectProperty<LocalDate> startEndProperty() {
+	public ObjectProperty<LocalDateTime> endDateProperty() {
 		return endDate;
 	}
 	
@@ -61,4 +61,8 @@ public class PatientPathology {
     public IntegerProperty idPathologyProperty(){
         return idPathology;
     }
+    
+    public String toString(){
+		return "CFpatient: " + getCFPatient() + ", idPathology: " + getIdPathology() + ", startDate: " + getStartDate().toString() + ", endDate: " + getEndDate().toString();
+	}
 }

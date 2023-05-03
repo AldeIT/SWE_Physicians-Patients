@@ -11,6 +11,8 @@ import java.sql.Statement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 
 import javafx.beans.Observable;
@@ -73,7 +75,7 @@ public class DB_Model {
     private DB_Model() throws SQLException
     {
         connect();
-        //clearAll();
+        clearAll();
         if (tableExists("physician"))
         {
             log("physician table exists");
@@ -161,11 +163,22 @@ public class DB_Model {
             log("measurement_symptom table DO NOT exists");
             resetMeasurementSymptomTable();
         };
+        
+        deleteDataFromTable("measurement_symptom");
+        deleteDataFromTable("symptom");
+        deleteDataFromTable("measurement");
+        deleteDataFromTable("patient_pathology");
+        deleteDataFromTable("pathology");
+        deleteDataFromTable("drugIntakes");
+        deleteDataFromTable("therapy");
+        deleteDataFromTable("drug");
+        deleteDataFromTable("log");
         deleteDataFromTable("patient");
         deleteDataFromTable("physician");
         
         
-        System.out.println("Physicians: ");
+        
+        /*System.out.println("Physicians: ");
         ObservableList<Physician> allPhys = getPhysicians();
         for (Physician p: allPhys) {
         	System.out.println(p);
@@ -175,20 +188,57 @@ public class DB_Model {
         ObservableList<Patient> allPat = getPatients();
         for (Patient p: allPat) {
         	System.out.println(p);
-        }
+        }*/
         
         
         try {
 			Physician p = insertPhysician("LDGLSN02S18F861T", "alealde012@gmail.com", "password", "Alessandro", "Aldegheri", "M", LocalDate.of(2002, 11, 18), "Italian", "Danieli", 21, 37141, "Verona", "3497086640");
 			Physician p1 = insertPhysician("LDGLSN02S18F861Z", "alealde012@gmail.com", "password", "Alessandro", "Aldegheri", "M", LocalDate.of(2002, 11, 18), "Italian", "Danieli", 21, 37141, "Verona", "3497086640");
 			Physician p2 = insertPhysician("LDGLSN02S18F861I", "alealde012@gmail.com", "password", "Alessandro", "Aldegheri", "M", LocalDate.of(2002, 11, 18), "Italian", "Danieli", 21, 37141, "Verona", "3497086640");
+			
 			Patient pat = insertPatient("VNTDVD02D17L949I", "venturi.davide17@gmail.com", "password", "Davide", "Venturi", "M", LocalDate.of(2002,04,17), "Italian", "Marconi", 89, 37060, "Verona", "3402938423", "Ansia", "LDGLSN02S18F861T");
 			Patient pat1 = insertPatient("VNTDVD02D17L949Z", "venturi.davide17@gmail.com", "password", "Davide", "Venturi", "M", LocalDate.of(2002,04,17), "Italian", "Marconi", 89, 37060, "Verona", "3402938423", "Ansia", "LDGLSN02S18F861Z");
 			Patient pat2 = insertPatient("VNTDVD02D17L949T", "venturi.davide17@gmail.com", "password", "Davide", "Venturi", "M", LocalDate.of(2002,04,17), "Italian", "Marconi", 89, 37060, "Verona", "3402938423", "Ansia", "LDGLSN02S18F861I");
-        		
+			
+			Log log = insertLog("LDGLSN02S18F861T",LocalDateTime.of(2015, 5, 1, 14, 30, 0),  "Ha modificato la descrizione di un paziente");
+			Log log1 = insertLog("LDGLSN02S18F861I",LocalDateTime.of(2016, 6, 2, 15, 30, 0),  "Ha modificato il nome di un paziente");
+			Log log2 = insertLog("LDGLSN02S18F861I",LocalDateTime.of(2016, 6, 2, 15, 30, 10),  "Ha modificato la mail di un paziente");
+			
+			Drug drug = insertDrug(0, "Paracetamolo", "antidolorifico");
+			Drug drug1 = insertDrug(0, "Xanax", "antidepressivo");
+			Drug drug2 = insertDrug(0, "En", "anseolitico");
+			
+			Therapy therapy = insertTherapy(1, 1, "una volta al giorno", 0, 1, "VNTDVD02D17L949I", "LDGLSN02S18F861T");
+			Therapy therapy1 = insertTherapy(2, 1, "due volte al giorno", 0, 2, "VNTDVD02D17L949I", "LDGLSN02S18F861Z");
+			Therapy therapy2 = insertTherapy(2, 1, "blablabla", 0, 3, "VNTDVD02D17L949T", "LDGLSN02S18F861I");
+			
+			DrugIntake drugIntake = insertDrugIntake(0, LocalDateTime.of(2015, 5, 1, 14, 30, 0), 0, 1);
+			DrugIntake drugIntake1 = insertDrugIntake(0, LocalDateTime.of(2016, 6, 2, 15, 30, 0), 0, 2);
+			DrugIntake drugIntake2 = insertDrugIntake(0, LocalDateTime.of(2016, 6, 2, 15, 30, 10), 0, 3);
+			
+			Pathology pathology = insertPathology("sla");
+			Pathology pathology1 = insertPathology("monucleosi");
+			Pathology pathology2 = insertPathology("pressione bassa");
+			
+			PatientPathology patient_pathology = insertPatientPathology("VNTDVD02D17L949I", 1, LocalDateTime.of(2015, 5, 1, 14, 30, 0), LocalDateTime.of(2016, 5, 1, 14, 30, 0));
+			PatientPathology patient_pathology1 = insertPatientPathology("VNTDVD02D17L949Z", 2, LocalDateTime.of(2015, 5, 1, 14, 30, 0), LocalDateTime.of(2019, 5, 1, 14, 30, 0));
+			PatientPathology patient_pathology2 = insertPatientPathology("VNTDVD02D17L949T", 3, LocalDateTime.of(2015, 5, 1, 14, 30, 0), LocalDateTime.of(2016, 5, 1, 14, 30, 0));
+			
+			Measurement measurement = insertMeasurement(120, 90, LocalDateTime.now(), "speriamo tutto bene", "VNTDVD02D17L949I");
+			Measurement measurement1 = insertMeasurement(210, 90, LocalDateTime.of(2015, 5, 1, 14, 30, 0), "segala >>>>", "VNTDVD02D17L949T");
+			Measurement measurement2 = insertMeasurement(120, 90, LocalDateTime.now(), "blabla", "VNTDVD02D17L949Z");
+			
+			Symptom symptom = insertSymptom("crampi");
+			Symptom symptom1 = insertSymptom("congestione nasale");
+			Symptom symptom2 = insertSymptom("mal di gomito");
+			
+			MeasurementSymptom measurementsymptom = insertMeasurementSymptom(1, 1);
+			MeasurementSymptom measurementsymptom1 = insertMeasurementSymptom(2, 2);
+			MeasurementSymptom measurementsymptom2 = insertMeasurementSymptom(3, 3);
+			
         } catch (SQLException e) {
 			// TODO Auto-generated catch block
-			//e.printStackTrace();
+			e.printStackTrace();
         	System.out.println("Problema nel db");
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
@@ -198,16 +248,70 @@ public class DB_Model {
 		}
         
         System.out.println("Physicians: ");
-        allPhys = getPhysicians();
+        ObservableList<Physician> allPhys = getPhysicians();
         for (Physician p: allPhys) {
         	System.out.println(p);
         }
         
         
         System.out.println("Patients: ");
-        allPat = getPatients();
+        ObservableList<Patient> allPat = getPatients();
         for (Patient p: allPat) {
         	System.out.println(p);
+        }
+        
+        System.out.println("Logs: ");
+        ObservableList<Log> logs = getLogs();
+        for (Log l: logs) {
+        	System.out.println(l);
+        }
+        
+        System.out.println("Drugs: ");
+        ObservableList<Drug> drugs = getDrugs();
+        for (Drug l: drugs) {
+        	System.out.println(l);
+        }
+        
+        System.out.println("Therapies: ");
+        ObservableList<Therapy> therapies = getTherapies();
+        for (Therapy l: therapies) {
+        	System.out.println(l);
+        }
+        
+        System.out.println("Drug Intakes: ");
+        ObservableList<DrugIntake> drugIntakes = getDrugIntakes();
+        for (DrugIntake d: drugIntakes) {
+        	System.out.println(d);
+        }
+        
+        System.out.println("Pathologies: ");
+        ObservableList<Pathology> pathologies = getPathologies();
+        for (Pathology p: pathologies) {
+        	System.out.println(p);
+        }
+        
+        System.out.println("Patient_Pathologies: ");
+        ObservableList<PatientPathology> patient_pathologies = getPatientPathologies();
+        for (PatientPathology p: patient_pathologies) {
+        	System.out.println(p);
+        }
+        
+        System.out.println("Measurements: ");
+        ObservableList<Measurement> measurements = getMeasurements();
+        for (Measurement m: measurements) {
+        	System.out.println(m);
+        }
+        
+        System.out.println("Symptoms: ");
+        ObservableList<Symptom> symptoms = getSymptoms();
+        for (Symptom s: symptoms) {
+        	System.out.println(s);
+        }
+        
+        System.out.println("Measurement_Symptoms: ");
+        ObservableList<MeasurementSymptom> measurementSymptoms = getMeasurementSymptoms();
+        for (MeasurementSymptom m: measurementSymptoms) {
+        	System.out.println(m);
         }
         
         //conn.close();
@@ -424,6 +528,441 @@ public class DB_Model {
     	runStatement(q);
     }
     
+    
+    
+    
+    
+    /*Returns a ObservableList of all MeasurementSymptom*/
+    public ObservableList<MeasurementSymptom> getMeasurementSymptoms() throws SQLException{
+    	ObservableList<MeasurementSymptom> measurementSymptoms = FXCollections.<MeasurementSymptom>observableArrayList(
+                measurementSymptom -> new Observable[] {
+                        measurementSymptom.IDMeasurementProperty(), 
+                        measurementSymptom.IDSymptomProperty()
+                        }
+        );
+    	
+    	String q = "SELECT * FROM measurement_symptom";
+    	log(q);
+    	ResultSet rs = runQuery(q);
+    	
+    	while(rs.next()) {
+    		measurementSymptoms.add(new MeasurementSymptom(
+    				rs.getInt("IDmeasurement"),
+    				rs.getInt("IDsymptom")
+    				));
+    	}
+    	
+    	return measurementSymptoms;
+    }
+    
+    
+    /*Tries to insert a new MeasurementSymptom*/
+	public MeasurementSymptom insertMeasurementSymptom(int IdMeasurement, int IdSymptom) throws SQLException, ParseException {
+		log("Add MeasurementSymptom " + IdMeasurement + " " + IdSymptom);
+        MeasurementSymptom measurementSymptom = new MeasurementSymptom(IdMeasurement, IdSymptom);
+        
+        String q = "INSERT INTO measurement_symptom(IDmeasurement, IDsymptom)\n" +
+                "VALUES ('"+ measurementSymptom.getIDMeasurement() + "', '"+ measurementSymptom.getIDSymptom() +"')\n" +
+                ";";
+        int id = runStatementWithOutput(q);
+        if (id != 0)return measurementSymptom;
+        return null;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	/*Returns a ObservableList of all DrugIntakes*/
+    public ObservableList<Symptom> getSymptoms() throws SQLException{
+    	ObservableList<Symptom> symptoms = FXCollections.<Symptom>observableArrayList(
+                symptom -> new Observable[] {
+                        symptom.idProperty(), 
+                        symptom.descriptionProperty()
+                        }
+        );
+    	
+    	String q = "SELECT * FROM symptom";
+    	log(q);
+    	ResultSet rs = runQuery(q);
+    	
+    	while(rs.next()) {
+    		symptoms.add(new Symptom(
+					rs.getInt("id"),
+					rs.getString("description")
+					));
+    	}
+    	
+    	return symptoms;
+    }
+    
+    
+	
+	/*Tries to insert a new PatientPathology*/
+	public Symptom insertSymptom(String description) throws SQLException, ParseException {
+		log("Add PatientPathology " + description);
+        Symptom symptom = new Symptom(0, description);
+        String q = "INSERT INTO symptom(description)\n" +
+                "VALUES ('"+ description + "')\n" +
+                ";";
+        int id = runStatementWithOutput(q);
+        if (id != 0)return symptom;
+        return null;
+	}
+    
+    
+    
+    /*Returns a ObservableList of all DrugIntakes*/
+    public ObservableList<Measurement> getMeasurements() throws SQLException{
+    	ObservableList<Measurement> measurements = FXCollections.<Measurement>observableArrayList(
+                measurement -> new Observable[] {
+                        measurement.idProperty(), 
+                        measurement.sbpProperty(),
+                        measurement.dbpProperty(),                   
+                        measurement.datetimeProperty(),
+                        measurement.informationsProperty(),
+                        measurement.CFPatientProperty(),
+                        }
+        );
+    	
+    	String q = "SELECT * FROM measurement";
+    	log(q);
+    	ResultSet rs = runQuery(q);
+    	
+    	while(rs.next()) {
+    		measurements.add(new Measurement(
+					rs.getInt("id"),
+					rs.getInt("sbp"),
+					rs.getInt("dbp"),
+    				rs.getTimestamp("datetime").toLocalDateTime(),
+    				rs.getString("informations"), 
+    				rs.getString("CFpatient")
+    				));
+    	}
+    	
+    	return measurements;
+    }
+    
+    /*Tries to insert a new Pathology*/
+	public Measurement insertMeasurement(int sbp, int dbp, LocalDateTime datetime, String informations, String CFpatient) throws SQLException, ParseException {
+		log("Add Measurement " + sbp + "  " + dbp);
+    	//SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        //System.out.println(((Date) df.parse(birthdate.toString())).getTime());
+        //Long bdate = df.parse(birthdate.toString()).getTime();
+        Measurement measurement = new Measurement(0, sbp, dbp, datetime, informations, CFpatient);
+        long timestamp = datetime.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+
+        String q = "INSERT INTO Measurement(sbp, dbp, datetime, informations, CFpatient)\n" +
+                "VALUES ('"+ measurement.getSbp() + "', '" + measurement.getDbp() + "', '" + timestamp + "', '" + measurement.getInformations() + "', '" + measurement.getCFPatient() + "')\n" +
+                ";";
+        int id = runStatementWithOutput(q);
+        if (id != 0)return measurement;
+        //System.out.println("qui");
+        return null;
+	}
+    
+    
+  
+  
+  
+  
+    /*Returns a ObservableList of all PatientPathologies*/
+    public ObservableList<PatientPathology> getPatientPathologies() throws SQLException{
+    	ObservableList<PatientPathology> patientPathologies = FXCollections.<PatientPathology>observableArrayList(
+                patientPathology -> new Observable[] {
+                        patientPathology.startDateProperty(), 
+                        patientPathology.endDateProperty(),
+                        patientPathology.cfPatientProperty(),
+                        patientPathology.idPathologyProperty()             
+                        }
+        );
+    	
+    	String q = "SELECT * FROM patient_pathology";
+    	log(q);
+    	ResultSet rs = runQuery(q);
+    	
+    	while(rs.next()) {
+    		patientPathologies.add(new PatientPathology(
+					rs.getTimestamp("startDate").toLocalDateTime(),
+    				rs.getTimestamp("endDate").toLocalDateTime(),
+    				rs.getString("CFpatient"),
+    				rs.getInt("IDpathology")			
+    				));
+    	}
+    	
+    	return patientPathologies;
+    }
+    
+    /*Tries to insert a new PatientPathology*/
+	public PatientPathology insertPatientPathology(String CFPatient, int idPathology, LocalDateTime startDate, LocalDateTime endDate) throws SQLException, ParseException {
+		log("Add PatientPathology " + CFPatient+ "  " + idPathology + " " + startDate + " " + endDate);
+        PatientPathology patientPathology = new PatientPathology(startDate, endDate, CFPatient, idPathology);      
+        long timestamp = startDate.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+        long timestamp1 = endDate.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+        String q = "INSERT INTO patient_pathology(IDpathology, startDate, endDate)\n" +
+                "VALUES ('"+ idPathology + "', '"+ timestamp + "', '" + timestamp1 + "')\n" +
+                ";";
+        int id = runStatementWithOutput(q);
+        if (id != 0)return patientPathology;
+        return null;
+	}
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    /*Returns a ObservableList of all Pathologies*/
+    public ObservableList<Pathology> getPathologies() throws SQLException{
+    	ObservableList<Pathology> pathologies = FXCollections.<Pathology>observableArrayList(
+                pathology -> new Observable[] {
+                        pathology.idProperty(), 
+                        pathology.descriptionProperty()
+                        }
+        );
+    	
+    	String q = "SELECT * FROM pathology";
+    	log(q);
+    	ResultSet rs = runQuery(q);
+    	
+    	while(rs.next()) {
+    		pathologies.add(new Pathology(
+    				rs.getInt("id"),
+    				rs.getString("description")
+    				));
+    	}
+    	
+    	return pathologies;
+    }
+    
+    /*Tries to insert a new Pathology*/
+	public Pathology insertPathology(String description) throws SQLException, ParseException {
+		log("Add Pathology " + description);
+    	//SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        //System.out.println(((Date) df.parse(birthdate.toString())).getTime());
+        //Long bdate = df.parse(birthdate.toString()).getTime();
+        Pathology pathology = new Pathology(0, description);
+        
+
+        String q = "INSERT INTO Pathology(description)\n" +
+                "VALUES ('"+ pathology.getDescription() + "')\n" +
+                ";";
+        int id = runStatementWithOutput(q);
+        if (id != 0)return pathology;
+        //System.out.println("qui");
+        return null;
+	}
+    
+    
+    
+    
+    
+    
+    /*Returns a ObservableList of all DrugIntakes*/
+    public ObservableList<DrugIntake> getDrugIntakes() throws SQLException{
+    	ObservableList<DrugIntake> drugIntakes = FXCollections.<DrugIntake>observableArrayList(
+                drugIntake -> new Observable[] {
+                        drugIntake.idProperty(), 
+                        drugIntake.datetimeProperty(),
+                        drugIntake.quantityProperty(),
+                        drugIntake.IDTherapyProperty()
+                        }
+        );
+    	
+    	String q = "SELECT * FROM drugIntakes";
+    	log(q);
+    	ResultSet rs = runQuery(q);
+    	
+    	while(rs.next()) {
+    		drugIntakes.add(new DrugIntake(
+					rs.getInt("id"),
+    				rs.getTimestamp("datetime").toLocalDateTime(),
+    				rs.getInt("quantity"), 
+    				rs.getInt("IDtherapy")
+    				));
+    	}
+    	
+    	return drugIntakes;
+    }
+    
+    /*Tries to insert a new DrugIntake*/
+	public DrugIntake insertDrugIntake(int idDrugIntake, LocalDateTime datetime, int quantity, int idTherapy) throws SQLException, ParseException {
+		log("Add DrugIntake " + idDrugIntake + "  " + datetime + " " + quantity + " " + idTherapy);
+        DrugIntake drugIntake = new DrugIntake(0, datetime, quantity, idTherapy);      
+        long timestamp = datetime.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+        String q = "INSERT INTO drugIntakes(datetime, quantity, IDtherapy)\n" +
+                "VALUES ('"+ timestamp + "', '"+ drugIntake.getQuantity() + "', '" + drugIntake.getIDTherapy() + "')\n" +
+                ";";
+        int id = runStatementWithOutput(q);
+        if (id != 0)return drugIntake;
+        return null;
+	}
+    
+    
+    
+    
+    
+    /*Returns a ObservableList of all Therapies*/
+    public ObservableList<Therapy> getTherapies() throws SQLException{
+    	ObservableList<Therapy> therapies = FXCollections.<Therapy>observableArrayList(
+                therapy -> new Observable[] {
+                        therapy.idProperty(), 
+                        therapy.dailyDoseProperty(),
+                        therapy.quantityProperty(),
+                        therapy.directionsProperty(),
+                        therapy.doneProperty(),
+                        therapy.IDDrugProperty(),
+                        therapy.CFPatientProperty(),
+                        therapy.CFPhysicianProperty()
+                        }
+        );
+    	
+    	String q = "SELECT * FROM therapy";
+    	log(q);
+    	ResultSet rs = runQuery(q);
+    	
+    	while(rs.next()) {
+    		therapies.add(new Therapy(
+    				rs.getInt("id"),
+    				rs.getInt("dailydose"),
+    				rs.getInt("quantity"),
+    				rs.getString("directions"),
+    				rs.getInt("done"),
+    				rs.getInt("IDdrug"),
+    				rs.getString("CFpatient"),
+    				rs.getString("CFphysician")
+    				));
+    	}
+    	
+    	return therapies;
+    }
+    
+    /*Tries to insert a new Therapy*/
+	public Therapy insertTherapy(int dailydose, int quantity, String directions, int done, int IDdrug, String CFPatient, String CFPhysician) throws SQLException, ParseException {
+		log("Add Therapy " + IDdrug + "  " + CFPatient + "  " + CFPhysician);
+    	//SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        //System.out.println(((Date) df.parse(birthdate.toString())).getTime());
+        //Long bdate = df.parse(birthdate.toString()).getTime();
+        Therapy therapy = new Therapy(0, dailydose, quantity, directions, done, IDdrug, CFPatient, CFPhysician);
+        
+
+        String q = "INSERT INTO Therapy(dailydose, quantity, directions, done, IDdrug, CFpatient, CFphysician)\n" +
+                "VALUES ('"+ therapy.getDailyDose() + "', '"+ therapy.getQuantity() + "', '" + therapy.getDirections() + "', '" + therapy.getDone() + "', '" + therapy.getIDDrug() + "', '" + therapy.getCFPatient() + "', '" + therapy.getCFPhysician() + "')\n" +
+                ";";
+        int id = runStatementWithOutput(q);
+        if (id != 0)return therapy;
+        //System.out.println("qui");
+        return null;
+	}
+	
+	
+	
+	
+	
+	
+	
+	/*Returns a ObservableList of all Drugs*/
+    public ObservableList<Drug> getDrugs() throws SQLException{
+    	ObservableList<Drug> drugs = FXCollections.<Drug>observableArrayList(
+                drug -> new Observable[] {
+                        drug.idProperty(), 
+                        drug.nameProperty(),
+                        drug.descriptionProperty()
+                        }
+        );
+    	
+    	String q = "SELECT * FROM drug";
+    	log(q);
+    	ResultSet rs = runQuery(q);
+    	
+    	while(rs.next()) {
+    		drugs.add(new Drug(
+    				rs.getInt("id"),
+    				rs.getString("name"), 
+    				rs.getString("description")
+    				));
+    	}
+    	
+    	return drugs;
+    }
+	
+	/*Tries to insert a new Drug*/
+	public Drug insertDrug(int idDrug, String name, String description) throws SQLException, ParseException {
+		log("Add Drug " + idDrug + "  " + name + " " + description);
+        Drug drug = new Drug(0, name, description);
+        String q = "INSERT INTO drug(name, description)\n" +
+                "VALUES ('"+ drug.getName() + "', '" + drug.getDescription() + "')\n" +
+                ";";
+        int id = runStatementWithOutput(q);
+        if (id != 0)return drug;
+        return null;
+	}
+    
+    
+    
+    
+    
+    
+        
+    /*Returns a ObservableList of all Logs*/
+    public ObservableList<Log> getLogs() throws SQLException{
+    	ObservableList<Log> logs = FXCollections.<Log>observableArrayList(
+                log -> new Observable[] {
+                        log.cfPhysicianProperty(), 
+                        log.dateTimeProperty(),
+                        log.informationsProperty()
+                        }
+        );
+    	
+    	String q = "SELECT * FROM log";
+    	log(q);
+    	ResultSet rs = runQuery(q);
+    	
+    	while(rs.next()) {
+    		logs.add(new Log(
+    				rs.getTimestamp("datetime").toLocalDateTime(),
+    				rs.getString("informations"), 
+    				rs.getString("CF")
+    				));
+    	}
+    	
+    	return logs;
+    }
+    
+    /*Tries to insert a new Log*/
+	public Log insertLog(String CF, LocalDateTime datetime, String informations) throws SQLException, ParseException {
+		log("Add Log " + CF + "  " + datetime);
+    	//SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        //System.out.println(((Date) df.parse(birthdate.toString())).getTime());
+        //Long bdate = df.parse(birthdate.toString()).getTime();
+        Log log = new Log(datetime, informations, CF);
+        
+        long timestamp = datetime.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+
+        System.out.println(log.getCFPhysician());
+        String q = "INSERT INTO Log(CF, datetime, informations)\n" +
+                "VALUES ('"+ log.getCFPhysician() + "', '"+ timestamp + "', '" + log.getInformations() + "')\n" +
+                ";";
+        int id = runStatementWithOutput(q);
+        if (id != 0)return log;
+        //System.out.println("qui");
+        return null;
+	}
+    
+    
+    
+    
+    
+    
+    
     /*Returns a ObservableList of all Physicians*/
     public ObservableList<Physician> getPhysicians() throws SQLException{
     	ObservableList<Physician> physicians = FXCollections.<Physician>observableArrayList(
@@ -467,6 +1006,29 @@ public class DB_Model {
     	
     	return physicians;
     }
+    
+    /*Tries to insert a new Physician*/
+    public Physician insertPhysician(String CF, String email, String password, String name, String surname, String sex, LocalDate birthdate, String nationality, String street, int civic_number, int cap, String city, String phone_number) throws SQLException, ParseException {
+    	log("Add Physician " + CF);
+    	//SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        //System.out.println(((Date) df.parse(birthdate.toString())).getTime());
+        //Long bdate = df.parse(birthdate.toString()).getTime();
+        Long bdate = LocalDateToLong(birthdate);
+        password = hashPassword(password);
+        Physician physician = new Physician(CF, email, password, name, surname, sex, birthdate, nationality, street, civic_number, cap, city, phone_number);
+        
+        String q = "INSERT INTO Physician(CF, email, password, name, surname, sex, birthdate, nationality, street, civicnumber, cap, city, phonenumber)\n" +
+                "VALUES ('"+ physician.getCF() + "', '"+ physician.getEmail() + "', '" + physician.getPassword() + "', '"+ physician.getName() +"', '"+ physician.getSurname() + "', '"+ physician.getSex() +"', '" + bdate + "', '"+ physician.getNationality() + "', '"+ physician.getStreet() + "', '"+ physician.getCivicNumber() + "', '"+ physician.getCAP() + "', '"+ physician.getCity() + "', '"+ physician.getPhoneNumber() +"')\n" +
+                ";";
+        int id = runStatementWithOutput(q);
+        if (id != 0)return physician;
+        return null;
+    }
+    
+    
+    
+    
+    
     
     /*Returns a ObservableList of all Patients*/
     public ObservableList<Patient> getPatients() throws SQLException{
@@ -515,26 +1077,8 @@ public class DB_Model {
     	
     	return patients;
     }
-    
-    /*Tries to insert a new Physician*/
-    public Physician insertPhysician(String CF, String email, String password, String name, String surname, String sex, LocalDate birthdate, String nationality, String street, int civic_number, int cap, String city, String phone_number) throws SQLException, ParseException {
-    	log("Add Physician " + CF);
-    	//SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        //System.out.println(((Date) df.parse(birthdate.toString())).getTime());
-        //Long bdate = df.parse(birthdate.toString()).getTime();
-        Long bdate = LocalDateToLong(birthdate);
-        password = hashPassword(password);
-        Physician physician = new Physician(CF, email, password, name, surname, sex, birthdate, nationality, street, civic_number, cap, city, phone_number);
-        
-        String q = "INSERT INTO Physician(CF, email, password, name, surname, sex, birthdate, nationality, street, civicnumber, cap, city, phonenumber)\n" +
-                "VALUES ('"+ physician.getCF() + "', '"+ physician.getEmail() + "', '" + physician.getPassword() + "', '"+ physician.getName() +"', '"+ physician.getSurname() + "', '"+ physician.getSex() +"', '" + bdate + "', '"+ physician.getNationality() + "', '"+ physician.getStreet() + "', '"+ physician.getCivicNumber() + "', '"+ physician.getCAP() + "', '"+ physician.getCity() + "', '"+ physician.getPhoneNumber() +"')\n" +
-                ";";
-        int id = runStatementWithOutput(q);
-        if (id != 0)return physician;
-        return null;
-    }
-    
-    /*Tries to insert a new Patient*/
+	
+	/*Tries to insert a new Patient*/
 	public Patient insertPatient(String CF, String email, String password, String name, String surname, String sex, LocalDate birthdate, String nationality, String street, int civic_number, int cap, String city, String phone_number,String informations, String CFPhysician) throws SQLException, ParseException {
 		log("Add Patient " + CF);
     	//SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
@@ -550,9 +1094,12 @@ public class DB_Model {
                 ";";
         int id = runStatementWithOutput(q);
         if (id != 0)return patient;
-        System.out.println("qui");
+        //System.out.println("qui");
         return null;
 	}
+	
+	
+	
 	
 	public String hashPassword(String password) {
 		try {

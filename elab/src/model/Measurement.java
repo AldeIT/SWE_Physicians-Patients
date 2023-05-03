@@ -84,7 +84,7 @@ public class Measurement {
 
     @Override
 	public String toString() {
-		return "Measurement: " + getId() + ", " + getDateTime() + ", " + getCFPatient();
+		return "Measurement: " + getId() + ", " + getSbp() + "/" + getDbp() + ", " + getDateTime() + ", " + getCFPatient();
 	}
 
 

@@ -49,6 +49,6 @@ public class Log {
 	}
 	
 	public String toString(){
-		return "date:" + dateTime + ", info: " + informations + ", physician: " + CFPhysician;
+		return "date:" + getDatetime().toString() + ", info: " + getInformations() + ", physician: " + getCFPhysician();
 	}
 }
