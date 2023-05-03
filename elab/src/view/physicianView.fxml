@@ -1,10 +1,85 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.physicianViewController">
+<AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="1000.0" minWidth="1000.0" prefHeight="500.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.physicianViewController">
    <children>
-      <Label fx:id="welcomeLabel" alignment="CENTER" layoutX="172.0" layoutY="146.0" prefHeight="108.0" prefWidth="256.0" />
+      <TabPane fx:id="tabpane" prefHeight="1000.0" prefWidth="1000.0" side="LEFT" stylesheets="@../css/tablePane.css" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <tabs>
+            <Tab>
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Label fx:id="drugLabel" layoutX="319.0" layoutY="236.0" text="Gestione Assunzioni" />
+                     </children></AnchorPane>
+              </content>
+               <graphic>
+                  <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/medicine.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Tab>
+          <Tab>
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Label fx:id="patientLabel" layoutX="273.0" layoutY="236.0" text="Gestione Pazienti" />
+                     </children></AnchorPane>
+            </content>
+               <graphic>
+                  <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/patient.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+          </Tab>
+          <Tab>
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="486.0" prefWidth="667.0">
+                     <children>
+                        <Label layoutX="167.0" layoutY="106.0" text="CF" />
+                        <Label layoutX="159.0" layoutY="199.0" text="Name" />
+                        <Label layoutX="160.0" layoutY="147.0" text="Email" />
+                        <Label layoutX="152.0" layoutY="245.0" prefHeight="17.0" prefWidth="52.0" text="Surname" />
+                        <Label layoutX="166.0" layoutY="297.0" text="Sex" />
+                        <Label layoutX="150.0" layoutY="355.0" text="Birthdate" />
+                        <Label layoutX="146.0" layoutY="405.0" text="Nationality" />
+                        <Label layoutX="157.0" layoutY="460.0" text="Street" />
+                        <Label layoutX="138.0" layoutY="514.0" text="Civic Number" />
+                        <Label layoutX="163.0" layoutY="582.0" text="CAP" />
+                        <Label layoutX="164.0" layoutY="646.0" text="City" />
+                        <Label layoutX="134.0" layoutY="689.0" text="Phone Number" />
+                        <Label fx:id="labelCF" layoutX="454.0" layoutY="106.0" />
+                        <Label fx:id="labelEmail" layoutX="454.0" layoutY="147.0" />
+                        <Label fx:id="labelName" layoutX="454.0" layoutY="199.0" />
+                        <Label fx:id="labelSurname" layoutX="454.0" layoutY="245.0" />
+                        <Label fx:id="labelSex" layoutX="454.0" layoutY="297.0" />
+                        <Label fx:id="labelBirthdate" layoutX="454.0" layoutY="355.0" />
+                        <Label fx:id="labelNationality" layoutX="454.0" layoutY="405.0" />
+                        <Label fx:id="labelStreet" layoutX="454.0" layoutY="460.0" />
+                        <Label fx:id="labelCivicNumber" layoutX="454.0" layoutY="514.0" />
+                        <Label fx:id="labelCAP" layoutX="454.0" layoutY="582.0" />
+                        <Label fx:id="labelCity" layoutX="454.0" layoutY="646.0" />
+                        <Label fx:id="labelPhoneNumber" layoutX="454.0" layoutY="689.0" />
+                     </children></AnchorPane>
+            </content>
+               <graphic>
+                  <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/user.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+          </Tab>
+        </tabs>
+      </TabPane>
    </children>
 </AnchorPane>
