@@ -19,6 +19,12 @@ public class Patient extends User {
 		this.CFPhysician.set(CFPhysician);
 	}
 	
+	public Patient(Patient patient) {
+		super(patient.getCF(), patient.getEmail(), patient.getPassword(), patient.getName(), patient.getSurname(), patient.getSex(), patient.getBirthdate(),patient.getNationality(), patient.getStreet(), patient.getCivicNumber(), patient.getCAP(), patient.getCity(), patient.getPhoneNumber());
+		this.informations.set(patient.getInformations());
+		this.CFPhysician.set(patient.getCFPhysician());
+	}
+	
 	/*gets the informations*/
 	public String getInformations() {
 		return informations.get();

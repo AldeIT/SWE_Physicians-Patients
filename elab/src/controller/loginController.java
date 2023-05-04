@@ -101,6 +101,7 @@ public class loginController {
 				String q = "SELECT * FROM patient WHERE CF='" + labelCF.getText() + "' AND password='" + db.hashPassword(labelPassword.getText()) + "';";
 				ResultSet st = null;
 				st = db.runQuery(q);
+				password = labelPassword.getText();
 				labelCF.setText("");
 				labelPassword.setText("");
 				if (st.getString("CF") == null) {
@@ -126,14 +127,14 @@ public class loginController {
 		    				st.getString("city"), 
 		    				st.getString("phonenumber"),
 							st.getString("informations"),
-							st.getString("CFPhysician"));
+							st.getString("CFphysician"));
 					/*Getting the fxml*/
 					FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/patientView.fxml"));
 					Parent root = loader.load();
 					/*Getting the controller*/
 					patientViewController controller = loader.getController();
 					controller.setSession(session);
-					controller.setWelcomeLabelText(st.getString("CF"));
+					controller.initInfo();
 					System.out.println("Switchamo Scene");
 					/*Setting the scene*/
 					Scene scene = new Scene(root);

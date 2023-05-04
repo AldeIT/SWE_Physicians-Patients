@@ -24,7 +24,7 @@ public class MeasurementSymptom {
 
     /*gets the IDSymptom*/
     public int getIDSymptom(){
-        return IDMeasurement.get();
+        return IDSymptom.get();
     }
 
     /*gets the IDSymptom*/

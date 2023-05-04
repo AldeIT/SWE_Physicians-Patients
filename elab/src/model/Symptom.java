@@ -35,6 +35,6 @@ public class Symptom {
     }
 
     public String toString(){
-        return "Symptom: " + getID() + ", " + getDescription();
+        return getDescription();
     }
 }

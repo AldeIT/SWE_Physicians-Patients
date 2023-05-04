@@ -164,6 +164,25 @@ public class DB_Model {
             resetMeasurementSymptomTable();
         };
         
+        if (tableExists("measurement_pathology"))
+        {
+            log("measurement_symptom table exists");
+        }else {
+            log("measurement_symptom table DO NOT exists");
+            resetMeasurementPathologiesTable();
+        };
+        
+        if (tableExists("measurement_therapy"))
+        {
+            log("measurement_symptom table exists");
+        }else {
+            log("measurement_symptom table DO NOT exists");
+            resetMeasurementTherapiesTable();
+        };
+        
+
+        deleteDataFromTable("measurement_therapy");
+        deleteDataFromTable("measurement_pathology");
         deleteDataFromTable("measurement_symptom");
         deleteDataFromTable("symptom");
         deleteDataFromTable("measurement");
@@ -212,29 +231,30 @@ public class DB_Model {
 			Therapy therapy1 = insertTherapy(2, 1, "due volte al giorno", 0, 2, "VNTDVD02D17L949I", "LDGLSN02S18F861Z");
 			Therapy therapy2 = insertTherapy(2, 1, "blablabla", 0, 3, "VNTDVD02D17L949T", "LDGLSN02S18F861I");
 			
-			DrugIntake drugIntake = insertDrugIntake(0, LocalDateTime.of(2015, 5, 1, 14, 30, 0), 0, 1);
-			DrugIntake drugIntake1 = insertDrugIntake(0, LocalDateTime.of(2016, 6, 2, 15, 30, 0), 0, 2);
-			DrugIntake drugIntake2 = insertDrugIntake(0, LocalDateTime.of(2016, 6, 2, 15, 30, 10), 0, 3);
+			//DrugIntake drugIntake = insertDrugIntake(0, LocalDateTime.of(2015, 5, 1, 14, 30, 0), 0, 1);
+			//DrugIntake drugIntake1 = insertDrugIntake(0, LocalDateTime.of(2016, 6, 2, 15, 30, 0), 0, 2);
+			//DrugIntake drugIntake2 = insertDrugIntake(0, LocalDateTime.of(2016, 6, 2, 15, 30, 10), 0, 3);
 			
 			Pathology pathology = insertPathology("sla");
 			Pathology pathology1 = insertPathology("monucleosi");
 			Pathology pathology2 = insertPathology("pressione bassa");
 			
-			PatientPathology patient_pathology = insertPatientPathology("VNTDVD02D17L949I", 1, LocalDateTime.of(2015, 5, 1, 14, 30, 0), LocalDateTime.of(2016, 5, 1, 14, 30, 0));
-			PatientPathology patient_pathology1 = insertPatientPathology("VNTDVD02D17L949Z", 2, LocalDateTime.of(2015, 5, 1, 14, 30, 0), LocalDateTime.of(2019, 5, 1, 14, 30, 0));
-			PatientPathology patient_pathology2 = insertPatientPathology("VNTDVD02D17L949T", 3, LocalDateTime.of(2015, 5, 1, 14, 30, 0), LocalDateTime.of(2016, 5, 1, 14, 30, 0));
+			PatientPathology patient_pathology = insertPatientPathology("VNTDVD02D17L949I", 1, LocalDateTime.of(2015, 5, 1, 14, 30, 0), null);
+			PatientPathology patient_pathology1 = insertPatientPathology("VNTDVD02D17L949I", 2, LocalDateTime.of(2015, 5, 1, 14, 30, 0), null);
+			PatientPathology patient_pathology2 = insertPatientPathology("VNTDVD02D17L949I", 3, LocalDateTime.of(2015, 5, 1, 14, 30, 0), LocalDateTime.of(2016, 6, 5, 15, 30, 05));
 			
-			Measurement measurement = insertMeasurement(120, 90, LocalDateTime.now(), "speriamo tutto bene", "VNTDVD02D17L949I");
-			Measurement measurement1 = insertMeasurement(210, 90, LocalDateTime.of(2015, 5, 1, 14, 30, 0), "segala >>>>", "VNTDVD02D17L949T");
-			Measurement measurement2 = insertMeasurement(120, 90, LocalDateTime.now(), "blabla", "VNTDVD02D17L949Z");
+			Measurement measurement = insertMeasurement(120, 90, LocalDateTime.of(2014, 11, 18, 15, 0, 0), "speriamo tutto bene", "VNTDVD02D17L949I");
+			Measurement measurement1 = insertMeasurement(210, 90, LocalDateTime.of(2015, 5, 1, 15, 0, 0), "segala >>>>", "VNTDVD02D17L949T");
+			Measurement measurement2 = insertMeasurement(120, 90, LocalDateTime.of(2002, 4, 17, 15, 0, 0), "blabla", "VNTDVD02D17L949Z");
 			
 			Symptom symptom = insertSymptom("crampi");
 			Symptom symptom1 = insertSymptom("congestione nasale");
 			Symptom symptom2 = insertSymptom("mal di gomito");
 			
-			MeasurementSymptom measurementsymptom = insertMeasurementSymptom(1, 1);
+			
+			MeasurementSymptom measurementsymptom = insertMeasurementSymptom(1, 3);
 			MeasurementSymptom measurementsymptom1 = insertMeasurementSymptom(2, 2);
-			MeasurementSymptom measurementsymptom2 = insertMeasurementSymptom(3, 3);
+			MeasurementSymptom measurementsymptom2 = insertMeasurementSymptom(3, 1);
 			
         } catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -317,6 +337,34 @@ public class DB_Model {
         //conn.close();
         /*loadPeople();
         loadOccupations();*/
+    }
+    
+    /*Resets and creates the Measurent_Symptom Table*/
+    public void resetMeasurementTherapiesTable() throws SQLException{
+    	String s = "DROP TABLE IF EXISTS measurement_therapy;" +
+                "CREATE TABLE measurement_therapy( " +
+                "IDmeasurement INTEGER, " +
+                "IDtherapy INTEGER, " +
+                "FOREIGN KEY(IDmeasurement) REFERENCES measurement(id), " +
+                "FOREIGN KEY(IDtherapy) REFERENCES therapy(id), " +
+                "PRIMARY KEY(IDmeasurement,IDtherapy) " +
+                ");";
+        log(s);
+        runStatement(s);
+    }
+    
+    /*Resets and creates the Measurent_Symptom Table*/
+    public void resetMeasurementPathologiesTable() throws SQLException{
+    	String s = "DROP TABLE IF EXISTS measurement_pathology;" +
+                "CREATE TABLE measurement_pathology( " +
+                "IDmeasurement INTEGER, " +
+                "IDpathology INTEGER, " +
+                "FOREIGN KEY(IDmeasurement) REFERENCES measurement(id), " +
+                "FOREIGN KEY(IDpathology) REFERENCES pathology(id), " +
+                "PRIMARY KEY(IDmeasurement,IDpathology) " +
+                ");";
+        log(s);
+        runStatement(s);
     }
     
     /*Resets and creates the Measurent_Symptom Table*/
@@ -496,7 +544,9 @@ public class DB_Model {
     
     /*Deletes all the tables from the db*/
     public void clearAll() throws SQLException{
-        String q = "DROP TABLE measurement_symptom;" +
+        String q = "DROP TABLE measurement_therapy;"+
+        		"DROP TABLE measurement_pathology;"+
+        		"DROP TABLE measurement_symptom;" +
         		"DROP TABLE symptom;"+
         		"DROP TABLE measurement;"+
         		"DROP TABLE patient_pathology;"+
@@ -527,6 +577,87 @@ public class DB_Model {
     	log(q);
     	runStatement(q);
     }
+    
+    
+    /*Returns a ObservableList of all MeasurementSymptom*/
+    public ObservableList<MeasurementTherapy> getMeasurementTherapies() throws SQLException{
+    	ObservableList<MeasurementTherapy> measurementTherapies = FXCollections.<MeasurementTherapy>observableArrayList(
+                measurementTherapy -> new Observable[] {
+                        measurementTherapy.IDMeasurementProperty(), 
+                        measurementTherapy.IDTherapyProperty()
+                        }
+        );
+    	
+    	String q = "SELECT * FROM measurement_therapy";
+    	log(q);
+    	ResultSet rs = runQuery(q);
+    	
+    	while(rs.next()) {
+    		measurementTherapies.add(new MeasurementTherapy(
+    				rs.getInt("IDmeasurement"),
+    				rs.getInt("IDtherapy")
+    				));
+    	}
+    	
+    	return measurementTherapies;
+    }
+    
+    /*Tries to insert a new MeasurementSymptom*/
+	public MeasurementTherapy insertMeasurementTherapy(int IdMeasurement, int IdTherapy) throws SQLException, ParseException {
+		log("Add MeasurementTherapy " + IdMeasurement + " " + IdTherapy);
+        MeasurementTherapy measurementTherapy = new MeasurementTherapy(IdMeasurement, IdTherapy);
+        
+        String q = "INSERT INTO measurement_therapy(IDmeasurement, IDtherapy)\n" +
+                "VALUES ('"+ measurementTherapy.getIDMeasurement() + "', '"+ measurementTherapy.getIDTherapy() +"')\n" +
+                ";";
+        int id = runStatementWithOutput(q);
+        if (id != 0)return measurementTherapy;
+        return null;
+	}
+    
+    
+    
+    
+    
+    
+    
+    /*Returns a ObservableList of all MeasurementPathology*/
+    public ObservableList<MeasurementPathology> getMeasurementPathology() throws SQLException{
+    	ObservableList<MeasurementPathology> measurementPathologies = FXCollections.<MeasurementPathology>observableArrayList(
+                measurementPathology -> new Observable[] {
+                        measurementPathology.IDMeasurementProperty(), 
+                        measurementPathology.IDPathologyProperty()
+                        }
+        );
+    	
+    	String q = "SELECT * FROM measurement_pathology";
+    	log(q);
+    	ResultSet rs = runQuery(q);
+    	
+    	while(rs.next()) {
+    		measurementPathologies.add(new MeasurementPathology(
+    				rs.getInt("IDmeasurement"),
+    				rs.getInt("IDpathology")
+    				));
+    	}
+    	
+    	return measurementPathologies;
+    }
+    
+    /*Tries to insert a new MeasurementPathology*/
+	public MeasurementPathology insertMeasurementPathology(int IdMeasurement, int IdPathology) throws SQLException, ParseException {
+		log("Add MeasurementPathology " + IdMeasurement + " " + IdPathology);
+        MeasurementPathology measurementPathology = new MeasurementPathology(IdMeasurement, IdPathology);
+        
+        String q = "INSERT INTO measurement_pathology(IDmeasurement, IDpathology)\n" +
+                "VALUES ('"+ measurementPathology.getIDMeasurement() + "', '"+ measurementPathology.getIDPathology() +"')\n" +
+                ";";
+        int id = runStatementWithOutput(q);
+        if (id != 0)return measurementPathology;
+        return null;
+	}
+    
+    
     
     
     
@@ -624,7 +755,7 @@ public class DB_Model {
                         measurement.idProperty(), 
                         measurement.sbpProperty(),
                         measurement.dbpProperty(),                   
-                        measurement.datetimeProperty(),
+                        measurement.dateProperty(),
                         measurement.informationsProperty(),
                         measurement.CFPatientProperty(),
                         }
@@ -649,13 +780,13 @@ public class DB_Model {
     }
     
     /*Tries to insert a new Pathology*/
-	public Measurement insertMeasurement(int sbp, int dbp, LocalDateTime datetime, String informations, String CFpatient) throws SQLException, ParseException {
+	public Measurement insertMeasurement(int sbp, int dbp, LocalDateTime date, String informations, String CFpatient) throws SQLException, ParseException {
 		log("Add Measurement " + sbp + "  " + dbp);
     	//SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         //System.out.println(((Date) df.parse(birthdate.toString())).getTime());
         //Long bdate = df.parse(birthdate.toString()).getTime();
-        Measurement measurement = new Measurement(0, sbp, dbp, datetime, informations, CFpatient);
-        long timestamp = datetime.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+        Measurement measurement = new Measurement(0, sbp, dbp, date, informations, CFpatient);
+        long timestamp = date.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
 
         String q = "INSERT INTO Measurement(sbp, dbp, datetime, informations, CFpatient)\n" +
                 "VALUES ('"+ measurement.getSbp() + "', '" + measurement.getDbp() + "', '" + timestamp + "', '" + measurement.getInformations() + "', '" + measurement.getCFPatient() + "')\n" +
@@ -689,7 +820,7 @@ public class DB_Model {
     	while(rs.next()) {
     		patientPathologies.add(new PatientPathology(
 					rs.getTimestamp("startDate").toLocalDateTime(),
-    				rs.getTimestamp("endDate").toLocalDateTime(),
+    				rs.getTimestamp("endDate") == null ? null : rs.getTimestamp("endDate").toLocalDateTime(),
     				rs.getString("CFpatient"),
     				rs.getInt("IDpathology")			
     				));
@@ -703,10 +834,19 @@ public class DB_Model {
 		log("Add PatientPathology " + CFPatient+ "  " + idPathology + " " + startDate + " " + endDate);
         PatientPathology patientPathology = new PatientPathology(startDate, endDate, CFPatient, idPathology);      
         long timestamp = startDate.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
-        long timestamp1 = endDate.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
-        String q = "INSERT INTO patient_pathology(IDpathology, startDate, endDate)\n" +
-                "VALUES ('"+ idPathology + "', '"+ timestamp + "', '" + timestamp1 + "')\n" +
-                ";";
+        long timestamp1;
+        String q;
+        if (endDate==null) {
+        	q = "INSERT INTO patient_pathology(CFpatient, IDpathology, startDate)\n" +
+                    "VALUES ('" + CFPatient + "', '"+ idPathology + "', '"+ timestamp + "')\n" +
+                    ";";
+        }else {
+        	timestamp1 = endDate.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+        	q = "INSERT INTO patient_pathology(CFpatient, IDpathology, startDate, endDate)\n" +
+                    "VALUES ('" + CFPatient + "', '"+ idPathology + "', '"+ timestamp + "', '" + timestamp1 + "')\n" +
+                    ";";
+        }
+        
         int id = runStatementWithOutput(q);
         if (id != 0)return patientPathology;
         return null;

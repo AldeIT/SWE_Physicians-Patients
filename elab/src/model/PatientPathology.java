@@ -63,6 +63,6 @@ public class PatientPathology {
     }
     
     public String toString(){
-		return "CFpatient: " + getCFPatient() + ", idPathology: " + getIdPathology() + ", startDate: " + getStartDate().toString() + ", endDate: " + getEndDate().toString();
+		return "CFpatient: " + getCFPatient() + ", idPathology: " + getIdPathology() + ", startDate: " + getStartDate().toString() + ", endDate: " + (getEndDate()==null ? 99999999 : getEndDate().toString());
 	}
 }

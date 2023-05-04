@@ -1,5 +1,6 @@
 package model;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import javafx.beans.property.IntegerProperty;
@@ -14,7 +15,7 @@ public class Measurement {
     private final ReadOnlyIntegerWrapper id = new ReadOnlyIntegerWrapper(this, "id");
     private IntegerProperty sbp = new SimpleIntegerProperty(this, "sbp");
     private IntegerProperty dbp = new SimpleIntegerProperty(this, "dbp");
-	private ObjectProperty<LocalDateTime> datetime = new SimpleObjectProperty<>(this, "datetime", null);
+	private ObjectProperty<LocalDateTime> date = new SimpleObjectProperty<>(this, "datetime", null);
     private StringProperty informations = new SimpleStringProperty(this, "informations");
     private StringProperty CFpatient = new SimpleStringProperty(this, "CFpatient");
 
@@ -22,7 +23,7 @@ public class Measurement {
         this.id.set(id);
         this.sbp.set(sbp);
         this.dbp.set(dbp);
-        this.datetime.set(datetime);
+        this.date.set(datetime);
         this.informations.set(informations);
         this.CFpatient.set(CFpatient);
     }
@@ -56,11 +57,11 @@ public class Measurement {
 
     /*gets the datetime*/
     public LocalDateTime getDateTime(){
-        return datetime.get();
+        return date.get();
     }
     /*gets the datetimeProperty*/
-    public ObjectProperty<LocalDateTime> datetimeProperty(){
-        return datetime;
+    public ObjectProperty<LocalDateTime> dateProperty(){
+        return date;
     }
 
     /*gets the informations*/
@@ -84,7 +85,7 @@ public class Measurement {
 
     @Override
 	public String toString() {
-		return "Measurement: " + getId() + ", " + getSbp() + "/" + getDbp() + ", " + getDateTime() + ", " + getCFPatient();
+		return "Measurement: " + getId() + ", " + getSbp() + "/" + getDbp() + ", " + getDateTime() + ", " + getCFPatient() + ", " + getInformations();
 	}
 
 
