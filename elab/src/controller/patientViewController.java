@@ -3,27 +3,36 @@ package controller;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
 import java.util.List;
 
+import javafx.beans.Observable;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.MultipleSelectionModel;
 import javafx.scene.control.SelectionMode;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import model.DB_Model;
 import model.Measurement;
 import model.MeasurementPathology;
 import model.MeasurementSymptom;
+import model.MeasurementTherapy;
 import model.Patient;
 import model.Symptom;
+import model.Therapy;
 
 public class patientViewController {
 	@FXML
@@ -34,9 +43,6 @@ public class patientViewController {
 	
 	@FXML
 	private Label relevationLabel;
-	
-	@FXML
-	private Label drugLabel;
 
 	private Patient session;
 	
@@ -103,10 +109,22 @@ public class patientViewController {
     private ListView<Symptom> listViewSymptoms;
     
     @FXML
+    private ListView<Therapy> listViewCurrentTherapies;
+    
+    @FXML
     private Button btnInsertMeasurement;
     
     @FXML
+    private Button btnInsertIntake;
+    
+    @FXML
     private TextField textFieldInformations;
+    
+    @FXML
+    private TextField textFieldQuantity;
+    
+    @FXML
+    private TabPane tabpane;
 
 	public void setSession(Patient session) throws SQLException {
 		this.session = new Patient(session);
@@ -142,11 +160,117 @@ public class patientViewController {
 		labelPhysicianSurname.setText(physician.getString("surname"));
 		labelPhysicianPhoneNumber.setText(physician.getString("phonenumber"));
 		labelPhysicianEmail.setText(physician.getString("email"));
+		/**/
+		setCurrentSymptoms();
+		/**/
+		setCurrentTherapies();
 		
+		this.tabpane.getSelectionModel().selectedItemProperty().addListener((observable, oldTab, newTab) -> {
+		    if (newTab.getId().equals("profileTab")) {
+		        System.out.println("HERE");
+		    }
+		});
+		
+		
+	}
+	
+	void setCurrentSymptoms() throws SQLException {
 		ObservableList<Symptom> allSymptoms = db.getSymptoms();
 		listViewSymptoms.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
 		listViewSymptoms.setItems(allSymptoms);
+	}
+	
+	void setCurrentTherapies() throws SQLException {
+		ObservableList<Therapy> currentTherapies = FXCollections.<Therapy>observableArrayList(
+                therapy -> new Observable[] {
+                        therapy.idProperty(), 
+                        therapy.dailyDoseProperty(),
+                        therapy.quantityProperty(),
+                        therapy.directionsProperty(),
+                        therapy.startDateProperty(),
+                        therapy.endDateProperty(),
+                        therapy.IDDrugProperty(),
+                        therapy.CFPatientProperty(),
+                        therapy.CFPhysicianProperty()
+                        }
+        );
+		
+		String q = "SELECT * FROM Therapy\n"+
+				   "WHERE CFpatient='" + session.getCF() + "' AND endDate IS NULL;";
+		ResultSet rs = db.runQuery(q);
+		ResultSet rs2, rs3;
+		int max;
+		LocalDate today = LocalDate.now();
+    	LocalDateTime startOfDay = LocalDateTime.of(today, LocalTime.MIDNIGHT);
+    	LocalDateTime endOfDay = LocalDateTime.of(today, LocalTime.MAX);
+    	long startDay = startOfDay.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+    	long endDay = endOfDay.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+    	Therapy temp = null;
+		
+		while(rs.next()) {
+			max = rs.getInt("dailydose") * rs.getInt("quantity");
+			
+			q = "SELECT SUM(quantity), COUNT(quantity) FROM drugIntakes\n" +
+					"WHERE IDtherapy='" + rs.getInt("id") + "' AND datetime>='" + startDay + "' AND datetime<='" + endDay+ "';";
+				
+				
+				
+			rs2 = db.runQuery(q);
+				
+			if (rs2.getInt(1)<max) {
+				temp = new Therapy(
+						rs.getInt("id"),
+						rs.getInt("dailydose"),
+						rs.getInt("quantity"),
+						rs.getString("directions"),
+						rs.getDate("startDate").toLocalDate(),
+						null,
+						rs.getInt("IDdrug"),
+						rs.getString("CFpatient"),
+						rs.getString("CFphysician")
+						);
+				
+				q = "SELECT name FROM drug\n" +
+					"WHERE id='" + temp.getIDDrug() + "';";
+				
+				rs3 = db.runQuery(q);
+				
+				temp.setDailyDoseRemaining(temp.getDailyDose() - rs2.getInt(2));
+				temp.setDrugName(rs3.getString(1));
+				if (max - rs2.getInt(1) < temp.getQuantity()) {
+					temp.setQuantityRemaining(max - rs2.getInt(1));
+				}
+				
+				currentTherapies.add(temp);
+			}
+			
+			
+			
+		}
+		
+		
+    	
+    	
+		/*for (Therapy p: currentTherapies) {
+			max = p.getQuantity() * p.getDailyDose();
+			q = "SELECT SUM(quantity) FROM drugIntakes\n" +
+				"WHERE IDtherapy='" + p.getID() + "' AND datetime>='" + startDay + "' AND datetime<='" + endDay+ "';";
+			
+			
+			
+			rs = db.runQuery(q);
+			
+			if (rs.getInt(1)>=max) {
+				currentTherapies.remove(p);
+			}
+		}*/
+		
+		/*for (Therapy t:currentTherapies) {
+			System.out.println(t);
+		}*/
+		
+		listViewCurrentTherapies.setItems(currentTherapies);
 	}
 	
 	@FXML
@@ -172,7 +296,7 @@ public class patientViewController {
 			return;
 		}
 		String q = "SELECT id FROM Measurement\n" +
-				"WHERE CFpatient ='" + session.getCF() + "' AND datetime='" + date + "';";
+			"WHERE CFpatient ='" + session.getCF() + "' AND datetime='" + date + "';";
 		ResultSet res = db.runQuery(q);
 		int idMeasurement = res.getInt(1);
 		int idSymptom;
@@ -211,6 +335,21 @@ public class patientViewController {
 			}
 		}
 		
+		q = "SELECT id FROM Therapy\n"+
+				"WHERE CFpatient = '" + session.getCF() + "' AND endDate IS NULL;";
+			 
+			res = db.runQuery(q);
+			MeasurementTherapy mt = null;
+			while(res.next()){
+				try {
+					mt = db.insertMeasurementTherapy(idMeasurement, res.getInt(1));
+				}catch (SQLException e) {
+					e.printStackTrace();
+					//System.out.println();
+					return;
+				}
+			}
+			
 		
 
 		
@@ -234,14 +373,59 @@ public class patientViewController {
 			System.out.println(m);
 		}
 		
+		ObservableList<MeasurementTherapy> measurementsTherapies = db.getMeasurementTherapies();
+		
+		for (MeasurementTherapy m:measurementsTherapies) {
+			System.out.println(m);
+		}
 		
 		
 		
-		
-		
-		
-		
-
     }
+	
+	@FXML
+    void btnInsertIntakeOnClicked(ActionEvent event) throws SQLException {
+		
+		MultipleSelectionModel<Therapy> selectionModel = listViewCurrentTherapies.getSelectionModel();
+
+		
+		Therapy selected = selectionModel.getSelectedItem();
+		
+		if (selected == null) {
+			//non ha selezionato
+			return;
+		}
+		
+		if (textFieldQuantity.getText().equals("")) {
+			Alert alert = new Alert(Alert.AlertType.ERROR);
+	        alert.setTitle("Error Quantity");
+	        alert.setHeaderText("You need to insert a quantity!");
+	        alert.showAndWait();
+	        return;
+		}
+		
+		if (Integer.parseInt(textFieldQuantity.getText()) > selected.getQuantityRemaining()) {
+			Alert alert = new Alert(Alert.AlertType.ERROR);
+	        alert.setTitle("Warning Quantity");
+	        alert.setHeaderText("You have taken too much!");
+	        alert.showAndWait();
+		}
+		
+		try {
+			db.insertDrugIntake(0, LocalDateTime.now(), Integer.parseInt(textFieldQuantity.getText()), selected.getID());
+		}catch(SQLException e) {
+			e.printStackTrace();
+			//System.out.println();
+			return;
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return;
+		}
+		setCurrentTherapies();
+		textFieldQuantity.setText("");
+		System.out.println("Intake Button Clicked");
+    }
+	
 
 }

@@ -1,6 +1,6 @@
 package model;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
@@ -10,12 +10,12 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 public class PatientPathology {
-	private ObjectProperty<LocalDateTime> startDate = new SimpleObjectProperty<>(this, "date", null);
-	private ObjectProperty<LocalDateTime> endDate = new SimpleObjectProperty<>(this, "date", null);
+	private ObjectProperty<LocalDate> startDate = new SimpleObjectProperty<>(this, "date", null);
+	private ObjectProperty<LocalDate> endDate = new SimpleObjectProperty<>(this, "date", null);
 	private StringProperty CFPatient = new SimpleStringProperty(this, "CFPhysician");
 	private IntegerProperty idPathology = new SimpleIntegerProperty(this,"done");
 	
-	public PatientPathology(LocalDateTime startDate, LocalDateTime endDate, String CFPatient, int idPathology) {
+	public PatientPathology(LocalDate startDate, LocalDate endDate, String CFPatient, int idPathology) {
 		this.startDate.set(startDate);
 		this.endDate.set(endDate);
 		this.CFPatient.set(CFPatient);
@@ -23,22 +23,22 @@ public class PatientPathology {
 	}
 	
 	/*get the startDate*/
-	public LocalDateTime getStartDate() {
+	public LocalDate getStartDate() {
 		return startDate.get();
 	}
 	
 	/*get the startDate property*/
-	public ObjectProperty<LocalDateTime> startDateProperty() {
+	public ObjectProperty<LocalDate> startDateProperty() {
 		return startDate;
 	}
 	
 	/*get the endDate*/
-	public LocalDateTime getEndDate() {
+	public LocalDate getEndDate() {
 		return endDate.get();
 	}
 	
 	/*get the endDate property*/
-	public ObjectProperty<LocalDateTime> endDateProperty() {
+	public ObjectProperty<LocalDate> endDateProperty() {
 		return endDate;
 	}
 	

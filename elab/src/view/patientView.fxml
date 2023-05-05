@@ -18,7 +18,11 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <Label fx:id="drugLabel" layoutX="319.0" layoutY="236.0" text="Assunzioni" />
+                        <Label alignment="CENTER" layoutX="209.0" layoutY="78.0" prefHeight="37.0" prefWidth="524.0" text="Select the Therapy and Insert the amount of medication that you have taken" />
+                        <ListView fx:id="listViewCurrentTherapies" layoutX="180.0" layoutY="188.0" prefHeight="200.0" prefWidth="594.0" />
+                        <TextField fx:id="textFieldQuantity" layoutX="275.0" layoutY="488.0" />
+                        <Label layoutX="189.0" layoutY="492.0" prefHeight="17.0" prefWidth="79.0" text="Quantity: " />
+                        <Button fx:id="btnInsertIntake" layoutX="569.0" layoutY="488.0" mnemonicParsing="false" onAction="#btnInsertIntakeOnClicked" text="Insert Intake" />
                      </children></AnchorPane>
               </content>
                <graphic>
@@ -51,7 +55,7 @@
                   </ImageView>
                </graphic>
           </Tab>
-          <Tab>
+          <Tab fx:id="profileTab">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="770.0" prefWidth="772.0">
                      <children>

@@ -1,9 +1,13 @@
 package model;
 
+import java.time.LocalDate;
+
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyIntegerProperty;
 import javafx.beans.property.ReadOnlyIntegerWrapper;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -12,20 +16,28 @@ public class Therapy {
     private IntegerProperty daily_dose = new SimpleIntegerProperty(this,"dailydose");
     private IntegerProperty quantity = new SimpleIntegerProperty(this,"quantity");
     private StringProperty directions = new SimpleStringProperty(this,"directions");
-    private IntegerProperty done = new SimpleIntegerProperty(this,"done");
+    private ObjectProperty<LocalDate> startDate = new SimpleObjectProperty<>();
+    private ObjectProperty<LocalDate> endDate = new SimpleObjectProperty<>();
     private IntegerProperty IDDrug = new SimpleIntegerProperty(this,"IDdrug");
     private StringProperty CFPatient = new SimpleStringProperty(this,"CFpatient");
     private StringProperty CFPhysician = new SimpleStringProperty(this,"CFphysician");
-
-    public Therapy(int id, int daily_dose, int quantity, String directions, int done, int IDDrug, String CFPatient, String CFPhysician){
+    private IntegerProperty daily_dose_remaining = new SimpleIntegerProperty(this, "daily_dose_remaining");
+    private IntegerProperty quantity_remaining = new SimpleIntegerProperty(this, "daily_dose_remaining");
+    private StringProperty drugName = new SimpleStringProperty(this,"drug");
+    
+    public Therapy(int id, int daily_dose, int quantity, String directions, LocalDate startDate, LocalDate endDate, int IDDrug, String CFPatient, String CFPhysician){
         this.id.set(id);
         this.daily_dose.set(daily_dose);
         this.quantity.set(quantity);
         this.directions.set(directions);
-        this.done.set(done);
+        this.startDate.set(startDate);
+        this.endDate.set(endDate);
         this.IDDrug.set(IDDrug);
         this.CFPatient.set(CFPatient);
         this.CFPhysician.set(CFPhysician);
+        this.daily_dose_remaining.set(daily_dose);
+        this.quantity_remaining.set(quantity);
+        this.drugName.set("drug");
     }
 
     /*gets the id*/
@@ -68,14 +80,20 @@ public class Therapy {
         return directions;
     }
 
-    /*gets the done*/
-    public int getDone(){
-        return done.get();
+    public LocalDate getStartDate() {
+    	return startDate.get();
     }
-
-    /*gets the doneProperty*/
-    public IntegerProperty doneProperty(){
-        return done;
+    
+    public ObjectProperty<LocalDate> startDateProperty(){
+    	return startDate;
+    }
+    
+    public LocalDate getEndDate() {
+    	return endDate.get();
+    }
+    
+    public ObjectProperty<LocalDate> endDateProperty(){
+    	return endDate;
     }
 
     /*gets the IDDrug*/
@@ -107,8 +125,50 @@ public class Therapy {
     public StringProperty CFPhysicianProperty(){
         return CFPhysician;
     }
+    
+    /*gets the dailyDose*/
+    public int getDailyDoseRemaining(){
+        return daily_dose_remaining.get();
+    }
+    
+    public void setDailyDoseRemaining(int daily_dose_remaining) {
+    	this.daily_dose_remaining.set(daily_dose_remaining);
+    }
+
+    /*gets the dailyDoseProperty*/
+    public IntegerProperty dailyDoseRemainingProperty(){
+        return daily_dose_remaining;
+    }
+    
+    /*gets the dailyDose*/
+    public int getQuantityRemaining(){
+        return quantity_remaining.get();
+    }
+    
+    public void setQuantityRemaining(int quantity_remaining) {
+    	this.quantity_remaining.set(quantity_remaining);
+    }
+
+    /*gets the dailyDoseProperty*/
+    public IntegerProperty quantityRemainingProperty(){
+        return quantity_remaining;
+    }
+    
+    /*gets the CFPatient*/
+    public String getDrugName(){
+        return drugName.get();
+    }
+
+    /*gets the CFPatientProperty*/
+    public StringProperty drugNameProperty(){
+        return drugName;
+    }
+    
+    public void setDrugName(String drug){
+        this.drugName.set(drug);
+    }
 
     public String toString(){
-        return "Therapy: " + getID() + ", " + getDailyDose() + ", " + getQuantity() + ", " + getDirections() + ", " + getDone() + ", " + getIDDrug() + ", " + getCFPatient() + ", " + getCFPhysician();
+        return "Therapy: " + getID() + ", Daily Dose Remaining: " + getDailyDoseRemaining() + ", Quantity: " + getQuantityRemaining() + ", Directions: " + getDirections() + ", Drug: " + getDrugName();
     }
 } 

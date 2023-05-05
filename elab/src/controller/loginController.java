@@ -53,7 +53,8 @@ public class loginController {
 		try {
 			db = DB_Model.getInstance();
 			if (isRadioBtnPhysicianSelected) {
-				String q = "SELECT * FROM physician WHERE CF='" + labelCF.getText() + "' AND password='" + db.hashPassword(labelPassword.getText()) + "';";
+				String q = "SELECT * FROM physician WHERE CF='" + labelCF.getText() + 
+						"' AND password='" + db.hashPassword(labelPassword.getText()) + "';";
 				ResultSet st = null;
 				st = db.runQuery(q);
 				password = labelPassword.getText();
@@ -98,7 +99,8 @@ public class loginController {
 					stage.show();
 				}
 			}else if(isRadioBtnPatientSelected){
-				String q = "SELECT * FROM patient WHERE CF='" + labelCF.getText() + "' AND password='" + db.hashPassword(labelPassword.getText()) + "';";
+				String q = "SELECT * FROM patient WHERE CF='" + labelCF.getText() + 
+						"' AND password='" + db.hashPassword(labelPassword.getText()) + "';";
 				ResultSet st = null;
 				st = db.runQuery(q);
 				password = labelPassword.getText();
