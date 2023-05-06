@@ -238,6 +238,13 @@ public class patientViewController {
 				
 				temp.setDailyDoseRemaining(temp.getDailyDose() - rs2.getInt(2));
 				temp.setDrugName(rs3.getString(1));
+				temp.setTotalQuantityRemaining(max - rs2.getInt(1));
+				if (temp.getDailyDoseRemaining() == 0 && temp.getTotalQuantityRemaining() != 0) {
+					Alert alert = new Alert(Alert.AlertType.ERROR);
+			        alert.setTitle("Warning Daily Doses");
+			        alert.setHeaderText("You have already taken pills for your daily dose indications, but you did something wrong because you probably missed some pills, pls contact your medic!");
+			        alert.showAndWait();
+				}
 				if (max - rs2.getInt(1) < temp.getQuantity()) {
 					temp.setQuantityRemaining(max - rs2.getInt(1));
 				}

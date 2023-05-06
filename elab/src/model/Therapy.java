@@ -22,7 +22,8 @@ public class Therapy {
     private StringProperty CFPatient = new SimpleStringProperty(this,"CFpatient");
     private StringProperty CFPhysician = new SimpleStringProperty(this,"CFphysician");
     private IntegerProperty daily_dose_remaining = new SimpleIntegerProperty(this, "daily_dose_remaining");
-    private IntegerProperty quantity_remaining = new SimpleIntegerProperty(this, "daily_dose_remaining");
+    private IntegerProperty quantity_remaining = new SimpleIntegerProperty(this, "quantity_dose_remaining");
+    private IntegerProperty total_quantity_remaining = new SimpleIntegerProperty(this, "total_quantity_dose_remaining");
     private StringProperty drugName = new SimpleStringProperty(this,"drug");
     
     public Therapy(int id, int daily_dose, int quantity, String directions, LocalDate startDate, LocalDate endDate, int IDDrug, String CFPatient, String CFPhysician){
@@ -154,6 +155,21 @@ public class Therapy {
         return quantity_remaining;
     }
     
+    /*gets the dailyDose*/
+    public int getTotalQuantityRemaining(){
+        return total_quantity_remaining.get();
+    }
+    
+    public void setTotalQuantityRemaining(int total_quantity_remaining) {
+    	this.total_quantity_remaining.set(total_quantity_remaining);
+    }
+
+    /*gets the dailyDoseProperty*/
+    public IntegerProperty totalQuantityRemainingProperty(){
+        return total_quantity_remaining;
+    }
+    
+    
     /*gets the CFPatient*/
     public String getDrugName(){
         return drugName.get();
@@ -169,6 +185,9 @@ public class Therapy {
     }
 
     public String toString(){
-        return "Therapy: " + getID() + ", Daily Dose Remaining: " + getDailyDoseRemaining() + ", Quantity: " + getQuantityRemaining() + ", Directions: " + getDirections() + ", Drug: " + getDrugName();
+    	String out = "Therapy: " + getID() + ", Directions: " + getDirections() + ", Drug: " + getDrugName();
+    	
+    	
+        return "Therapy: " + getID() + ", Total Pills Remaining : " + getTotalQuantityRemaining() + ", Daily Dose Remaining: " + getDailyDoseRemaining() + ", Quantity: " + getQuantityRemaining() + ", Directions: " + getDirections() + ", Drug: " + getDrugName();
     }
 } 

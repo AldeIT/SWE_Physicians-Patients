@@ -14,7 +14,7 @@
    <children>
       <TabPane fx:id="tabpane" prefHeight="1000.0" prefWidth="1006.0" side="LEFT" stylesheets="@../css/tablePane.css" tabClosingPolicy="UNAVAILABLE">
         <tabs>
-            <Tab>
+            <Tab fx:id="drugTab">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
@@ -33,7 +33,7 @@
                   </ImageView>
                </graphic>
             </Tab>
-          <Tab>
+          <Tab fx:id="measurementTab">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>

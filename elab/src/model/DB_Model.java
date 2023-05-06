@@ -216,9 +216,12 @@ public class DB_Model {
 			Physician p2 = insertPhysician("LDGLSN02S18F861I", "alealde012@gmail.com", "password", "Alessandro", "Aldegheri", "M", LocalDate.of(2002, 11, 18), "Italian", "Danieli", 21, 37141, "Verona", "3497086640");
 			
 			Patient pat = insertPatient("VNTDVD02D17L949I", "venturi.davide17@gmail.com", "password", "Davide", "Venturi", "M", LocalDate.of(2002,04,17), "Italian", "Marconi", 89, 37060, "Verona", "3402938423", "Ansia", "LDGLSN02S18F861T");
-			Patient pat1 = insertPatient("VNTDVD02D17L949Z", "venturi.davide17@gmail.com", "password", "Davide", "Venturi", "M", LocalDate.of(2002,04,17), "Italian", "Marconi", 89, 37060, "Verona", "3402938423", "Ansia", "LDGLSN02S18F861Z");
-			Patient pat2 = insertPatient("VNTDVD02D17L949T", "venturi.davide17@gmail.com", "password", "Davide", "Venturi", "M", LocalDate.of(2002,04,17), "Italian", "Marconi", 89, 37060, "Verona", "3402938423", "Ansia", "LDGLSN02S18F861I");
-			
+			Patient pat1 = insertPatient("VNTDVD02D17L949Z", "venturi.davide17@gmail.com", "password", "Davide", "Venturi", "M", LocalDate.of(2002,04,17), "Italian", "Marconi", 89, 37060, "Verona", "3402938423", "Ansia", "LDGLSN02S18F861T");
+			Patient pat2 = insertPatient("VNTDVD02D17L949T", "venturi.davide17@gmail.com", "password", "Davide", "Venturi", "M", LocalDate.of(2002,04,17), "Italian", "Marconi", 89, 37060, "Verona", "3402938423", "Ansia", "LDGLSN02S18F861T");
+            Patient pat3 = insertPatient("ZRMNCL02S19L781E", "nico.zerman@gmail.com", "password", "Nicolò", "Zerman", "M", LocalDate.of(2002,11,19), "Italian", "Gaetano Tortelli", 29, 37059, "Verona", "3274537294", "Sempre rotto", "LDGLSN02S18F861T");
+            Patient pat4 = insertPatient("CRZMRA63R09L781S", "mario.crozza@gmail.com", "password", "Mario", "Crozza", "M", LocalDate.of(2009,05,11), "Italian", "Tigli", 29, 37059, "Verona", "3274537294", "Sempre rotto", "LDGLSN02S18F861T");
+			Patient pat5 = insertPatient("FRNFRC96C15F205E", "federico.fiorini@gmail.com", "password", "Federico", "Fiorini", "M", LocalDate.of(1996,03,21), "Italian", "Gaetano Tortelli", 29, 37059, "Verona", "3274537294", "Sempre rotto", "LDGLSN02S18F861T");
+            
 			Log log = insertLog("LDGLSN02S18F861T",LocalDateTime.of(2015, 5, 1, 14, 30, 0),  "Ha modificato la descrizione di un paziente");
 			Log log1 = insertLog("LDGLSN02S18F861I",LocalDateTime.of(2016, 6, 2, 15, 30, 0),  "Ha modificato il nome di un paziente");
 			Log log2 = insertLog("LDGLSN02S18F861I",LocalDateTime.of(2016, 6, 2, 15, 30, 10),  "Ha modificato la mail di un paziente");
@@ -233,8 +236,8 @@ public class DB_Model {
 			
 			DrugIntake drugIntake = insertDrugIntake(0, LocalDateTime.now(), 1, 1);
 			DrugIntake drugIntake1 = insertDrugIntake(0, LocalDateTime.of(2020, 1, 1, 15, 0, 0), 2, 2);
-			DrugIntake drugIntake2 = insertDrugIntake(0, LocalDateTime.now(), 2, 3);
-			DrugIntake drugIntake3 = insertDrugIntake(0, LocalDateTime.now(), 1, 3);
+			//DrugIntake drugIntake2 = insertDrugIntake(0, LocalDateTime.now(), 2, 3);
+			//DrugIntake drugIntake3 = insertDrugIntake(0, LocalDateTime.now(), 1, 3);
 			
 			Pathology pathology = insertPathology("sla");
 			Pathology pathology1 = insertPathology("monucleosi");
@@ -1231,6 +1234,114 @@ public class DB_Model {
     	
     	return patients;
     }
+
+    /*Returns a ObservableList of all Patients of a specified Physician*/
+    public ObservableList<Patient> getPatientsPhysician(String CFPhysician) throws SQLException{
+    	ObservableList<Patient> patients = FXCollections.<Patient>observableArrayList(
+                patient -> new Observable[] {
+                        patient.CFProperty(), 
+                        patient.emailProperty(), 
+                        patient.passwordProperty(), 
+                        patient.nameProperty(), 
+                        patient.surnameProperty(), 
+                        patient.sexProperty(), 
+                        patient.birthdateProperty(), 
+                        patient.nationalityProperty(), 
+                        patient.streetProperty(), 
+                        patient.civicNumberProperty(), 
+                        patient.capProperty(), 
+                        patient.cityProperty(), 
+                        patient.phoneNumberProperty(), 
+                        patient.informationsProperty(), 
+                        patient.CFPhysicianProperty()}
+        );
+    	
+    	String q = "SELECT * FROM patient WHERE CFPhysician='" + CFPhysician + "';";
+    	log(q);
+    	ResultSet rs = runQuery(q);
+    	
+    	while(rs.next()) {
+    		patients.add(new Patient(
+    				rs.getString("CF"), 
+    				rs.getString("email"), 
+    				rs.getString("password"), 
+    				rs.getString("name"), 
+    				rs.getString("surname"), 
+    				rs.getString("sex"), 
+    				rs.getDate("birthdate").toLocalDate(), 
+    				rs.getString("nationality"), 
+    				rs.getString("street"), 
+    				rs.getInt("civicnumber"), 
+    				rs.getInt("cap"), 
+    				rs.getString("city"), 
+    				rs.getString("phonenumber"),
+    				rs.getString("informations"),
+    				rs.getString("CFphysician")
+    				));
+    	}
+    	
+    	return patients;
+    }
+
+    /*Returns a ObservableList of all Patients of a specified Physician that contains the String 'like'*/
+    public ObservableList<Patient> getSearchedPatients(String CFPhysician, String like) throws SQLException{
+    	ObservableList<Patient> patients = FXCollections.<Patient>observableArrayList(
+                patient -> new Observable[] {
+                        patient.CFProperty(), 
+                        patient.emailProperty(), 
+                        patient.passwordProperty(), 
+                        patient.nameProperty(), 
+                        patient.surnameProperty(), 
+                        patient.sexProperty(), 
+                        patient.birthdateProperty(), 
+                        patient.nationalityProperty(), 
+                        patient.streetProperty(), 
+                        patient.civicNumberProperty(), 
+                        patient.capProperty(), 
+                        patient.cityProperty(), 
+                        patient.phoneNumberProperty(), 
+                        patient.informationsProperty(), 
+                        patient.CFPhysicianProperty()}
+        );
+    	
+    	String q = "SELECT * FROM patient WHERE CFPhysician='" + CFPhysician + "' AND CF LIKE '" + like + "';";
+    	log(q);
+    	ResultSet rs = runQuery(q);
+    	
+    	while(rs.next()) {
+    		patients.add(new Patient(
+    				rs.getString("CF"), 
+    				rs.getString("email"), 
+    				rs.getString("password"), 
+    				rs.getString("name"), 
+    				rs.getString("surname"), 
+    				rs.getString("sex"), 
+    				rs.getDate("birthdate").toLocalDate(), 
+    				rs.getString("nationality"), 
+    				rs.getString("street"), 
+    				rs.getInt("civicnumber"), 
+    				rs.getInt("cap"), 
+    				rs.getString("city"), 
+    				rs.getString("phonenumber"),
+    				rs.getString("informations"),
+    				rs.getString("CFphysician")
+    				));
+    	}
+    	
+    	return patients;
+    }
+
+    /*Tries to update an existent Patient*/
+    public void updatePatient(String CF,String informations) throws SQLException {
+    	log("Update Patient " + CF);
+        
+        String q = "UPDATE patient SET informations = '" + informations + "' WHERE CF = '" + CF +"';";
+
+        runStatementWithOutput(q);
+        
+    }
+
+
 	
 	/*Tries to insert a new Patient*/
 	public Patient insertPatient(String CF, String email, String password, String name, String surname, String sex, LocalDate birthdate, String nationality, String street, int civic_number, int cap, String city, String phone_number,String informations, String CFPhysician) throws SQLException, ParseException {
