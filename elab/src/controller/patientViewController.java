@@ -126,13 +126,49 @@ public class patientViewController {
     @FXML
     private TabPane tabpane;
 
+    
+    /**
+     * Sets the session for the controller
+     *
+     * @param the patient who has authenticated.
+     * @throws SQLException if there are any problems getting the instance of the db model.
+     */
 	public void setSession(Patient session) throws SQLException {
 		this.session = new Patient(session);
 		db = DB_Model.getInstance();
 	}
 	
+	/**
+	 * Initializes a lot of informations, session's labels, listview's content...
+	 * @throws IllegalArgumentException if either width or height is negative or zero.
+	 */
 	public void initInfo() throws SQLException {
 		System.out.println("init");
+		
+		setLabelsInformations();
+		/**/
+		setCurrentSymptoms();
+		/**/
+		setCurrentTherapies();
+		
+		this.tabpane.getSelectionModel().selectedItemProperty().addListener((observable, oldTab, newTab) -> {
+		    if (newTab.getId().equals("profileTab")) {
+		        System.out.println("HERE");
+		    }
+		});
+		
+		
+	}
+	
+	/**
+	 * Calculates the area of a rectangle with the given width and height.
+	 *
+	 * @param width The width of the rectangle.
+	 * @param height The height of the rectangle.
+	 * @return The area of the rectangle.
+	 * @throws IllegalArgumentException if either width or height is negative or zero.
+	 */
+	void setLabelsInformations() throws SQLException {
 		labelCF.setText(session.getCF());
 		labelName.setText(session.getName());
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -160,18 +196,6 @@ public class patientViewController {
 		labelPhysicianSurname.setText(physician.getString("surname"));
 		labelPhysicianPhoneNumber.setText(physician.getString("phonenumber"));
 		labelPhysicianEmail.setText(physician.getString("email"));
-		/**/
-		setCurrentSymptoms();
-		/**/
-		setCurrentTherapies();
-		
-		this.tabpane.getSelectionModel().selectedItemProperty().addListener((observable, oldTab, newTab) -> {
-		    if (newTab.getId().equals("profileTab")) {
-		        System.out.println("HERE");
-		    }
-		});
-		
-		
 	}
 	
 	void setCurrentSymptoms() throws SQLException {
@@ -236,7 +260,7 @@ public class patientViewController {
 				
 				rs3 = db.runQuery(q);
 				
-				temp.setDailyDoseRemaining(temp.getDailyDose() - rs2.getInt(2));
+				temp.setDailyDoseRemaining(temp.getDaily_dose() - rs2.getInt(2));
 				temp.setDrugName(rs3.getString(1));
 				temp.setTotalQuantityRemaining(max - rs2.getInt(1));
 				if (temp.getDailyDoseRemaining() == 0 && temp.getTotalQuantityRemaining() != 0) {
@@ -357,7 +381,8 @@ public class patientViewController {
 				}
 			}
 			
-		
+	    listViewSymptoms.getSelectionModel().clearSelection();
+
 
 		
 		

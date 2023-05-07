@@ -41,9 +41,14 @@ public class loginController {
     private RadioButton radioBtnPhysician;
 
 	
-	// Event Listener on Button[#btnLogin].onAction
+    /**
+     * Performs login operation on both Physician and Patient.
+     *
+     * @param the Action Event.
+     * @throws IOException if there is a problem loading the new view.
+     */
 	@FXML
-	public void btnLoginOnClicked(ActionEvent event) throws IOException {
+	public void btnLoginOnClicked(ActionEvent event) throws IOException  {
 		
 		boolean isRadioBtnPhysicianSelected = radioBtnPhysician.isSelected();
 		boolean isRadioBtnPatientSelected = radioBtnPatient.isSelected();
@@ -165,12 +170,23 @@ public class loginController {
 		System.out.println("Button Clicked!");
 	}
 	
+	/**
+	 * Gets called when you click on the radioButton, makes sure the other is not selected
+	 *
+	 * @param the Action Event.
+	 */
 	@FXML
     void radioBtnPatientSelected(ActionEvent event) {
 		System.out.println("Patient selected/non selected");
 		radioBtnPhysician.setSelected(false);
     }
 
+	
+	/**
+	 * Gets called when you click on the radioButton, makes sure the other is not selected
+	 *
+	 * @param the Action Event.
+	 */
     @FXML
     void radioBtnPhysicianSelected(ActionEvent event) {
     	System.out.println("Physician selected/non selected");

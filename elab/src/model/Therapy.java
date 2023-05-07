@@ -13,11 +13,11 @@ import javafx.beans.property.StringProperty;
 
 public class Therapy {
     private ReadOnlyIntegerWrapper id = new ReadOnlyIntegerWrapper(this,"id");
-    private IntegerProperty daily_dose = new SimpleIntegerProperty(this,"dailydose");
+    private IntegerProperty daily_dose = new SimpleIntegerProperty(this,"daily_dose");
     private IntegerProperty quantity = new SimpleIntegerProperty(this,"quantity");
     private StringProperty directions = new SimpleStringProperty(this,"directions");
-    private ObjectProperty<LocalDate> startDate = new SimpleObjectProperty<>();
-    private ObjectProperty<LocalDate> endDate = new SimpleObjectProperty<>();
+    private ObjectProperty<LocalDate> startDate = new SimpleObjectProperty<>(this, "startDate");
+    private ObjectProperty<LocalDate> endDate = new SimpleObjectProperty<>(this, "endDate");
     private IntegerProperty IDDrug = new SimpleIntegerProperty(this,"IDdrug");
     private StringProperty CFPatient = new SimpleStringProperty(this,"CFpatient");
     private StringProperty CFPhysician = new SimpleStringProperty(this,"CFphysician");
@@ -52,8 +52,12 @@ public class Therapy {
     }
 
     /*gets the dailyDose*/
-    public int getDailyDose(){
+    public int getDaily_dose(){
         return daily_dose.get();
+    }
+    
+    public void setDaily_dose(int daily_dose) {
+    	this.daily_dose.set(daily_dose);
     }
 
     /*gets the dailyDoseProperty*/
@@ -66,6 +70,10 @@ public class Therapy {
         return quantity.get();
     }
 
+    public void setQuantity(int quantity) {
+    	this.quantity.set(quantity);
+    }
+    
     /*gets the quantityProperty*/
     public IntegerProperty quantityProperty(){
         return quantity;
@@ -76,6 +84,10 @@ public class Therapy {
         return directions.get();
     }
 
+    public void setDirections(String directions) {
+    	this.directions.set(directions);
+    }
+    
     /*gets the directionsProperty*/
     public StringProperty directionsProperty(){
         return directions;
@@ -85,12 +97,20 @@ public class Therapy {
     	return startDate.get();
     }
     
+    public void setStartDate(LocalDate startDate) {
+    	this.startDate.set(startDate);
+    }
+    
     public ObjectProperty<LocalDate> startDateProperty(){
     	return startDate;
     }
     
     public LocalDate getEndDate() {
     	return endDate.get();
+    }
+    
+    public void setEndDate(LocalDate endDate) {
+    	this.endDate.set(endDate);
     }
     
     public ObjectProperty<LocalDate> endDateProperty(){
@@ -102,6 +122,10 @@ public class Therapy {
         return IDDrug.get();
     }
 
+    public void setIDDrug(int IDDrug) {
+    	this.IDDrug.set(IDDrug);
+    }
+    
     /*gets the IDDrugProperty*/
     public IntegerProperty IDDrugProperty(){
         return IDDrug;

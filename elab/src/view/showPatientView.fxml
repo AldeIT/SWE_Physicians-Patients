@@ -1,13 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="1000" minWidth="1000" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.showPatientViewController">
    <children>
@@ -17,33 +25,33 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <Label layoutX="221.0" layoutY="127.0" text="CF" />
-                        <Label layoutX="221.0" layoutY="178.0" text="Email" />
-                        <Label layoutX="221.0" layoutY="224.0" text="Name" />
-                        <Label layoutX="221.0" layoutY="274.0" text="Surname" />
-                        <Label layoutX="221.0" layoutY="325.0" text="Sex" />
-                        <Label layoutX="221.0" layoutY="382.0" text="Birthdate" />
-                        <Label layoutX="221.0" layoutY="444.0" text="Nationality" />
-                        <Label layoutX="221.0" layoutY="501.0" text="Street" />
-                        <Label layoutX="221.0" layoutY="550.0" text="Civic Number" />
-                        <Label layoutX="229.0" layoutY="608.0" text="CAP" />
-                        <Label layoutX="222.0" layoutY="659.0" text="City" />
-                        <Label layoutX="226.0" layoutY="711.0" text="Phone Number" />
-                        <Label layoutX="239.0" layoutY="760.0" text="Informations" />
-                        <Label fx:id="labelCF" layoutX="440.0" layoutY="127.0" />
-                        <Label fx:id="labelEmail" layoutX="440.0" layoutY="178.0" />
-                        <Label fx:id="labelName" layoutX="440.0" layoutY="224.0" />
-                        <Label fx:id="labelSurname" layoutX="440.0" layoutY="274.0" />
-                        <Label fx:id="labelSex" layoutX="440.0" layoutY="325.0" />
-                        <Label fx:id="labelBirthdate" layoutX="440.0" layoutY="382.0" />
-                        <Label fx:id="labelNationality" layoutX="440.0" layoutY="444.0" />
-                        <Label fx:id="labelStreet" layoutX="440.0" layoutY="501.0" />
-                        <Label fx:id="labelCivicNumber" layoutX="440.0" layoutY="550.0" />
-                        <Label fx:id="labelCAP" layoutX="440.0" layoutY="608.0" />
-                        <Label fx:id="labelCity" layoutX="440.0" layoutY="659.0" />
-                        <Label fx:id="labelPhoneNumber" layoutX="440.0" layoutY="711.0" />
-                        <TextField fx:id="textFieldInformations" layoutX="394.0" layoutY="756.0" prefHeight="99.0" prefWidth="260.0" />
-                        <Button fx:id="btnUpdateInformations" layoutX="763.0" layoutY="765.0" mnemonicParsing="false" onAction="#btnUpdateInformationsOnClicked" text="UPDATE" />
+                        <Label layoutX="218.0" layoutY="43.0" text="CF" />
+                        <Label layoutX="218.0" layoutY="94.0" text="Email" />
+                        <Label layoutX="218.0" layoutY="140.0" text="Name" />
+                        <Label layoutX="218.0" layoutY="190.0" text="Surname" />
+                        <Label layoutX="218.0" layoutY="241.0" text="Sex" />
+                        <Label layoutX="218.0" layoutY="298.0" text="Birthdate" />
+                        <Label layoutX="218.0" layoutY="360.0" text="Nationality" />
+                        <Label layoutX="218.0" layoutY="417.0" text="Street" />
+                        <Label layoutX="218.0" layoutY="466.0" text="Civic Number" />
+                        <Label layoutX="226.0" layoutY="524.0" text="CAP" />
+                        <Label layoutX="219.0" layoutY="575.0" text="City" />
+                        <Label layoutX="223.0" layoutY="627.0" text="Phone Number" />
+                        <Label layoutX="236.0" layoutY="676.0" text="Informations" />
+                        <Label fx:id="labelCF" layoutX="437.0" layoutY="43.0" />
+                        <Label fx:id="labelEmail" layoutX="437.0" layoutY="94.0" />
+                        <Label fx:id="labelName" layoutX="437.0" layoutY="140.0" />
+                        <Label fx:id="labelSurname" layoutX="437.0" layoutY="190.0" />
+                        <Label fx:id="labelSex" layoutX="437.0" layoutY="241.0" />
+                        <Label fx:id="labelBirthdate" layoutX="437.0" layoutY="298.0" />
+                        <Label fx:id="labelNationality" layoutX="437.0" layoutY="360.0" />
+                        <Label fx:id="labelStreet" layoutX="437.0" layoutY="417.0" />
+                        <Label fx:id="labelCivicNumber" layoutX="437.0" layoutY="466.0" />
+                        <Label fx:id="labelCAP" layoutX="437.0" layoutY="524.0" />
+                        <Label fx:id="labelCity" layoutX="437.0" layoutY="575.0" />
+                        <Label fx:id="labelPhoneNumber" layoutX="437.0" layoutY="627.0" />
+                        <TextField fx:id="textFieldInformations" layoutX="391.0" layoutY="672.0" prefHeight="99.0" prefWidth="260.0" />
+                        <Button fx:id="btnUpdateInformations" layoutX="760.0" layoutY="681.0" mnemonicParsing="false" onAction="#btnUpdateInformationsOnClicked" text="UPDATE" />
                      </children>
             
             </AnchorPane>
@@ -60,6 +68,33 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
+                        <Label layoutX="410.0" layoutY="74.0" text="THERAPIES">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </Label>
+                        <TableView fx:id="tableViewAllTherapies" editable="true" layoutX="85.0" layoutY="155.0" prefHeight="200.0" prefWidth="807.0">
+                           <columns>
+                              <TableColumn fx:id="tableViewAllTherapiesID" prefWidth="75.0" text="ID" />
+                              <TableColumn fx:id="tableViewAllTherapiesDailyDose" prefWidth="75.0" text="Daily Dose" />
+                              <TableColumn fx:id="tableViewAllTherapiesQuantity" prefWidth="75.0" text="Quantity" />
+                              <TableColumn fx:id="tableViewAllTherapiesDirections" prefWidth="135.0" text="Directions" />
+                              <TableColumn fx:id="tableViewAllTherapiesStartDate" minWidth="0.0" prefWidth="66.0" text="Start Date" />
+                              <TableColumn fx:id="tableViewAllTherapiesEndDate" prefWidth="73.0" text="End Date" />
+                              <TableColumn fx:id="tableViewAllTherapiesIDDrug" prefWidth="79.0" text="ID Drug" />
+                           </columns>
+                        </TableView>
+                        <Label layoutX="296.0" layoutY="407.0" text="Daily Dose" />
+                        <Label layoutX="296.0" layoutY="442.0" text="Quantity" />
+                        <Label layoutX="296.0" layoutY="484.0" text="Directions" />
+                        <TextField fx:id="textFieldDailyDose" layoutX="453.0" layoutY="403.0" />
+                        <TextField fx:id="textFieldQuantity" layoutX="453.0" layoutY="438.0" />
+                        <TextField fx:id="textFieldDirections" layoutX="453.0" layoutY="489.0" prefHeight="121.0" prefWidth="151.0" />
+                        <ChoiceBox fx:id="choiceBoxDrug" layoutX="454.0" layoutY="636.0" prefWidth="150.0" />
+                        <Label layoutX="296.0" layoutY="640.0" text="Drug" />
+                        <Button fx:id="btnInsertNewTherapy" layoutX="468.0" layoutY="702.0" mnemonicParsing="false" onAction="#btnInsertNewTherapyOnClicked" text="Insert New Therapy" />
+                        <Button fx:id="btnUpdateTherapy" layoutX="716.0" layoutY="369.0" mnemonicParsing="false" onAction="#bntUpdateTherapyOnClicked" text="Update" />
+                        <Button fx:id="btnDeleteTherapy" layoutX="786.0" layoutY="369.0" mnemonicParsing="false" onAction="#btnDeleteTherapyOnClicked" text="Delete" />
                      </children></AnchorPane>
               </content>
                <graphic>
@@ -70,6 +105,54 @@
                   </ImageView>
                </graphic>
             </Tab>
+            
+             <Tab fx:id="measurement">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                     
+                        <LineChart fx:id="linechartMeasurement" layoutX="112.0" layoutY="71.0" prefHeight="309.0" prefWidth="642.0">
+                          <xAxis>
+                            <CategoryAxis side="BOTTOM" />
+                          </xAxis>
+                          <yAxis>
+                            <NumberAxis side="LEFT" />
+                          </yAxis>
+                        </LineChart>
+                        <DatePicker fx:id="datePickerMeasurementStart" layoutX="216.0" layoutY="27.0" onAction="#datePickerMeasurementOnAction" />
+                        <DatePicker fx:id="datePickerMeasurementEnd" layoutX="541.0" layoutY="27.0" onAction="#datePickerMeasurementOnAction" />
+                        <TableView fx:id="tableViewSymptoms" layoutX="134.0" layoutY="380.0" prefHeight="200.0" prefWidth="668.0">
+                          <columns>
+                            <TableColumn fx:id="tableViewSymptomID" prefWidth="75.0" text="ID" />
+                            <TableColumn fx:id="tableViewSymptomDescription" prefWidth="75.0" text="Description" />
+                          </columns>
+                        </TableView>
+                        <TableView fx:id="tableViewTherapies" layoutX="134.0" layoutY="587.0" prefHeight="200.0" prefWidth="669.0">
+                          <columns>
+                            <TableColumn fx:id="tableViewTherapiesID" prefWidth="75.0" text="ID" />
+                            <TableColumn fx:id="tableViewTherapiesDirections" prefWidth="75.0" text="Directions" />
+                              <TableColumn fx:id="tableViewTherapiesIDDrug" prefWidth="75.0" text="IDDrug" />
+                          </columns>
+                        </TableView>
+                        <TableView fx:id="tableViewPathologies" layoutX="135.0" layoutY="795.0" prefHeight="200.0" prefWidth="668.0">
+                          <columns>
+                            <TableColumn fx:id="tableViewPathologiesID" prefWidth="75.0" text="ID" />
+                            <TableColumn fx:id="tableViewPathologiesDescription" prefWidth="75.0" text="Description" />
+                          </columns>
+                        </TableView>
+                     
+                     
+                     </children></AnchorPane>
+              </content>
+               <graphic>
+                  <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/blood-pressure.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Tab>
+            
           <Tab fx:id="backToPhysician">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="486.0" prefWidth="667.0" />

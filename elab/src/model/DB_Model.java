@@ -247,18 +247,42 @@ public class DB_Model {
 			PatientPathology patient_pathology1 = insertPatientPathology("VNTDVD02D17L949T", 2, LocalDate.of(2015, 5, 1), null);
 			PatientPathology patient_pathology2 = insertPatientPathology("VNTDVD02D17L949T", 3, LocalDate.of(2015, 5, 1), LocalDate.of(2016, 6, 5));
 			
-			Measurement measurement = insertMeasurement(120, 90, LocalDateTime.of(2014, 11, 18, 15, 0, 0), "speriamo tutto bene", "VNTDVD02D17L949I");
-			Measurement measurement1 = insertMeasurement(210, 90, LocalDateTime.of(2015, 5, 1, 15, 0, 0), "segala >>>>", "VNTDVD02D17L949T");
-			Measurement measurement2 = insertMeasurement(120, 90, LocalDateTime.of(2002, 4, 17, 15, 0, 0), "blabla", "VNTDVD02D17L949Z");
+			Measurement measurement = insertMeasurement(120, 90, LocalDateTime.of(2023, 5, 7, 8, 0, 0), "speriamo tutto bene", "VNTDVD02D17L949I");
+			Measurement measurement1 = insertMeasurement(210, 110, LocalDateTime.of(2023, 5, 4, 15, 0, 0), "segala >>>>", "VNTDVD02D17L949I");
+			Measurement measurement2 = insertMeasurement(150, 90, LocalDateTime.of(2023, 4, 19, 15, 0, 0), "blabla", "VNTDVD02D17L949I");
+			Measurement measurement3 = insertMeasurement(160, 110, LocalDateTime.of(2023, 4, 17, 15, 0, 0), "blabla", "VNTDVD02D17L949I");
+			Measurement measurement4 = insertMeasurement(170, 70, LocalDateTime.of(2023, 4, 21, 15, 0, 0), "blabla", "VNTDVD02D17L949I");
+			Measurement measurement5 = insertMeasurement(180, 80, LocalDateTime.of(2023, 4, 18, 9, 0, 0), "blabla", "VNTDVD02D17L949I");
+			Measurement measurement6 = insertMeasurement(190, 60, LocalDateTime.of(2023, 4, 17, 15, 0, 0), "blabla", "VNTDVD02D17L949I");
+			
 			
 			Symptom symptom = insertSymptom("crampi");
 			Symptom symptom1 = insertSymptom("congestione nasale");
 			Symptom symptom2 = insertSymptom("mal di gomito");
 			
 			
-			MeasurementSymptom measurementsymptom = insertMeasurementSymptom(1, 3);
-			MeasurementSymptom measurementsymptom1 = insertMeasurementSymptom(2, 2);
-			MeasurementSymptom measurementsymptom2 = insertMeasurementSymptom(3, 1);
+			
+			MeasurementSymptom measurementsymptom = insertMeasurementSymptom(3, 1);
+			MeasurementSymptom measurementsymptom2 = insertMeasurementSymptom(3, 2);
+			MeasurementSymptom measurementsymptom3 = insertMeasurementSymptom(3, 3);
+			MeasurementSymptom measurementsymptom4 = insertMeasurementSymptom(1, 1);
+			MeasurementSymptom measurementsymptom5 = insertMeasurementSymptom(2, 1);
+			MeasurementSymptom measurementsymptom6 = insertMeasurementSymptom(6, 1);
+			
+			MeasurementTherapy measurementtherapy = insertMeasurementTherapy(3, 1);
+			MeasurementTherapy measurementtherapy2 = insertMeasurementTherapy(3, 2);
+			MeasurementTherapy measurementtherapy3 = insertMeasurementTherapy(3, 3);
+			MeasurementTherapy measurementtherapy4 = insertMeasurementTherapy(1, 1);
+			MeasurementTherapy measurementtherapy5 = insertMeasurementTherapy(2, 1);
+			MeasurementTherapy measurementtherapy6 = insertMeasurementTherapy(6, 1);
+			
+			MeasurementPathology measurementpathology = insertMeasurementPathology(3, 1);
+			MeasurementPathology measurementpathology2 = insertMeasurementPathology(3, 2);
+			MeasurementPathology measurementpathology3 = insertMeasurementPathology(3, 3);
+			MeasurementPathology measurementpathology4 = insertMeasurementPathology(1, 1);
+			MeasurementPathology measurementpathology5 = insertMeasurementPathology(2, 1);
+			MeasurementPathology measurementpathology6 = insertMeasurementPathology(6, 1);
+			
 			
         } catch (SQLException e) {
 			e.printStackTrace();
@@ -1004,13 +1028,13 @@ public class DB_Model {
 		String q;
 		if (endDate == null) {
 			q = "INSERT INTO Therapy(dailydose, quantity, directions, startDate, IDdrug, CFpatient, CFphysician)\n" +
-	                "VALUES ('"+ therapy.getDailyDose() + "', '"+ therapy.getQuantity() + "', '" + therapy.getDirections() + "', '" + startDateLong + "', '" + therapy.getIDDrug() + "', '" + therapy.getCFPatient() + "', '" + therapy.getCFPhysician() + "')\n" +
+	                "VALUES ('"+ therapy.getDaily_dose() + "', '"+ therapy.getQuantity() + "', '" + therapy.getDirections() + "', '" + startDateLong + "', '" + therapy.getIDDrug() + "', '" + therapy.getCFPatient() + "', '" + therapy.getCFPhysician() + "')\n" +
 	                ";";
 			
 		}else {
 			Long endDateLong =  LocalDateToLong(endDate);
 			q = "INSERT INTO Therapy(dailydose, quantity, directions, startDate, endDate, IDdrug, CFpatient, CFphysician)\n" +
-	                "VALUES ('"+ therapy.getDailyDose() + "', '"+ therapy.getQuantity() + "', '" + therapy.getDirections() + "', '" + startDateLong + "', '" + endDateLong + "', '" + therapy.getIDDrug() + "', '" + therapy.getCFPatient() + "', '" + therapy.getCFPhysician() + "')\n" +
+	                "VALUES ('"+ therapy.getDaily_dose() + "', '"+ therapy.getQuantity() + "', '" + therapy.getDirections() + "', '" + startDateLong + "', '" + endDateLong + "', '" + therapy.getIDDrug() + "', '" + therapy.getCFPatient() + "', '" + therapy.getCFPhysician() + "')\n" +
 	                ";";
 		}    
         
