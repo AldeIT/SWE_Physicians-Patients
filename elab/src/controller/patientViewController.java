@@ -209,7 +209,7 @@ public class patientViewController {
 		ObservableList<Therapy> currentTherapies = FXCollections.<Therapy>observableArrayList(
                 therapy -> new Observable[] {
                         therapy.idProperty(), 
-                        therapy.dailyDoseProperty(),
+                        therapy.dailydoseProperty(),
                         therapy.quantityProperty(),
                         therapy.directionsProperty(),
                         therapy.startDateProperty(),
@@ -260,7 +260,7 @@ public class patientViewController {
 				
 				rs3 = db.runQuery(q);
 				
-				temp.setDailyDoseRemaining(temp.getDaily_dose() - rs2.getInt(2));
+				temp.setDailyDoseRemaining(temp.getDailydose() - rs2.getInt(2));
 				temp.setDrugName(rs3.getString(1));
 				temp.setTotalQuantityRemaining(max - rs2.getInt(1));
 				if (temp.getDailyDoseRemaining() == 0 && temp.getTotalQuantityRemaining() != 0) {

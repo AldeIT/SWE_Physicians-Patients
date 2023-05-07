@@ -3,6 +3,7 @@ package controller;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -30,8 +31,10 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import javafx.util.converter.IntegerStringConverter;
 import model.DB_Model;
 import model.Drug;
 import model.Pathology;
@@ -175,10 +178,19 @@ public class showPatientViewController {
     private Button btnInsertNewTherapy;
     
     @FXML
-    private Button btnDeleteTherapy;
+    private Button btnEndTherapy;
     
     @FXML
     private Button btnUpdateTherapy;
+    
+    @FXML
+    private TextField textFieldDailyDose;
+
+    @FXML
+    private TextField textFieldDirections;
+
+    @FXML
+    private TextField textFieldQuantity;
 	
 	LocalDateTime defaultStart;
 	
@@ -231,6 +243,8 @@ public class showPatientViewController {
 
 		setAllTherapies();
 			
+		setDrugChoiceBox();
+		
 		
 		this.tabpane.getSelectionModel().selectedItemProperty().addListener((observable, oldTab, newTab) -> {
 		    if (newTab.getId().equals("backToPhysician")) {
@@ -262,9 +276,34 @@ public class showPatientViewController {
 		        stage.setResizable(true);
 				stage.show();
 		    }
+		    if (newTab.getId().equals("measurement")) {
+		    	try {
+					setLineChartMeasurement(defaultStart, defaultEnd);
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		    }
 		});
 	}
 	
+	private void setDrugChoiceBox() throws SQLException {
+		String q = "SELECT * FROM Drug;";
+		
+		ResultSet rs = db.runQuery(q);
+		
+		ObservableList<Drug> allDrugs = FXCollections.observableArrayList();
+		
+		
+		
+		while(rs.next()) {
+			allDrugs.add(new Drug(rs.getInt(1), rs.getString(2), rs.getString(3)));
+		}
+		
+		choiceBoxDrug.setItems(allDrugs);
+		
+	}
+
 	void setLineChartMeasurement(LocalDateTime start, LocalDateTime end) throws SQLException {
 		linechartMeasurement.getData().clear();
 		XYChart.Series<String, Integer> sbpSeries = new XYChart.Series<>();
@@ -401,10 +440,14 @@ public class showPatientViewController {
 
 		tableViewAllTherapiesID.setEditable(true);
 
-		tableViewAllTherapiesDailyDose.setCellValueFactory(new PropertyValueFactory<>("daily_dose"));
+		tableViewAllTherapiesDailyDose.setCellValueFactory(new PropertyValueFactory<>("dailydose"));
+
+		tableViewAllTherapiesDailyDose.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
 		tableViewAllTherapiesDailyDose.setEditable(true);
 		
 		tableViewAllTherapiesQuantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+
+		tableViewAllTherapiesQuantity.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
 		tableViewAllTherapiesQuantity.setEditable(true);
 		
 		tableViewAllTherapiesStartDate.setCellValueFactory(new PropertyValueFactory<>("startDate"));
@@ -414,6 +457,8 @@ public class showPatientViewController {
 		tableViewAllTherapiesEndDate.setEditable(true);
 		
 		tableViewAllTherapiesDirections.setCellValueFactory(new PropertyValueFactory<>("directions"));
+
+		tableViewAllTherapiesDirections.setCellFactory(TextFieldTableCell.forTableColumn());
 		tableViewAllTherapiesDirections.setEditable(true);
 		
 		tableViewAllTherapiesIDDrug.setCellValueFactory(new PropertyValueFactory<>("IDDrug"));
@@ -425,12 +470,53 @@ public class showPatientViewController {
 	
 
     @FXML
-    void btnInsertNewTherapyOnClicked(ActionEvent event) {
+    void btnInsertNewTherapyOnClicked(ActionEvent event) throws SQLException, ParseException {
+    	
+    	int daily_dose = Integer.parseInt(textFieldDailyDose.getText());
+    	int quantity = Integer.parseInt(textFieldQuantity.getText());
+    	String directions = textFieldDirections.getText();
+    	
+    	Drug selectedItem = choiceBoxDrug.getValue();
+    	
+    	if (selectedItem == null) {
+    		System.out.println("Non ha selezionato nulla");
+    		return;
+    	}
+    	
+    	db.insertTherapy(daily_dose, quantity, directions, LocalDate.now(), null, selectedItem.getId(), patient.getCF(), myPhysician.getCF());
+    	setAllTherapies();
     	System.out.println("Insert New Therapy Clicked");
     }
     
     @FXML
-    void bntUpdateTherapyOnClicked(ActionEvent event) {
+    void bntUpdateTherapyOnClicked(ActionEvent event) throws SQLException {
+    	
+    	ObservableList<Therapy> allItems = tableViewAllTherapies.getItems();
+    	
+    	if (allItems == null) {
+    		return;
+    	}
+    	String q, directions;
+    	int dailyDose, quantity;
+    	for (Therapy t: allItems) {
+    		dailyDose = (Integer) tableViewAllTherapies.getColumns().get(1).getCellObservableValue(t).getValue();
+            quantity = (Integer) tableViewAllTherapies.getColumns().get(2).getCellObservableValue(t).getValue();
+            directions = (String) tableViewAllTherapies.getColumns().get(3).getCellObservableValue(t).getValue();
+    		q = "UPDATE Therapy SET dailydose='" + dailyDose + "', quantity='" + quantity + "', directions='" + directions + "' WHERE id='" + t.getID() + "';";
+    		db.runStatement(q);
+    		
+    		System.out.println("Modified : " + dailyDose + ",   " + quantity);
+    	}
+    	
+    	
+    	
+    	
+    	setAllTherapies();
+    }
+
+    @FXML
+    void btnEndTherapyOnClicked(ActionEvent event) throws SQLException, ParseException {
+    	
     	SelectionModel<Therapy> selectionModel = tableViewAllTherapies.getSelectionModel();
     	
     	Therapy selectedRow = selectionModel.getSelectedItem();
@@ -439,12 +525,18 @@ public class showPatientViewController {
     		return;
     	}
     	
-    	System.out.println("Update Therapy: " + selectedRow);
-    }
-
-    @FXML
-    void btnDeleteTherapyOnClicked(ActionEvent event) {
-    	System.out.println("Delete Therapy");
+    	int idDelete = selectedRow.getID();
+    	
+    	LocalDate now = LocalDate.now();
+    	
+    	Long timestamp = db.LocalDateToLong(now);
+    	
+    	String q = "UPDATE Therapy SET endDate='" + timestamp + "' WHERE id='" + idDelete + "';";
+    	
+    	db.runStatement(q);
+    	
+    	System.out.println("Delete Therapy: " + selectedRow);
+    	setAllTherapies();
     }
 
 	  

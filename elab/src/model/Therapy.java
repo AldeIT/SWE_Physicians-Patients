@@ -13,7 +13,7 @@ import javafx.beans.property.StringProperty;
 
 public class Therapy {
     private ReadOnlyIntegerWrapper id = new ReadOnlyIntegerWrapper(this,"id");
-    private IntegerProperty daily_dose = new SimpleIntegerProperty(this,"daily_dose");
+    private IntegerProperty dailydose = new SimpleIntegerProperty(this,"dailydose");
     private IntegerProperty quantity = new SimpleIntegerProperty(this,"quantity");
     private StringProperty directions = new SimpleStringProperty(this,"directions");
     private ObjectProperty<LocalDate> startDate = new SimpleObjectProperty<>(this, "startDate");
@@ -28,7 +28,7 @@ public class Therapy {
     
     public Therapy(int id, int daily_dose, int quantity, String directions, LocalDate startDate, LocalDate endDate, int IDDrug, String CFPatient, String CFPhysician){
         this.id.set(id);
-        this.daily_dose.set(daily_dose);
+        this.dailydose.set(daily_dose);
         this.quantity.set(quantity);
         this.directions.set(directions);
         this.startDate.set(startDate);
@@ -52,17 +52,17 @@ public class Therapy {
     }
 
     /*gets the dailyDose*/
-    public int getDaily_dose(){
-        return daily_dose.get();
+    public int getDailydose(){
+        return dailydose.get();
     }
     
-    public void setDaily_dose(int daily_dose) {
-    	this.daily_dose.set(daily_dose);
+    public void setDailydose(int daily_dose) {
+    	this.dailydose.set(daily_dose);
     }
 
     /*gets the dailyDoseProperty*/
-    public IntegerProperty dailyDoseProperty(){
-        return daily_dose;
+    public IntegerProperty dailydoseProperty(){
+        return dailydose;
     }
 
     /*gets the quantity*/

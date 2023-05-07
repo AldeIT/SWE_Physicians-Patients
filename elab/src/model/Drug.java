@@ -46,6 +46,6 @@ public class Drug {
 
     @Override
 	public String toString() {
-		return "Drug: " + getId() + ", " + getName() + ", " + getDescription();
+		return "IDDrug: " + getId() + ", Name: " + getName();
 	}
 }

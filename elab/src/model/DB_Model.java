@@ -66,7 +66,7 @@ public class DB_Model {
     
     /*Performs a statement*/
     public void runStatement(String s) throws SQLException {
-
+    	log(s);
         Statement stmt  = conn.createStatement();
         stmt.executeUpdate(s);
     }
@@ -984,7 +984,7 @@ public class DB_Model {
     	ObservableList<Therapy> therapies = FXCollections.<Therapy>observableArrayList(
                 therapy -> new Observable[] {
                         therapy.idProperty(), 
-                        therapy.dailyDoseProperty(),
+                        therapy.dailydoseProperty(),
                         therapy.quantityProperty(),
                         therapy.directionsProperty(),
                         therapy.startDateProperty(),
@@ -1028,13 +1028,13 @@ public class DB_Model {
 		String q;
 		if (endDate == null) {
 			q = "INSERT INTO Therapy(dailydose, quantity, directions, startDate, IDdrug, CFpatient, CFphysician)\n" +
-	                "VALUES ('"+ therapy.getDaily_dose() + "', '"+ therapy.getQuantity() + "', '" + therapy.getDirections() + "', '" + startDateLong + "', '" + therapy.getIDDrug() + "', '" + therapy.getCFPatient() + "', '" + therapy.getCFPhysician() + "')\n" +
+	                "VALUES ('"+ therapy.getDailydose() + "', '"+ therapy.getQuantity() + "', '" + therapy.getDirections() + "', '" + startDateLong + "', '" + therapy.getIDDrug() + "', '" + therapy.getCFPatient() + "', '" + therapy.getCFPhysician() + "')\n" +
 	                ";";
 			
 		}else {
 			Long endDateLong =  LocalDateToLong(endDate);
 			q = "INSERT INTO Therapy(dailydose, quantity, directions, startDate, endDate, IDdrug, CFpatient, CFphysician)\n" +
-	                "VALUES ('"+ therapy.getDaily_dose() + "', '"+ therapy.getQuantity() + "', '" + therapy.getDirections() + "', '" + startDateLong + "', '" + endDateLong + "', '" + therapy.getIDDrug() + "', '" + therapy.getCFPatient() + "', '" + therapy.getCFPhysician() + "')\n" +
+	                "VALUES ('"+ therapy.getDailydose() + "', '"+ therapy.getQuantity() + "', '" + therapy.getDirections() + "', '" + startDateLong + "', '" + endDateLong + "', '" + therapy.getIDDrug() + "', '" + therapy.getCFPatient() + "', '" + therapy.getCFPhysician() + "')\n" +
 	                ";";
 		}    
         

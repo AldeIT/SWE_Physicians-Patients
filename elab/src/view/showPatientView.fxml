@@ -94,7 +94,7 @@
                         <Label layoutX="296.0" layoutY="640.0" text="Drug" />
                         <Button fx:id="btnInsertNewTherapy" layoutX="468.0" layoutY="702.0" mnemonicParsing="false" onAction="#btnInsertNewTherapyOnClicked" text="Insert New Therapy" />
                         <Button fx:id="btnUpdateTherapy" layoutX="716.0" layoutY="369.0" mnemonicParsing="false" onAction="#bntUpdateTherapyOnClicked" text="Update" />
-                        <Button fx:id="btnDeleteTherapy" layoutX="786.0" layoutY="369.0" mnemonicParsing="false" onAction="#btnDeleteTherapyOnClicked" text="Delete" />
+                        <Button fx:id="btnEndTherapy" layoutX="786.0" layoutY="369.0" mnemonicParsing="false" onAction="#btnEndTherapyOnClicked" text="End" />
                      </children></AnchorPane>
               </content>
                <graphic>
