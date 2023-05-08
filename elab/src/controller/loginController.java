@@ -3,6 +3,7 @@ package controller;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -151,6 +152,7 @@ public class loginController {
 			        stage.setMinHeight(1000);
 			        stage.setResizable(true);
 					stage.show();
+					controller.firstAlert();
 					
 				}
 			}else {
@@ -163,6 +165,9 @@ public class loginController {
 			
 
 		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

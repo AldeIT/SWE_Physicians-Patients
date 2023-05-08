@@ -242,10 +242,11 @@ public class DB_Model {
 			Pathology pathology = insertPathology("sla");
 			Pathology pathology1 = insertPathology("monucleosi");
 			Pathology pathology2 = insertPathology("pressione bassa");
+			Pathology pathology3 = insertPathology("caviglia slogata");
 			
-			PatientPathology patient_pathology = insertPatientPathology("VNTDVD02D17L949T", 1, LocalDate.of(2015, 5, 1), null);
-			PatientPathology patient_pathology1 = insertPatientPathology("VNTDVD02D17L949T", 2, LocalDate.of(2015, 5, 1), null);
-			PatientPathology patient_pathology2 = insertPatientPathology("VNTDVD02D17L949T", 3, LocalDate.of(2015, 5, 1), LocalDate.of(2016, 6, 5));
+			PatientPathology patient_pathology = insertPatientPathology("VNTDVD02D17L949I", 1, LocalDate.of(2015, 5, 1), null);
+			PatientPathology patient_pathology1 = insertPatientPathology("VNTDVD02D17L949I", 2, LocalDate.of(2015, 5, 1), null);
+			PatientPathology patient_pathology2 = insertPatientPathology("VNTDVD02D17L949I", 3, LocalDate.of(2015, 5, 1), LocalDate.of(2016, 6, 5));
 			
 			Measurement measurement = insertMeasurement(120, 90, LocalDateTime.of(2023, 5, 7, 8, 0, 0), "speriamo tutto bene", "VNTDVD02D17L949I");
 			Measurement measurement1 = insertMeasurement(210, 110, LocalDateTime.of(2023, 5, 4, 15, 0, 0), "segala >>>>", "VNTDVD02D17L949I");
@@ -253,7 +254,7 @@ public class DB_Model {
 			Measurement measurement3 = insertMeasurement(160, 110, LocalDateTime.of(2023, 4, 17, 15, 0, 0), "blabla", "VNTDVD02D17L949I");
 			Measurement measurement4 = insertMeasurement(170, 70, LocalDateTime.of(2023, 4, 21, 15, 0, 0), "blabla", "VNTDVD02D17L949I");
 			Measurement measurement5 = insertMeasurement(180, 80, LocalDateTime.of(2023, 4, 18, 9, 0, 0), "blabla", "VNTDVD02D17L949I");
-			Measurement measurement6 = insertMeasurement(190, 60, LocalDateTime.of(2023, 4, 17, 15, 0, 0), "blabla", "VNTDVD02D17L949I");
+			Measurement measurement6 = insertMeasurement(190, 60, LocalDateTime.of(2023, 4, 17, 18, 0, 0), "blabla", "VNTDVD02D17L949I");
 			
 			
 			Symptom symptom = insertSymptom("crampi");
@@ -875,6 +876,24 @@ public class DB_Model {
                     "VALUES ('" + CFPatient + "', '"+ idPathology + "', '"+ timestamp + "', '" + timestamp1 + "')\n" +
                     ";";
         }
+        
+        int id = runStatementWithOutput(q);
+        if (id != 0)return patientPathology;
+        return null;
+	}
+	
+	/*Tries to insert a new PatientPathology*/
+	public PatientPathology insertPatientPathology(String CFPatient, int idPathology, LocalDate startDate) throws SQLException, ParseException {
+		log("Add PatientPathology " + CFPatient+ "  " + idPathology + " " + startDate);
+        PatientPathology patientPathology = new PatientPathology(startDate, null, CFPatient, idPathology);      
+        long timestamp = LocalDateToLong(startDate);
+        long timestamp1;
+        String q;
+        
+        q = "INSERT INTO patient_pathology(CFpatient, IDpathology, startDate)\n" +
+                    "VALUES ('" + CFPatient + "', '"+ idPathology + "', '"+ timestamp + "')\n" +
+                    ";";
+        
         
         int id = runStatementWithOutput(q);
         if (id != 0)return patientPathology;

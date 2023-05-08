@@ -9,6 +9,8 @@ public class Patient extends User {
 	
 	private StringProperty informations = new SimpleStringProperty(this, "informations");
 	private StringProperty CFPhysician = new SimpleStringProperty(this, "CFPhysician");
+	private BloodPressure bloodPressure;
+	private StringProperty bloodPressureString = new SimpleStringProperty(this, "bloodPressureString");
 
 	public Patient(String CF, String email, String password, String name, String surname, String sex,
 			LocalDate birthdate, String nationality, String street, int civic_number, int cap, String city,
@@ -33,6 +35,25 @@ public class Patient extends User {
 	/*gets the informationsProperty*/
 	public StringProperty informationsProperty() {
 		return informations;
+	}
+	
+	public void setInformations(String informations) {
+		this.informations.set(informations);
+	}
+	
+	public void setBloodPressure(BloodPressure bloodPressure) {
+		this.bloodPressure = bloodPressure;
+		this.bloodPressureString.set(bloodPressure.toString());
+	}
+	
+	/*gets the informations*/
+	public String getBloodPressureString() {
+		return bloodPressureString.get();
+	}
+	
+	/*gets the informationsProperty*/
+	public StringProperty bloodPressureStringProperty() {
+		return bloodPressureString;
 	}
 	
 	/*gets the CFPhysician*/

@@ -105,6 +105,20 @@
                   </ImageView>
                </graphic>
           </Tab>
+          
+          <Tab fx:id="backToLogin">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="486.0" prefWidth="667.0" />
+            </content>
+               <graphic>
+                  <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/goBack.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+          </Tab>
+          
         </tabs>
       </TabPane>
    </children>

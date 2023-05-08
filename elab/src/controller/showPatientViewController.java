@@ -39,6 +39,7 @@ import model.DB_Model;
 import model.Drug;
 import model.Pathology;
 import model.Patient;
+import model.PatientPathology;
 import model.Physician;
 import model.Symptom;
 import model.Therapy;
@@ -191,6 +192,30 @@ public class showPatientViewController {
 
     @FXML
     private TextField textFieldQuantity;
+    
+    @FXML
+    private Button btnAddPathologies;
+
+    @FXML
+    private Button btnEndPathology;
+    
+    @FXML
+    private ChoiceBox<Pathology> choiceBoxPathologies;
+    
+    @FXML
+    private TableView<PatientPathology> tableViewMyPathologies;
+
+    @FXML
+    private TableColumn<PatientPathology, String> tableViewMyPathologiesDescription;
+
+    @FXML
+    private TableColumn<PatientPathology, LocalDate> tableViewMyPathologiesEndDate;
+
+    @FXML
+    private TableColumn<PatientPathology, Integer> tableViewMyPathologiesID;
+
+    @FXML
+    private TableColumn<PatientPathology, LocalDate> tableViewMyPathologiesStartDate;
 	
 	LocalDateTime defaultStart;
 	
@@ -202,6 +227,7 @@ public class showPatientViewController {
 		 
 		 if (!content.equals(patient.getInformations())) {
 			 db.updatePatient(patient.getCF(), content);
+			 this.patient.setInformations(content);
 		 }
 	 }
 	
@@ -210,16 +236,7 @@ public class showPatientViewController {
 		this.myPhysician = new Physician (physician);
 	}
 	
-	void initInfo() throws SQLException {
-		
-		try {
-			db = DB_Model.getInstance();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		System.out.println("init");
+	void setLabels() {
 		labelCF.setText(patient.getCF());
 		labelName.setText(patient.getName());
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -235,19 +252,34 @@ public class showPatientViewController {
 		labelCity.setText(patient.getCity());
 		labelCivicNumber.setText(Integer.toString(patient.getCivicNumber()));
 		textFieldInformations.setText(patient.getInformations());
-			
+	}
+	
+	void initInfo() throws SQLException {
+		
+		try {
+			db = DB_Model.getInstance();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		System.out.println("init");
+		
+		setLabels();	
 		
 		defaultStart = LocalDateTime.of(2000, 1, 1, 9, 0, 0);
 		defaultEnd = LocalDateTime.of(2040, 1, 1, 9, 0, 0);
-		setLineChartMeasurement(defaultStart, defaultEnd);
 
-		setAllTherapies();
+		
 			
-		setDrugChoiceBox();
+		
+		
+		
 		
 		
 		this.tabpane.getSelectionModel().selectedItemProperty().addListener((observable, oldTab, newTab) -> {
 		    if (newTab.getId().equals("backToPhysician")) {
+		    	
 		    	/*Getting the fxml*/
 				FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/physicianView.fxml"));
 				Parent root = null;
@@ -265,6 +297,9 @@ public class showPatientViewController {
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
 				System.out.println("Switchamo Scene");
 				/*Setting the scene*/
@@ -275,10 +310,37 @@ public class showPatientViewController {
 		        stage.setMinHeight(1000);
 		        stage.setResizable(true);
 				stage.show();
+				this.patient = null;
+		    	this.myPhysician = null;
 		    }
-		    if (newTab.getId().equals("measurement")) {
+		    if (newTab.getId().equals("measurementTab")) {
 		    	try {
 					setLineChartMeasurement(defaultStart, defaultEnd);
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		    }
+		    
+		    if (newTab.getId().equals("dashboardTab")) {
+		    	setLabels();
+		    }
+		    
+		    if (newTab.getId().equals("therapiesTab")) {
+		    	try {
+					setAllTherapies();
+					setDrugChoiceBox();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		    }
+		    
+		    if (newTab.getId().equals("pathologiesTab")) {
+		    	try {
+		    		setMyPathologies();
+		    		
+		    		setChoiceBoxPathologies();
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -337,6 +399,7 @@ public class showPatientViewController {
 		HashMap<Integer, Pathology> uniquePathologies = new HashMap<>();
 		
 		while (rs.next()) {
+			System.out.println("Datetime: " + rs.getTimestamp("datetime"));
 			getSymptoms = "SELECT id, description FROM Symptom INNER JOIN measurement_symptom ms ON Symptom.id=ms.IDsymptom WHERE IDmeasurement='" + rs.getInt(4) + "';";
 			getTherapies = "SELECT * FROM Therapy INNER JOIN measurement_therapy ms ON Therapy.id=ms.IDtherapy WHERE IDmeasurement='" + rs.getInt(4) + "';";
 			getPathologies = "SELECT * FROM Pathology INNER JOIN measurement_pathology ms ON Pathology.id=ms.IDpathology WHERE IDmeasurement='" + rs.getInt(4) + "';";
@@ -404,8 +467,8 @@ public class showPatientViewController {
 	@FXML
     void datePickerMeasurementOnAction(ActionEvent event) throws SQLException {
 		System.out.println("ORA");
-		LocalDateTime start = datePickerMeasurementStart.getValue() == null ? null : datePickerMeasurementStart.getValue().atTime(LocalTime.now());
-		LocalDateTime end = datePickerMeasurementEnd.getValue() == null ? null : datePickerMeasurementEnd.getValue().atTime(LocalTime.now());
+		LocalDateTime start = datePickerMeasurementStart.getValue() == null ? null : datePickerMeasurementStart.getValue().atTime(LocalTime.of(1, 0));
+		LocalDateTime end = datePickerMeasurementEnd.getValue() == null ? null : datePickerMeasurementEnd.getValue().atTime(LocalTime.of(23, 59));
 		setLineChartMeasurement(start, end);
     }
 	
@@ -538,7 +601,97 @@ public class showPatientViewController {
     	System.out.println("Delete Therapy: " + selectedRow);
     	setAllTherapies();
     }
+    
+    void setMyPathologies() throws SQLException {
+    	String q = "SELECT IDpathology, description, startDate, endDate FROM patient_pathology INNER JOIN pathology on pathology.id=patient_pathology.IDpathology \n" +
+    				"WHERE CFpatient='" + patient.getCF() + "';"
+    			;
+    	
+    	ResultSet rs = db.runQuery(q);
+		
+		ObservableList<PatientPathology> allMyPathologies = FXCollections.<PatientPathology>observableArrayList();
+		
+		while(rs.next()) {
+			
+			allMyPathologies.add(new PatientPathology(
+					rs.getTimestamp("startDate").toLocalDateTime().toLocalDate(),
+					rs.getTimestamp("endDate") == null ? null : rs.getTimestamp("endDate").toLocalDateTime().toLocalDate(),
+					patient.getCF(),
+					rs.getInt("IDpathology"),
+					rs.getString("description")
+					));
+		}
+		
+		tableViewMyPathologies.setItems(allMyPathologies);
+		tableViewMyPathologiesDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
+		tableViewMyPathologiesStartDate.setCellValueFactory(new PropertyValueFactory<>("startdate"));
+		tableViewMyPathologiesEndDate.setCellValueFactory(new PropertyValueFactory<>("enddate"));
+    	
+    	
+    }
+    
+    void setChoiceBoxPathologies() throws SQLException {
+    	String q = "SELECT * FROM Pathology;";
+		
+		ResultSet rs = db.runQuery(q);
+		
+		ObservableList<Pathology> allPathologies = FXCollections.observableArrayList();
+		
+		
+		
+		while(rs.next()) {
+			allPathologies.add(new Pathology(rs.getInt(1), rs.getString(2)));
+		}
+		
+		choiceBoxPathologies.setItems(allPathologies);
+    }
 
-	  
+    @FXML
+    void btnAddPathologiesOnClicked(ActionEvent event) throws SQLException {
+    	
+    	Pathology selectedItem = choiceBoxPathologies.getValue();
+    	
+    	if (selectedItem == null) {
+    		return;
+    	}
+    	
+    	try {
+			db.insertPatientPathology(patient.getCF(), selectedItem.getID(), LocalDate.now());
+		} catch (SQLException e) {
+			
+		} catch (ParseException e) {
+		}
+    	
+    	System.out.println("ZIOBOIA");
+    	setMyPathologies();
+    }
+
+    @FXML
+    void btnEndPathologyOnClicked(ActionEvent event) throws ParseException, SQLException {
+    	
+    	SelectionModel<PatientPathology> selectionModel = tableViewMyPathologies.getSelectionModel();
+    	
+    	PatientPathology selectedRow = selectionModel.getSelectedItem();
+    	
+    	if (selectedRow == null) {
+    		return;
+    	}
+    	
+    	int idDelete = selectedRow.getIdPathology();
+    	
+    	LocalDate now = LocalDate.now();
+    	
+    	Long timestamp = db.LocalDateToLong(now);
+    	
+    	String q = "UPDATE patient_pathology SET endDate='" + timestamp + "' WHERE IDpathology='" + idDelete + "' AND endDate IS NULL;";
+    	
+    	db.runStatement(q);
+    	
+    	System.out.println("Delete PatientPathology: " + selectedRow);
+    	setMyPathologies();
+    	System.out.println("ZIOSANTO");
+    } 
+    
+    
 
 }

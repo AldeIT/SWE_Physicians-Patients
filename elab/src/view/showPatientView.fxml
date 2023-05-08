@@ -21,7 +21,7 @@
    <children>
       <TabPane fx:id="tabpane" prefHeight="1000.0" prefWidth="1000.0" side="LEFT" stylesheets="@../css/tablePane.css" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <tabs>
-          <Tab fx:id="dashboardPatients">
+          <Tab fx:id="dashboardTab">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
@@ -64,7 +64,7 @@
                   </ImageView>
                </graphic>
           </Tab>
-            <Tab fx:id="test">
+            <Tab fx:id="therapiesTab">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
@@ -106,7 +106,7 @@
                </graphic>
             </Tab>
             
-             <Tab fx:id="measurement">
+             <Tab fx:id="measurementTab">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
@@ -148,6 +148,37 @@
                   <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/blood-pressure.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Tab>
+            
+            <Tab fx:id="pathologiesTab">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="tableViewMyPathologies" layoutX="119.0" layoutY="138.0" prefHeight="200.0" prefWidth="640.0">
+                          <columns>
+                            <TableColumn fx:id="tableViewMyPathologiesDescription" prefWidth="260.0" text="Description" />
+                              <TableColumn fx:id="tableViewMyPathologiesStartDate" prefWidth="75.0" text="Start Date" />
+                              <TableColumn fx:id="tableViewMyPathologiesEndDate" prefWidth="75.0" text="End Date" />
+                          </columns>
+                        </TableView>
+                        <ChoiceBox fx:id="choiceBoxPathologies" layoutX="240.0" layoutY="406.0" prefWidth="150.0" />
+                        <Button fx:id="btnAddPathologies" layoutX="598.0" layoutY="406.0" mnemonicParsing="false" onAction="#btnAddPathologiesOnClicked" text="ADD" />
+                        <Label layoutX="381.0" layoutY="43.0" prefHeight="32.0" prefWidth="175.0" text="PATHOLOGIES">
+                           <font>
+                              <Font size="22.0" />
+                           </font>
+                        </Label>
+                        <Button fx:id="btnEndPathology" layoutX="797.0" layoutY="226.0" mnemonicParsing="false" onAction="#btnEndPathologyOnClicked" text="END" />
+                     </children>
+                </AnchorPane>
+              </content>
+               <graphic>
+                  <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/coronavirus.png" />
                      </image>
                   </ImageView>
                </graphic>

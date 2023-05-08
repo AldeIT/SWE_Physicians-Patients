@@ -5,6 +5,8 @@
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -15,11 +17,27 @@
    <children>
       <TabPane fx:id="tabpane" prefHeight="1000.0" prefWidth="1000.0" side="LEFT" stylesheets="@../css/tablePane.css" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <tabs>
-            <Tab>
+            <Tab fx:id="checkTab">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <Label fx:id="drugLabel" layoutX="319.0" layoutY="236.0" text="Gestione Assunzioni" />
+                        <TableView fx:id="tableViewBloodPressure" layoutX="137.0" layoutY="136.0" prefHeight="200.0" prefWidth="663.0">
+                          <columns>
+                            <TableColumn fx:id="tableViewBloodPressureName" prefWidth="84.0" text="Name" />
+                            <TableColumn fx:id="tableViewBloodPressureSurname" prefWidth="93.0" text="Surname" />
+                              <TableColumn fx:id="tableViewBloodPressureBP" prefWidth="209.0" text="Blood Pressure" />
+                              <TableColumn fx:id="tableViewBloodPressureEmail" prefWidth="204.0" text="Email" />
+                          </columns>
+                        </TableView>
+                        <TableView fx:id="tableViewTherapiesNotTaken" layoutX="137.0" layoutY="439.0" prefHeight="200.0" prefWidth="663.0">
+                           <columns>
+                              <TableColumn fx:id="tableViewTherapiesNotTakenName" prefWidth="99.0" text="Name" />
+                              <TableColumn fx:id="tableViewTherapiesNotTakenSurname" prefWidth="101.0" text="Surname" />
+                              <TableColumn fx:id="tableViewTherapiesNotTakenTherapy" prefWidth="86.0" text="Therapy" />
+                              <TableColumn fx:id="tableViewTherapiesNotTakenRemaining" prefWidth="168.0" text="Not Taken" />
+                              <TableColumn fx:id="tableViewTherapiesNotTakenEmail" prefWidth="208.0" text="Email" />
+                           </columns>
+                        </TableView>
                      </children></AnchorPane>
               </content>
                <graphic>
@@ -30,7 +48,7 @@
                   </ImageView>
                </graphic>
             </Tab>
-          <Tab>
+          <Tab fx:id="patientsTab">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
@@ -52,7 +70,7 @@
                   </ImageView>
                </graphic>
           </Tab>
-          <Tab>
+          <Tab fx:id="profileTab">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="486.0" prefWidth="667.0">
                      <children>
@@ -86,6 +104,19 @@
                   <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/user.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+          </Tab>
+          
+          <Tab fx:id="backToLogin">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="486.0" prefWidth="667.0" />
+            </content>
+               <graphic>
+                  <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/goBack.png" />
                      </image>
                   </ImageView>
                </graphic>

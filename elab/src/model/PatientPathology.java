@@ -10,10 +10,11 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 public class PatientPathology {
-	private ObjectProperty<LocalDate> startDate = new SimpleObjectProperty<>(this, "date", null);
-	private ObjectProperty<LocalDate> endDate = new SimpleObjectProperty<>(this, "date", null);
+	private ObjectProperty<LocalDate> startDate = new SimpleObjectProperty<>(this, "startdate", null);
+	private ObjectProperty<LocalDate> endDate = new SimpleObjectProperty<>(this, "enddate", null);
 	private StringProperty CFPatient = new SimpleStringProperty(this, "CFPhysician");
 	private IntegerProperty idPathology = new SimpleIntegerProperty(this,"done");
+	private StringProperty description = new SimpleStringProperty(this, "description");
 	
 	public PatientPathology(LocalDate startDate, LocalDate endDate, String CFPatient, int idPathology) {
 		this.startDate.set(startDate);
@@ -22,8 +23,16 @@ public class PatientPathology {
 		this.idPathology.set(idPathology);
 	}
 	
+	public PatientPathology(LocalDate startDate, LocalDate endDate, String CFPatient, int idPathology, String description) {
+		this.startDate.set(startDate);
+		this.endDate.set(endDate);
+		this.CFPatient.set(CFPatient);
+		this.idPathology.set(idPathology);
+		this.description.set(description);
+	}
+	
 	/*get the startDate*/
-	public LocalDate getStartDate() {
+	public LocalDate getStartdate() {
 		return startDate.get();
 	}
 	
@@ -33,7 +42,7 @@ public class PatientPathology {
 	}
 	
 	/*get the endDate*/
-	public LocalDate getEndDate() {
+	public LocalDate getEnddate() {
 		return endDate.get();
 	}
 	
@@ -52,6 +61,16 @@ public class PatientPathology {
 		return CFPatient;
 	}
 	
+	/*gets the cfpatient*/
+	public String getDescription() {
+		return description.get();
+	}
+	
+	/*gets the cfPatientProperty*/
+	public StringProperty descriptionProperty() {
+		return description;
+	}
+	
 	/*gets the idPathology*/
     public int getIdPathology(){
         return idPathology.get();
@@ -63,6 +82,6 @@ public class PatientPathology {
     }
     
     public String toString(){
-		return "CFpatient: " + getCFPatient() + ", idPathology: " + getIdPathology() + ", startDate: " + getStartDate().toString() + ", endDate: " + (getEndDate()==null ? 99999999 : getEndDate().toString());
+		return "CFpatient: " + getCFPatient() + ", idPathology: " + getIdPathology() + ", startDate: " + getStartdate().toString() + ", endDate: " + (getEnddate()==null ? 99999999 : getEnddate().toString());
 	}
 }

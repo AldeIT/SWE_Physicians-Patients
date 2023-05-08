@@ -1,5 +1,6 @@
 package controller;
 
+import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -16,15 +17,20 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MultipleSelectionModel;
 import javafx.scene.control.SelectionMode;
+import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 import model.DB_Model;
 import model.Measurement;
 import model.MeasurementPathology;
@@ -126,6 +132,10 @@ public class patientViewController {
     @FXML
     private TabPane tabpane;
 
+
+    @FXML
+    private Tab drugTab;
+    
     
     /**
      * Sets the session for the controller
@@ -152,12 +162,94 @@ public class patientViewController {
 		setCurrentTherapies();
 		
 		this.tabpane.getSelectionModel().selectedItemProperty().addListener((observable, oldTab, newTab) -> {
-		    if (newTab.getId().equals("profileTab")) {
-		        System.out.println("HERE");
+		    
+		    
+		    if (newTab.getId().equals("measurementTab")) {
+		    	try {
+					setCurrentSymptoms();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		    }
+		    
+		    if (newTab.getId().equals("drugTab")) {
+		    	try {
+					setCurrentTherapies();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		    }
+		    
+		    if (newTab.getId().equals("backToLogin")) {
+		    	this.session = null;
+		    	FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/login.fxml"));
+				Parent root = null;
+				try {
+					root = loader.load();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				System.out.println("Switchamo Scene");
+				/*Setting the scene*/
+				Scene scene = new Scene(root);
+				Stage stage = (Stage) tabpane.getScene().getWindow();
+				stage.setScene(scene);
+				stage.setMinWidth(1000);
+		        stage.setMinHeight(1000);
+		        stage.setResizable(true);
+				stage.show();
 		    }
 		});
 		
 		
+		
+		
+		
+
+		
+		
+	}
+	
+	public void firstAlert() throws SQLException {
+		
+		String q = "SELECT * FROM Therapy\n"
+				+ "WHERE CFpatient='" + session.getCF()
+				+ "' AND endDate IS NULL";
+		
+		ResultSet rs = db.runQuery(q), rs2, rs3;
+		
+		String queryName, countIntakes, nameDrug;
+		
+		LocalDate today = LocalDate.now();
+    	LocalDateTime startOfDay = LocalDateTime.of(today, LocalTime.MIDNIGHT);
+    	LocalDateTime endOfDay = LocalDateTime.of(today, LocalTime.MAX);
+    	long startDay = startOfDay.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+    	long endDay = endOfDay.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+		int taken;
+		String out = "You still have to take\n";
+		while(rs.next()) {
+			queryName = "SELECT name FROM Drug WHERE id='" + rs.getInt("IDdrug") + "';";
+			rs2 = db.runQuery(queryName);
+			nameDrug = rs2.getString(1);
+			countIntakes = "SELECT SUM(quantity) FROM drugIntakes\n" +
+					"WHERE IDtherapy='" + rs.getInt("id") + "' AND datetime>='" + startDay + "' AND datetime<='" + endDay+ "';";
+			rs3 = db.runQuery(countIntakes);
+			taken = rs3.getInt(1);
+			if (taken < rs.getInt("dailydose") * rs.getInt("quantity")) {
+				out += nameDrug + ", Quantity Remaining: " + (rs.getInt("dailydose") * rs.getInt("quantity") - taken) + "\n";
+			}
+		 
+		}
+		
+		
+		
+		Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Warning Daily Doses");
+        alert.setHeaderText(out);
+        alert.showAndWait();
 	}
 	
 	/**
