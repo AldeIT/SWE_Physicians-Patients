@@ -32,6 +32,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.util.converter.IntegerStringConverter;
@@ -272,8 +273,19 @@ public class showPatientViewController {
 
 		
 			
+		textFieldDailyDose.addEventFilter(KeyEvent.KEY_TYPED, event -> {
+		    String input = event.getCharacter();
+		    if (!input.matches("[0-9]")) {
+		        event.consume();
+		    }
+		});
 		
-		
+		textFieldQuantity.addEventFilter(KeyEvent.KEY_TYPED, event -> {
+		    String input = event.getCharacter();
+		    if (!input.matches("[0-9]")) {
+		        event.consume();
+		    }
+		});
 		
 		
 		
@@ -315,7 +327,9 @@ public class showPatientViewController {
 		    }
 		    if (newTab.getId().equals("measurementTab")) {
 		    	try {
-					setLineChartMeasurement(defaultStart, defaultEnd);
+		    		LocalDateTime start = datePickerMeasurementStart.getValue() == null ? null : datePickerMeasurementStart.getValue().atTime(LocalTime.of(1, 0));
+		    		LocalDateTime end = datePickerMeasurementEnd.getValue() == null ? null : datePickerMeasurementEnd.getValue().atTime(LocalTime.of(23, 59));
+					setLineChartMeasurement(start, end);
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

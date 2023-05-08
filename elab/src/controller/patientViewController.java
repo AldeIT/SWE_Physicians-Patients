@@ -12,6 +12,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
 import java.util.List;
 
+import javafx.application.Platform;
 import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -29,6 +30,7 @@ import javafx.scene.control.SelectionMode;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import model.DB_Model;
@@ -136,6 +138,9 @@ public class patientViewController {
     @FXML
     private Tab drugTab;
     
+    private AlertHandler alert = AlertHandler.getInstance();
+    
+
     
     /**
      * Sets the session for the controller
@@ -143,23 +148,34 @@ public class patientViewController {
      * @param the patient who has authenticated.
      * @throws SQLException if there are any problems getting the instance of the db model.
      */
-	public void setSession(Patient session) throws SQLException {
+	public void setSession(Patient session)  {
 		this.session = new Patient(session);
-		db = DB_Model.getInstance();
+		
+		try {
+			db = DB_Model.getInstance();
+		} catch (SQLException e) {
+			alert.launchAlert(Alert.AlertType.ERROR, "Database Error", "There was an error accessing to the database, going to kill the application");
+			Platform.exit();
+		}
 	}
 	
 	/**
 	 * Initializes a lot of informations, session's labels, listview's content...
+	 * @throws SQLException 
 	 * @throws IllegalArgumentException if either width or height is negative or zero.
 	 */
 	public void initInfo() throws SQLException {
 		System.out.println("init");
 		
 		setLabelsInformations();
+		
 		/**/
-		setCurrentSymptoms();
-		/**/
-		setCurrentTherapies();
+		try {
+			setCurrentTherapies();
+		}catch(SQLException e) {
+			alert.launchAlert(Alert.AlertType.ERROR, "Database Error", "There was an error accessing to the database");
+		}
+		
 		
 		this.tabpane.getSelectionModel().selectedItemProperty().addListener((observable, oldTab, newTab) -> {
 		    
@@ -169,7 +185,7 @@ public class patientViewController {
 					setCurrentSymptoms();
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
-					e.printStackTrace();
+					alert.launchAlert(Alert.AlertType.ERROR, "Database Error", "There was an error accessing to the database");
 				}
 		    }
 		    
@@ -178,7 +194,7 @@ public class patientViewController {
 					setCurrentTherapies();
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
-					e.printStackTrace();
+					alert.launchAlert(Alert.AlertType.ERROR, "Database Error", "There was an error accessing to the database");
 				}
 		    }
 		    
@@ -204,8 +220,27 @@ public class patientViewController {
 		    }
 		});
 		
+
+		textFieldQuantity.addEventFilter(KeyEvent.KEY_TYPED, event -> {
+		    String input = event.getCharacter();
+		    if (!input.matches("[0-9]")) {
+		        event.consume();
+		    }
+		});
 		
+		textFieldSBP.addEventFilter(KeyEvent.KEY_TYPED, event -> {
+		    String input = event.getCharacter();
+		    if (!input.matches("[0-9]")) {
+		        event.consume();
+		    }
+		});
 		
+		textFieldDBP.addEventFilter(KeyEvent.KEY_TYPED, event -> {
+		    String input = event.getCharacter();
+		    if (!input.matches("[0-9]")) {
+		        event.consume();
+		    }
+		});
 		
 		
 
@@ -219,7 +254,13 @@ public class patientViewController {
 				+ "WHERE CFpatient='" + session.getCF()
 				+ "' AND endDate IS NULL";
 		
-		ResultSet rs = db.runQuery(q), rs2, rs3;
+		ResultSet rs;
+		try {
+			rs = db.runQuery(q); 
+		}catch(SQLException e) {
+			return;
+		}
+		ResultSet rs2, rs3;
 		
 		String queryName, countIntakes, nameDrug;
 		
@@ -245,11 +286,8 @@ public class patientViewController {
 		}
 		
 		
+		alert.launchAlert(Alert.AlertType.WARNING, "Warning Daily Doses", out);
 		
-		Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Warning Daily Doses");
-        alert.setHeaderText(out);
-        alert.showAndWait();
 	}
 	
 	/**
@@ -258,6 +296,7 @@ public class patientViewController {
 	 * @param width The width of the rectangle.
 	 * @param height The height of the rectangle.
 	 * @return The area of the rectangle.
+	 * @throws SQLException 
 	 * @throws IllegalArgumentException if either width or height is negative or zero.
 	 */
 	void setLabelsInformations() throws SQLException {
@@ -280,7 +319,17 @@ public class patientViewController {
 		String q = "SELECT * FROM physician\n" +
 				   "WHERE CF= '" + session.getCFPhysician() + "';";
 		
-		ResultSet physician = db.runQuery(q);
+		ResultSet physician = null;
+		try {
+			physician = db.runQuery(q);
+		}catch(SQLException e) {
+			labelPhysicianName.setText("error");
+			labelPhysicianSurname.setText("error");
+			labelPhysicianPhoneNumber.setText("error");
+			labelPhysicianEmail.setText("error");
+			return;
+		}
+		 
 		
 		System.out.println(physician.getString("email"));
 		
@@ -372,27 +421,6 @@ public class patientViewController {
 			
 		}
 		
-		
-    	
-    	
-		/*for (Therapy p: currentTherapies) {
-			max = p.getQuantity() * p.getDailyDose();
-			q = "SELECT SUM(quantity) FROM drugIntakes\n" +
-				"WHERE IDtherapy='" + p.getID() + "' AND datetime>='" + startDay + "' AND datetime<='" + endDay+ "';";
-			
-			
-			
-			rs = db.runQuery(q);
-			
-			if (rs.getInt(1)>=max) {
-				currentTherapies.remove(p);
-			}
-		}*/
-		
-		/*for (Therapy t:currentTherapies) {
-			System.out.println(t);
-		}*/
-		
 		listViewCurrentTherapies.setItems(currentTherapies);
 	}
 	
@@ -414,7 +442,7 @@ public class patientViewController {
 		try {
 			measurement = db.insertMeasurement(sbp, dbp, now, informations, session.getCF());
 		}catch (SQLException e) {
-			e.printStackTrace();
+			alert.launchAlert(Alert.AlertType.ERROR, "Database Error", "Could not insert the new record");
 			//System.out.println();
 			return;
 		}
@@ -436,7 +464,7 @@ public class patientViewController {
 			try {
 				ms = db.insertMeasurementSymptom(idMeasurement, idSymptom);
 			}catch (SQLException e) {
-				e.printStackTrace();
+				alert.launchAlert(Alert.AlertType.ERROR, "Database Error", "Could not insert the new symptom");
 				//System.out.println();
 				return;
 			}
@@ -452,7 +480,7 @@ public class patientViewController {
 			try {
 				mp = db.insertMeasurementPathology(idMeasurement, res.getInt(1));
 			}catch (SQLException e) {
-				e.printStackTrace();
+				alert.launchAlert(Alert.AlertType.ERROR, "Database Error", "Could not insert the new pathology reference");
 				//System.out.println();
 				return;
 			}
@@ -467,7 +495,7 @@ public class patientViewController {
 				try {
 					mt = db.insertMeasurementTherapy(idMeasurement, res.getInt(1));
 				}catch (SQLException e) {
-					e.printStackTrace();
+					alert.launchAlert(Alert.AlertType.ERROR, "Database Error", "Could not insert the new therapy reference");
 					//System.out.println();
 					return;
 				}
@@ -521,24 +549,20 @@ public class patientViewController {
 		}
 		
 		if (textFieldQuantity.getText().equals("")) {
-			Alert alert = new Alert(Alert.AlertType.ERROR);
-	        alert.setTitle("Error Quantity");
-	        alert.setHeaderText("You need to insert a quantity!");
-	        alert.showAndWait();
+			alert.launchAlert(Alert.AlertType.ERROR, "Error Quantity Field", "Quantity input is empty!");
+			
 	        return;
 		}
 		
 		if (Integer.parseInt(textFieldQuantity.getText()) > selected.getQuantityRemaining()) {
-			Alert alert = new Alert(Alert.AlertType.ERROR);
-	        alert.setTitle("Warning Quantity");
-	        alert.setHeaderText("You have taken too much!");
-	        alert.showAndWait();
+			alert.launchAlert(Alert.AlertType.ERROR, "Watch out!", "You have taken more drugs that you should have, please contact you Physician");
+
 		}
 		
 		try {
 			db.insertDrugIntake(0, LocalDateTime.now(), Integer.parseInt(textFieldQuantity.getText()), selected.getID());
 		}catch(SQLException e) {
-			e.printStackTrace();
+			alert.launchAlert(Alert.AlertType.ERROR, "Database Error", "Could not insert the new symptom");
 			//System.out.println();
 			return;
 		} catch (ParseException e) {
