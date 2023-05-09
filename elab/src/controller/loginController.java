@@ -94,7 +94,7 @@ public class loginController {
 		}catch(SQLException e) {
 			Alert alert = new Alert(Alert.AlertType.ERROR);
 	        alert.setTitle("Error Database");
-	        alert.setHeaderText("Error Performign a query");
+	        alert.setHeaderText("Error Performing a query");
 	        alert.showAndWait();
 	        return;
 		}

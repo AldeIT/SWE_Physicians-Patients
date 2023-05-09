@@ -271,7 +271,9 @@ public class patientViewController {
     	long endDay = endOfDay.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
 		int taken;
 		String out = "You still have to take\n";
+		int count = 0;
 		while(rs.next()) {
+			count++;
 			queryName = "SELECT name FROM Drug WHERE id='" + rs.getInt("IDdrug") + "';";
 			rs2 = db.runQuery(queryName);
 			nameDrug = rs2.getString(1);
@@ -285,8 +287,7 @@ public class patientViewController {
 		 
 		}
 		
-		
-		alert.launchAlert(Alert.AlertType.WARNING, "Warning Daily Doses", out);
+		if (count!=0)alert.launchAlert(Alert.AlertType.WARNING, "Warning Daily Doses", out);
 		
 	}
 	
@@ -402,7 +403,7 @@ public class patientViewController {
 				rs3 = db.runQuery(q);
 				
 				temp.setDailyDoseRemaining(temp.getDailydose() - rs2.getInt(2));
-				temp.setDrugName(rs3.getString(1));
+				temp.setDrug(rs3.getString(1));
 				temp.setTotalQuantityRemaining(max - rs2.getInt(1));
 				if (temp.getDailyDoseRemaining() == 0 && temp.getTotalQuantityRemaining() != 0) {
 					Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -501,9 +502,13 @@ public class patientViewController {
 				}
 			}
 			
+		alert.launchAlert(Alert.AlertType.INFORMATION, "All Done", "Insert Completed");
+	
 	    listViewSymptoms.getSelectionModel().clearSelection();
 
-
+	    textFieldSBP.setText("");
+	    textFieldDBP.setText("");
+	    textFieldInformations.setText("");
 		
 		
 		ObservableList<Measurement> measurements = db.getMeasurements();

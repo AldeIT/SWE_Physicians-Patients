@@ -20,6 +20,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
@@ -217,17 +218,27 @@ public class showPatientViewController {
 
     @FXML
     private TableColumn<PatientPathology, LocalDate> tableViewMyPathologiesStartDate;
+    
+    private AlertHandler alert = AlertHandler.getInstance();
+
 	
 	LocalDateTime defaultStart;
 	
 	LocalDateTime defaultEnd;
 	
 	 @FXML
-	 void btnUpdateInformationsOnClicked(ActionEvent event) throws SQLException {
+	 void btnUpdateInformationsOnClicked(ActionEvent event) throws SQLException, ParseException {
 		 String content = textFieldInformations.getText();
 		 
 		 if (!content.equals(patient.getInformations())) {
-			 db.updatePatient(patient.getCF(), content);
+			 try {
+				 db.updatePatient(patient.getCF(), content);
+			 }catch (SQLException e) {
+				 alert.launchAlert(Alert.AlertType.ERROR, "Database Error", "Couldn't update informations");
+				 return;
+			 }
+			 
+			 db.insertLog(myPhysician.getCF(), LocalDateTime.now(), myPhysician.getCF() + " has modified the informations of the patient: " + patient.getCF());
 			 this.patient.setInformations(content);
 		 }
 	 }
@@ -299,7 +310,7 @@ public class showPatientViewController {
 					root = loader.load();
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
-					e.printStackTrace();
+					alert.launchAlert(Alert.AlertType.ERROR, "Loading Error", "Error while changing view");
 				}
 				/*Getting the controller*/
 				physicianViewController controller = loader.getController();
@@ -308,7 +319,7 @@ public class showPatientViewController {
 					controller.initInfo();
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
-					e.printStackTrace();
+					alert.launchAlert(Alert.AlertType.ERROR, "Database Error", "Error while working on the database");
 				} catch (ParseException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -346,7 +357,7 @@ public class showPatientViewController {
 					setDrugChoiceBox();
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
-					e.printStackTrace();
+					alert.launchAlert(Alert.AlertType.ERROR, "Database Error", "Error while working on the database");
 				}
 		    }
 		    
@@ -386,6 +397,7 @@ public class showPatientViewController {
 		XYChart.Series<String, Integer> dbpSeries = new XYChart.Series<>();
 		
 		
+		
 		if (start == null) {
 			start = defaultStart;
 		}
@@ -393,6 +405,14 @@ public class showPatientViewController {
 		if (end == null) {
 			end = defaultEnd;
 		}
+		
+		if (start.isAfter(end)) {
+			alert.launchAlert(Alert.AlertType.ERROR, "Date Error", "The first date should become before the second!");
+			return;
+		}
+		
+		datePickerMeasurementStart.setValue(start.toLocalDate());
+		datePickerMeasurementEnd.setValue(end.toLocalDate());
 		
         long timestamp = start.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
         long timestampNow = end.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
@@ -469,7 +489,7 @@ public class showPatientViewController {
 		tableViewPathologiesID.setCellValueFactory(new PropertyValueFactory<>("id"));
 		tableViewPathologiesDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
 		
-		
+		linechartMeasurement.getData().clear();
 		// Set the name of the series
 		sbpSeries.setName("SBP");
 		dbpSeries.setName("DBP");
@@ -483,6 +503,10 @@ public class showPatientViewController {
 		System.out.println("ORA");
 		LocalDateTime start = datePickerMeasurementStart.getValue() == null ? null : datePickerMeasurementStart.getValue().atTime(LocalTime.of(1, 0));
 		LocalDateTime end = datePickerMeasurementEnd.getValue() == null ? null : datePickerMeasurementEnd.getValue().atTime(LocalTime.of(23, 59));
+		
+
+		
+		
 		setLineChartMeasurement(start, end);
     }
 	
@@ -490,16 +514,16 @@ public class showPatientViewController {
 		String q = "SELECT * FROM Therapy\n" +
 				   "WHERE CFpatient='" + patient.getCF() +"';"
 				
-				;
-		
-		ResultSet rs = db.runQuery(q);
+				, secondQuery;
+
+		ResultSet rs = db.runQuery(q), secondRs;
 		
 		ObservableList<Therapy> allTherapies = FXCollections.<Therapy>observableArrayList();
-		
+		Therapy temp = null;
 		while(rs.next()) {
-			
-			System.out.println("Directions: " + rs.getString("directions"));
-			allTherapies.add(new Therapy(
+			secondQuery = "SELECT name FROM Drug WHERE id='" + rs.getInt("IDdrug") + "';";
+			secondRs = db.runQuery(secondQuery);
+			temp = new Therapy(
 					rs.getInt("id"),
 					rs.getInt("dailydose"),
 					rs.getInt("quantity"),
@@ -509,7 +533,10 @@ public class showPatientViewController {
 					rs.getInt("IDdrug"),
 					patient.getCF(),
 					myPhysician.getCF()
-					));
+					);
+			temp.setDrug(secondRs.getString(1));
+			
+			allTherapies.add(temp);
 		}
 		
 		tableViewAllTherapies.setItems(allTherapies);
@@ -538,7 +565,7 @@ public class showPatientViewController {
 		tableViewAllTherapiesDirections.setCellFactory(TextFieldTableCell.forTableColumn());
 		tableViewAllTherapiesDirections.setEditable(true);
 		
-		tableViewAllTherapiesIDDrug.setCellValueFactory(new PropertyValueFactory<>("IDDrug"));
+		tableViewAllTherapiesIDDrug.setCellValueFactory(new PropertyValueFactory<>("drug"));
         tableViewAllTherapiesIDDrug.setEditable(true);
         tableViewAllTherapies.setEditable(true);
 
@@ -556,12 +583,25 @@ public class showPatientViewController {
     	Drug selectedItem = choiceBoxDrug.getValue();
     	
     	if (selectedItem == null) {
-    		System.out.println("Non ha selezionato nulla");
+			alert.launchAlert(Alert.AlertType.ERROR, "Selection Error", "You need to select at least one Drug!");
     		return;
     	}
     	
-    	db.insertTherapy(daily_dose, quantity, directions, LocalDate.now(), null, selectedItem.getId(), patient.getCF(), myPhysician.getCF());
+    	try{
+    		db.insertTherapy(daily_dose, quantity, directions, LocalDate.now(), null, selectedItem.getId(), patient.getCF(), myPhysician.getCF());
+    	}catch(SQLException e) {
+			alert.launchAlert(Alert.AlertType.ERROR, "Database Error", "Could not insert a new Therapy");
+			setAllTherapies();
+			return;
+    	}
+    	
     	setAllTherapies();
+		alert.launchAlert(Alert.AlertType.INFORMATION, "All Done", "A new Therapy was inserted");
+		textFieldDailyDose.setText("");
+		textFieldQuantity.setText("");
+		textFieldDirections.setText("");
+		choiceBoxDrug.getSelectionModel().clearSelection();
+    	
     	System.out.println("Insert New Therapy Clicked");
     }
     

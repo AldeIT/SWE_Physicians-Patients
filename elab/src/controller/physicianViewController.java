@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.Comparator;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -18,6 +19,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -134,6 +136,9 @@ public class physicianViewController{
 	
 	private DB_Model db;
 	
+    private AlertHandler alert = AlertHandler.getInstance();
+
+	
 	@FXML
     void btnShowPatientOnClicked(ActionEvent event) throws IOException, SQLException {
 		
@@ -144,7 +149,7 @@ public class physicianViewController{
 		Patient selected = selectionModel.getSelectedItem();
 		
 		if (selected == null) {
-			System.out.println("devi selezionare qualcosa");
+			alert.launchAlert(Alert.AlertType.ERROR, "Selection Error", "You need to select at least one patient!");
 			return;
 		}
 		
@@ -197,25 +202,11 @@ public class physicianViewController{
 			db = DB_Model.getInstance();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			alert.launchAlert(Alert.AlertType.ERROR, "Database Error", "There was an error accessing to the database");
 		}
 		
-		System.out.println("init");
-		labelCF.setText(session.getCF());
-		labelName.setText(session.getName());
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-		String formattedDate = session.getBirthdate().format(formatter);		
-		labelBirthdate.setText(formattedDate);	
-		labelStreet.setText(session.getStreet());
-		labelSurname.setText(session.getSurname());
-		labelPhoneNumber.setText(session.getPhoneNumber());
-		labelSex.setText(session.getSex());
-		labelNationality.setText(session.getNationality());
-		labelEmail.setText(session.getEmail());
-		labelCAP.setText(Integer.toString(session.getCAP()));
-		labelCity.setText(session.getCity());
-		labelCivicNumber.setText(Integer.toString(session.getCivicNumber()));
-
+		
+		setLabels();
 		
 		setWarnings();
 		
@@ -229,7 +220,9 @@ public class physicianViewController{
 		    		setCurrentPatients();
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
-					e.printStackTrace();
+					//e.printStackTrace();
+					alert.launchAlert(Alert.AlertType.ERROR, "Patients Error", "Error loading patients");
+
 				}
 		    }
 		    
@@ -239,10 +232,11 @@ public class physicianViewController{
 		    		setNotTaken();
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
-					e.printStackTrace();
+					alert.launchAlert(Alert.AlertType.ERROR, "Database Error", "There was an error in the queries");
 				} catch (ParseException e) {
 					// TODO Auto-generated catch block
-					e.printStackTrace();
+					alert.launchAlert(Alert.AlertType.ERROR, "Parse Error", "Error in parsing");
+
 				}
 		    }
 		    
@@ -254,7 +248,8 @@ public class physicianViewController{
 					root = loader.load();
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
-					e.printStackTrace();
+					alert.launchAlert(Alert.AlertType.ERROR, "Loading Error", "Oops something happened while loading the new View");
+
 				}
 				System.out.println("Switchamo Scene");
 				/*Setting the scene*/
@@ -270,6 +265,26 @@ public class physicianViewController{
 		    
 		});
 	}
+	
+	void setLabels() {
+		labelCF.setText(session.getCF());
+		labelName.setText(session.getName());
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		String formattedDate = session.getBirthdate().format(formatter);		
+		labelBirthdate.setText(formattedDate);	
+		labelStreet.setText(session.getStreet());
+		labelSurname.setText(session.getSurname());
+		labelPhoneNumber.setText(session.getPhoneNumber());
+		labelSex.setText(session.getSex());
+		labelNationality.setText(session.getNationality());
+		labelEmail.setText(session.getEmail());
+		labelCAP.setText(Integer.toString(session.getCAP()));
+		labelCity.setText(session.getCity());
+		labelCivicNumber.setText(Integer.toString(session.getCivicNumber()));
+	}
+	
+	
+	
 		
 	void setWarnings() throws SQLException {
 		String q = "SELECT * FROM Patient WHERE CFphysician='" + session.getCF() + "';";
@@ -329,6 +344,7 @@ public class physicianViewController{
 			list.add(temp);
 			
 		}
+		list.sort(new PatientBloodPressureComparator());
 		
 		tableViewBloodPressure.setItems(list);
 		tableViewBloodPressureName.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -337,6 +353,13 @@ public class physicianViewController{
 		tableViewBloodPressureBP.setCellValueFactory(new PropertyValueFactory<>("bloodPressureString"));
 	
 		
+	}
+	
+	public class PatientBloodPressureComparator implements Comparator<Patient> {
+	    @Override
+	    public int compare(Patient p1, Patient p2) {
+	        return p1.getEnum().compareTo(p2.getEnum());
+	    }
 	}
 	
 	void setNotTaken() throws SQLException, ParseException {

@@ -81,7 +81,7 @@
                               <TableColumn fx:id="tableViewAllTherapiesDirections" prefWidth="135.0" text="Directions" />
                               <TableColumn fx:id="tableViewAllTherapiesStartDate" minWidth="0.0" prefWidth="66.0" text="Start Date" />
                               <TableColumn fx:id="tableViewAllTherapiesEndDate" prefWidth="73.0" text="End Date" />
-                              <TableColumn fx:id="tableViewAllTherapiesIDDrug" prefWidth="79.0" text="ID Drug" />
+                              <TableColumn fx:id="tableViewAllTherapiesIDDrug" prefWidth="79.0" text="Drug" />
                            </columns>
                         </TableView>
                         <Label layoutX="296.0" layoutY="407.0" text="Daily Dose" />

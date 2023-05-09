@@ -74,8 +74,9 @@ public class DB_Model {
     /*Creates tables if necessary and inserts first Physicians/Patients records*/
     private DB_Model() throws SQLException
     {
+    	boolean insert = false;
         connect();
-        clearAll();
+        //clearAll();insert = true;
         if (tableExists("physician"))
         {
             log("physician table exists");
@@ -180,8 +181,9 @@ public class DB_Model {
             resetMeasurementTherapiesTable();
         };
         
+        
 
-        deleteDataFromTable("measurement_therapy");
+        /*deleteDataFromTable("measurement_therapy");
         deleteDataFromTable("measurement_pathology");
         deleteDataFromTable("measurement_symptom");
         deleteDataFromTable("symptom");
@@ -193,8 +195,7 @@ public class DB_Model {
         deleteDataFromTable("drug");
         deleteDataFromTable("log");
         deleteDataFromTable("patient");
-        deleteDataFromTable("physician");
-        
+        deleteDataFromTable("physician");*/
         
         
         /*System.out.println("Physicians: ");
@@ -208,98 +209,93 @@ public class DB_Model {
         for (Patient p: allPat) {
         	System.out.println(p);
         }*/
-        
+        if (insert) {
         
         try {
 			Physician p = insertPhysician("LDGLSN02S18F861T", "alealde012@gmail.com", "password", "Alessandro", "Aldegheri", "M", LocalDate.of(2002, 11, 18), "Italian", "Danieli", 21, 37141, "Verona", "3497086640");
-			Physician p1 = insertPhysician("LDGLSN02S18F861Z", "alealde012@gmail.com", "password", "Alessandro", "Aldegheri", "M", LocalDate.of(2002, 11, 18), "Italian", "Danieli", 21, 37141, "Verona", "3497086640");
-			Physician p2 = insertPhysician("LDGLSN02S18F861I", "alealde012@gmail.com", "password", "Alessandro", "Aldegheri", "M", LocalDate.of(2002, 11, 18), "Italian", "Danieli", 21, 37141, "Verona", "3497086640");
-			
+			insertPhysician("FMMCTN03H20F205V", "physician1@example.com", "password", "Mario", "Rossi", "M", LocalDate.of(2003, 8, 20), "Italian", "Via Roma", 10, 00100, "Roma", "3331234567");
+			insertPhysician("MRCLRA04B05F205Y", "physician2@example.com", "password", "Marco", "Bianchi", "M", LocalDate.of(2004, 2, 5), "Italian", "Via Milano", 20, 20100, "Milano", "3332345678");
+			insertPhysician("GLLRCC05C06F205S", "physician3@example.com", "password", "Giulia", "Neri", "F", LocalDate.of(2005, 1, 6), "Italian", "Via Napoli", 30, 80100, "Napoli", "3333456789");
+			insertPhysician("VNNRCA06D07F205H", "physician4@example.com", "password", "Valentina", "Verdi", "F", LocalDate.of(2006, 10, 7), "Italian", "Via Firenze", 40, 50100, "Firenze", "3334567890");
+			insertPhysician("LNTSLN07E08F205D", "physician5@example.com", "password", "Luca", "Russo", "M", LocalDate.of(2007, 7, 8), "Italian", "Via Torino", 50, 10100, "Torino", "3335678901");
+			insertPhysician("FRCNLM08F09F205L", "physician6@example.com", "password", "Francesco", "Ferrari", "M", LocalDate.of(2008, 4, 9), "Italian", "Via Bologna", 60, 40100, "Bologna", "3336789012");
+			insertPhysician("SLNTLL09G10F205G", "physician7@example.com", "password", "Silvia", "Greco", "F", LocalDate.of(2009, 3, 10), "Italian", "Via Venezia", 70, 30100, "Venezia", "3337890123");
+			insertPhysician("GNNMTN10H11F205F", "physician8@example.com", "password", "Giovanni", "Monti", "M", LocalDate.of(2010, 12, 11), "Italian", "Via Genova", 80, 16100, "Genova", "3338901234");
+			insertPhysician("CLLNDR11I12F205E", "physician9@example.com", "password", "Claudio", "De Luca", "M", LocalDate.of(2011, 9, 12), "Italian", "Via Palermo", 90, 90100, "Palermo", "3339012345");
+			insertPhysician("VRNTLN12L13F205C", "physician10@example.com", "password", "Valeria", "Rontini", "F", LocalDate.of(2012, 6, 13), "Italian", "Via Pisa", 100, 56100, "Pisa", "3330123456");
+
 			Patient pat = insertPatient("VNTDVD02D17L949I", "venturi.davide17@gmail.com", "password", "Davide", "Venturi", "M", LocalDate.of(2002,04,17), "Italian", "Marconi", 89, 37060, "Verona", "3402938423", "Ansia", "LDGLSN02S18F861T");
-			Patient pat1 = insertPatient("VNTDVD02D17L949Z", "venturi.davide17@gmail.com", "password", "Davide", "Venturi", "M", LocalDate.of(2002,04,17), "Italian", "Marconi", 89, 37060, "Verona", "3402938423", "Ansia", "LDGLSN02S18F861T");
-			Patient pat2 = insertPatient("VNTDVD02D17L949T", "venturi.davide17@gmail.com", "password", "Davide", "Venturi", "M", LocalDate.of(2002,04,17), "Italian", "Marconi", 89, 37060, "Verona", "3402938423", "Ansia", "LDGLSN02S18F861T");
-            Patient pat3 = insertPatient("ZRMNCL02S19L781E", "nico.zerman@gmail.com", "password", "Nicolò", "Zerman", "M", LocalDate.of(2002,11,19), "Italian", "Gaetano Tortelli", 29, 37059, "Verona", "3274537294", "Sempre rotto", "LDGLSN02S18F861T");
-            Patient pat4 = insertPatient("CRZMRA63R09L781S", "mario.crozza@gmail.com", "password", "Mario", "Crozza", "M", LocalDate.of(2009,05,11), "Italian", "Tigli", 29, 37059, "Verona", "3274537294", "Sempre rotto", "LDGLSN02S18F861T");
-			Patient pat5 = insertPatient("FRNFRC96C15F205E", "federico.fiorini@gmail.com", "password", "Federico", "Fiorini", "M", LocalDate.of(1996,03,21), "Italian", "Gaetano Tortelli", 29, 37059, "Verona", "3274537294", "Sempre rotto", "LDGLSN02S18F861T");
-            
-			Log log = insertLog("LDGLSN02S18F861T",LocalDateTime.of(2015, 5, 1, 14, 30, 0),  "Ha modificato la descrizione di un paziente");
-			Log log1 = insertLog("LDGLSN02S18F861I",LocalDateTime.of(2016, 6, 2, 15, 30, 0),  "Ha modificato il nome di un paziente");
-			Log log2 = insertLog("LDGLSN02S18F861I",LocalDateTime.of(2016, 6, 2, 15, 30, 10),  "Ha modificato la mail di un paziente");
+			Patient pat1 = insertPatient("LVRMRC03D15G618O", "luca.verdi03@gmail.com", "password", "Luca", "Verdi", "M", LocalDate.of(2003, 12, 15), "Italian", "Garibaldi", 23, 37121, "Verona", "3489237641", "Stress", "FRCNLM08F09F205L");
+			Patient pat2 = insertPatient("LVRMRZ03D16G618O", "laura.verdi03@gmail.com", "password", "Laura", "Verdi", "F", LocalDate.of(2003, 12, 16), "Italian", "Garibaldi", 23, 37121, "Verona", "3489237642", "Anxiety", "LDGLSN02S18F861T");
+			Patient pat3 = insertPatient("MRCCST04T15L219S", "marco.costa04@gmail.com", "password", "Marco", "Costa", "M", LocalDate.of(2004, 01, 15), "Italian", "Mazzini", 45, 37129, "Verona", "3489237643", "Headache", "FRCNLM08F09F205L");
+			Patient pat4 = insertPatient("MRCCST04T16L219S", "marco.costa04@gmail.com", "password", "Martina", "Costa", "F", LocalDate.of(2004, 01, 16), "Italian", "Mazzini", 45, 37129, "Verona", "3489237644", "Depression", "LDGLSN02S18F861T");
+			Patient pat5 = insertPatient("BRSNTN05A15H501F", "barbara.santoni05@gmail.com", "password", "Barbara", "Santoni", "F", LocalDate.of(2005, 01, 15), "Italian", "Vittorio Emanuele", 67, 37135, "Verona", "3489237645", "Insomnia", "FRCNLM08F09F205L");
+			Patient pat6 = insertPatient("MRSRRT05H15F839F", "mario.serra05@gmail.com", "password", "Mario", "Serra", "M", LocalDate.of(2005, 8, 15), "Italian", "Borgo Trento", 12, 37128, "Verona", "3489237646", "Fatigue", "FRCNLM08F09F205L");
+			Patient pat7 = insertPatient("MRSRRT05H16F839F", "maria.serra05@gmail.com", "password", "Maria", "Serra", "F", LocalDate.of(2005, 8, 16), "Italian", "Borgo Trento", 12, 37128, "Verona", "3489237647", "Anxiety", "LDGLSN02S18F861T");
+			Patient pat8 = insertPatient("RSCFNC06E15F205L", "rosa.scalfini06@gmail.com", "password", "Rosa", "Scalfini", "F", LocalDate.of(2006, 05, 15), "Italian", "Borgo Roma", 54, 37139, "Verona", "3489237648", "Stress", "FRCNLM08F09F205L");
 			
-			Drug drug = insertDrug(0, "Paracetamolo", "antidolorifico");
-			Drug drug1 = insertDrug(0, "Xanax", "antidepressivo");
-			Drug drug2 = insertDrug(0, "En", "anseolitico");
+			Drug drug1 = insertDrug(0, "Ibuprofen", "Painkiller");
+			Drug drug2 = insertDrug(0, "Lorazepam", "Anxiety");
+			Drug drug3 = insertDrug(0, "Omeprazole", "Antacid");
+			Drug drug4 = insertDrug(0, "Acetaminophen", "Painkiller");
+			Drug drug5 = insertDrug(0, "Lisinopril", "Blood Pressure");
+			Drug drug6 = insertDrug(0, "Metformin", "Diabetes");
+			Drug drug7 = insertDrug(0, "Simvastatin", "Cholesterol");
+			Drug drug8 = insertDrug(0, "Prednisone", "Anti-inflammatory");
+			Drug drug9 = insertDrug(0, "Amoxicillin", "Antibiotic");
+			Drug drug10 = insertDrug(0, "Lansoprazole", "Antacid");
+
+
 			
-			Therapy therapy = insertTherapy(1, 1, "una volta al giorno", LocalDate.of(2015, 6, 6), null, 1, "VNTDVD02D17L949I", "LDGLSN02S18F861T");
-			Therapy therapy1 = insertTherapy(2, 1, "due volte al giorno", LocalDate.of(2015, 5, 1), null, 2, "VNTDVD02D17L949I", "LDGLSN02S18F861Z");
-			Therapy therapy2 = insertTherapy(2, 2, "blablabla", LocalDate.of(2019, 11, 15), null, 3, "VNTDVD02D17L949I", "LDGLSN02S18F861I");
+			Pathology pathology1 = insertPathology("ALS");
+			Pathology pathology2 = insertPathology("Alzheimers");
+			Pathology pathology3 = insertPathology("Asthma");
+			Pathology pathology4 = insertPathology("Cancer");
+			Pathology pathology5 = insertPathology("Diabetes");
+			Pathology pathology6 = insertPathology("Epilepsy");
+			Pathology pathology7 = insertPathology("Hypertension");
+			Pathology pathology8 = insertPathology("Migraine");
+			Pathology pathology9 = insertPathology("Parkinsons");
+			Pathology pathology10 = insertPathology("Schizophrenia");
+
+					
 			
-			DrugIntake drugIntake = insertDrugIntake(0, LocalDateTime.now(), 1, 1);
-			DrugIntake drugIntake1 = insertDrugIntake(0, LocalDateTime.of(2020, 1, 1, 15, 0, 0), 2, 2);
-			//DrugIntake drugIntake2 = insertDrugIntake(0, LocalDateTime.now(), 2, 3);
-			//DrugIntake drugIntake3 = insertDrugIntake(0, LocalDateTime.now(), 1, 3);
+			Symptom symptom1 = insertSymptom("Headache");
+			Symptom symptom2 = insertSymptom("Fever");
+			Symptom symptom3 = insertSymptom("Cough");
+			Symptom symptom4 = insertSymptom("Fatigue");
+			Symptom symptom5 = insertSymptom("Nausea");
+			Symptom symptom6 = insertSymptom("Vomiting");
+			Symptom symptom7 = insertSymptom("Sore throat");
+			Symptom symptom8 = insertSymptom("Muscle aches");
+			Symptom symptom9 = insertSymptom("Runny or stuffy nose");
+			Symptom symptom10 = insertSymptom("Difficulty breathing");
+			Symptom symptom11 = insertSymptom("Loss of smell or taste");
+			Symptom symptom12 = insertSymptom("Chest pain");
+			Symptom symptom13 = insertSymptom("Diarrhea");
+			Symptom symptom14 = insertSymptom("Rash");
+			Symptom symptom15 = insertSymptom("Dizziness");
+
 			
-			Pathology pathology = insertPathology("sla");
-			Pathology pathology1 = insertPathology("monucleosi");
-			Pathology pathology2 = insertPathology("pressione bassa");
-			Pathology pathology3 = insertPathology("caviglia slogata");
-			
-			PatientPathology patient_pathology = insertPatientPathology("VNTDVD02D17L949I", 1, LocalDate.of(2015, 5, 1), null);
-			PatientPathology patient_pathology1 = insertPatientPathology("VNTDVD02D17L949I", 2, LocalDate.of(2015, 5, 1), null);
-			PatientPathology patient_pathology2 = insertPatientPathology("VNTDVD02D17L949I", 3, LocalDate.of(2015, 5, 1), LocalDate.of(2016, 6, 5));
-			
-			Measurement measurement = insertMeasurement(120, 90, LocalDateTime.of(2023, 5, 7, 8, 0, 0), "speriamo tutto bene", "VNTDVD02D17L949I");
-			Measurement measurement1 = insertMeasurement(210, 110, LocalDateTime.of(2023, 5, 4, 15, 0, 0), "segala >>>>", "VNTDVD02D17L949I");
-			Measurement measurement2 = insertMeasurement(150, 90, LocalDateTime.of(2023, 4, 19, 15, 0, 0), "blabla", "VNTDVD02D17L949I");
-			Measurement measurement3 = insertMeasurement(160, 110, LocalDateTime.of(2023, 4, 17, 15, 0, 0), "blabla", "VNTDVD02D17L949I");
-			Measurement measurement4 = insertMeasurement(170, 70, LocalDateTime.of(2023, 4, 21, 15, 0, 0), "blabla", "VNTDVD02D17L949I");
-			Measurement measurement5 = insertMeasurement(180, 80, LocalDateTime.of(2023, 4, 18, 9, 0, 0), "blabla", "VNTDVD02D17L949I");
-			Measurement measurement6 = insertMeasurement(190, 60, LocalDateTime.of(2023, 4, 17, 18, 0, 0), "blabla", "VNTDVD02D17L949I");
-			
-			
-			Symptom symptom = insertSymptom("crampi");
-			Symptom symptom1 = insertSymptom("congestione nasale");
-			Symptom symptom2 = insertSymptom("mal di gomito");
-			
-			
-			
-			MeasurementSymptom measurementsymptom = insertMeasurementSymptom(3, 1);
-			MeasurementSymptom measurementsymptom2 = insertMeasurementSymptom(3, 2);
-			MeasurementSymptom measurementsymptom3 = insertMeasurementSymptom(3, 3);
-			MeasurementSymptom measurementsymptom4 = insertMeasurementSymptom(1, 1);
-			MeasurementSymptom measurementsymptom5 = insertMeasurementSymptom(2, 1);
-			MeasurementSymptom measurementsymptom6 = insertMeasurementSymptom(6, 1);
-			
-			MeasurementTherapy measurementtherapy = insertMeasurementTherapy(3, 1);
-			MeasurementTherapy measurementtherapy2 = insertMeasurementTherapy(3, 2);
-			MeasurementTherapy measurementtherapy3 = insertMeasurementTherapy(3, 3);
-			MeasurementTherapy measurementtherapy4 = insertMeasurementTherapy(1, 1);
-			MeasurementTherapy measurementtherapy5 = insertMeasurementTherapy(2, 1);
-			MeasurementTherapy measurementtherapy6 = insertMeasurementTherapy(6, 1);
-			
-			MeasurementPathology measurementpathology = insertMeasurementPathology(3, 1);
-			MeasurementPathology measurementpathology2 = insertMeasurementPathology(3, 2);
-			MeasurementPathology measurementpathology3 = insertMeasurementPathology(3, 3);
-			MeasurementPathology measurementpathology4 = insertMeasurementPathology(1, 1);
-			MeasurementPathology measurementpathology5 = insertMeasurementPathology(2, 1);
-			MeasurementPathology measurementpathology6 = insertMeasurementPathology(6, 1);
 			
 			
         } catch (SQLException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
         	System.out.println("Problema nel db");
 		} catch (ParseException e) {
 			e.printStackTrace();
 		} catch (IllegalArgumentException e) {
 			System.out.println(e.getMessage());
-		}
+		}        
         
-        System.out.println("Physicians: ");
+        
+        }
+        
+        /*System.out.println("Physicians: ");
         ObservableList<Physician> allPhys = getPhysicians();
         for (Physician p: allPhys) {
         	System.out.println(p);
         }
-        
         
         System.out.println("Patients: ");
         ObservableList<Patient> allPat = getPatients();
@@ -359,7 +355,7 @@ public class DB_Model {
         ObservableList<MeasurementSymptom> measurementSymptoms = getMeasurementSymptoms();
         for (MeasurementSymptom m: measurementSymptoms) {
         	System.out.println(m);
-        }
+        }*/
         
         //conn.close();
         /*loadPeople();

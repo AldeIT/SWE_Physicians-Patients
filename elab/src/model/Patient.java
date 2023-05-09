@@ -41,6 +41,10 @@ public class Patient extends User {
 		this.informations.set(informations);
 	}
 	
+	public BloodPressure getEnum() {
+		return bloodPressure;
+	}
+	
 	public void setBloodPressure(BloodPressure bloodPressure) {
 		this.bloodPressure = bloodPressure;
 		this.bloodPressureString.set(bloodPressure.toString());
