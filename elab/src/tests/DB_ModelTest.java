@@ -9,10 +9,19 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
 
 import org.junit.jupiter.api.Test;
 
 import model.DB_Model;
+import model.Drug;
+
+
+import javafx.beans.property.ReadOnlyIntegerProperty;
+import javafx.beans.property.ReadOnlyIntegerWrapper;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 
 class DB_ModelTest {
@@ -22,7 +31,7 @@ class DB_ModelTest {
 		
 		String url = "jdbc:sqlite:table.db";
 		Connection conn = DriverManager.getConnection(url);
-		assertNotNull("message", conn);
+		assertNotNull("Failed Connection", conn);
 	}
 
 	@Test
@@ -51,5 +60,5 @@ class DB_ModelTest {
 		assertNotNull("Model instance is null", m2);
 		assertSame("Model instances are not the same object", m1, m2);
 	}
-
+	
 }

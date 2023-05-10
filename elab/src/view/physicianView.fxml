@@ -26,7 +26,7 @@
                             <TableColumn fx:id="tableViewBloodPressureName" prefWidth="84.0" text="Name" />
                             <TableColumn fx:id="tableViewBloodPressureSurname" prefWidth="93.0" text="Surname" />
                               <TableColumn fx:id="tableViewBloodPressureBP" prefWidth="209.0" text="Blood Pressure" />
-                              <TableColumn fx:id="tableViewBloodPressureEmail" prefWidth="204.0" text="Email" />
+                              <TableColumn fx:id="tableViewBloodPressureEmail" prefWidth="276.0" text="Email" />
                           </columns>
                         </TableView>
                         <TableView fx:id="tableViewTherapiesNotTaken" layoutX="137.0" layoutY="439.0" prefHeight="200.0" prefWidth="663.0">

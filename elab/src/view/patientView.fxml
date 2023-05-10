@@ -93,6 +93,7 @@
                         <Label fx:id="labelPhysicianSurname" layoutX="373.0" layoutY="856.0" />
                         <Label fx:id="labelPhysicianPhoneNumber" layoutX="798.0" layoutY="856.0" />
                         <Label fx:id="labelPhysicianEmail" layoutX="561.0" layoutY="848.0" textOverrun="LEADING_ELLIPSIS" />
+                        <Button fx:id="contactPhysician" layoutX="419.0" layoutY="901.0" mnemonicParsing="false" onAction="#contactPhysicianOnClicked" text="CONTACT" />
                      
                      
                      </children></AnchorPane>

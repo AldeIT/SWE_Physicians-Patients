@@ -50,14 +50,13 @@ public class loginController {
      * @throws SQLException 
      */
 	@FXML
-	public void btnLoginOnClicked(ActionEvent event) throws IOException, SQLException  {
+	public boolean btnLoginOnClicked(ActionEvent event) throws IOException, SQLException  {
 		
 		boolean isRadioBtnPhysicianSelected = radioBtnPhysician.isSelected();
 		boolean isRadioBtnPatientSelected = radioBtnPatient.isSelected();
 		
 		DB_Model db = null;
 		String password = null;
-		
 		try {
 			db = DB_Model.getInstance();
 		} catch (SQLException e1) {
@@ -85,7 +84,7 @@ public class loginController {
 	        alert.setTitle("Selection Error");
 	        alert.setHeaderText("You need to select one of the radio button!");
 	        alert.showAndWait();
-			return;
+			return false;
 		}
 		
 		ResultSet st = null;
@@ -96,7 +95,7 @@ public class loginController {
 	        alert.setTitle("Error Database");
 	        alert.setHeaderText("Error Performing a query");
 	        alert.showAndWait();
-	        return;
+	        return false;
 		}
 		
 		if (st.getString("CF") == null) {
@@ -104,7 +103,7 @@ public class loginController {
 	        alert.setTitle("Unable to find the account");
 	        alert.setHeaderText("Wrong CF/password!");
 	        alert.showAndWait();
-	        return;
+	        return false;
 		}
 		
 		password = labelPassword.getText();
@@ -112,18 +111,16 @@ public class loginController {
 		labelPassword.setText("");
 		
 		if (isRadioBtnPhysicianSelected) {
-			openPhysician(st, password, event);
+			return openPhysician(st, password, event);
 		}else if(isRadioBtnPatientSelected){
-			openPatient(st, password, event);
+			return openPatient(st, password, event);
 		}
-		
-		
-		
+		return false;
 		
 		//System.out.println("CF: "+ labelCF.getText() + ", Password: " + labelPassword.getText());
 	}
 	
-	void openPhysician(ResultSet st, String password, ActionEvent event) throws SQLException, IOException {
+	boolean openPhysician(ResultSet st, String password, ActionEvent event) throws SQLException, IOException {
 		System.out.println(st.getString("CF"));
 		System.out.println("Andiamo in un'altra schermata Physician");
 		Physician session = new Physician(st.getString("CF"), 
@@ -152,7 +149,7 @@ public class loginController {
 	        alert.setTitle("Parse Error");
 	        alert.setHeaderText("Could not change scene because of a parse error");
 	        alert.showAndWait();
-	        return;
+	        return false;
 		}
 		System.out.println("Switchamo Scene");
 		/*Setting the scene*/
@@ -163,9 +160,10 @@ public class loginController {
         stage.setMinHeight(1000);
         stage.setResizable(true);
 		stage.show();
+		return true;
 	}
 	
-	void openPatient(ResultSet st, String password, ActionEvent event) throws SQLException, IOException {
+	boolean openPatient(ResultSet st, String password, ActionEvent event) throws SQLException, IOException {
 		System.out.println(st.getString("CF"));
 		System.out.println("Andiamo in un'altra schermata Patient");
 		
@@ -201,6 +199,7 @@ public class loginController {
         stage.setResizable(true);
 		stage.show();
 		controller.firstAlert();
+		return true;
 	}
 	
 	/**

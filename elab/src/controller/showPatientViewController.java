@@ -220,6 +220,8 @@ public class showPatientViewController {
     private TableColumn<PatientPathology, LocalDate> tableViewMyPathologiesStartDate;
     
     private AlertHandler alert = AlertHandler.getInstance();
+    
+    private HashMap<Integer, String> drugNames = new HashMap<>();
 
 	
 	LocalDateTime defaultStart;
@@ -230,7 +232,7 @@ public class showPatientViewController {
 	 void btnUpdateInformationsOnClicked(ActionEvent event) throws SQLException, ParseException {
 		 String content = textFieldInformations.getText();
 		 
-		 if (!content.equals(patient.getInformations())) {
+		 if (!content.equals(patient.getInformations()) && !content.isEmpty()) {
 			 try {
 				 db.updatePatient(patient.getCF(), content);
 			 }catch (SQLException e) {
@@ -282,7 +284,13 @@ public class showPatientViewController {
 		defaultStart = LocalDateTime.of(2000, 1, 1, 9, 0, 0);
 		defaultEnd = LocalDateTime.of(2040, 1, 1, 9, 0, 0);
 
+		String q = "SELECT * FROM Drug";
 		
+		ResultSet st = db.runQuery(q);
+		
+		while(st.next()) {
+			drugNames.put(st.getInt("id"), st.getString("name"));
+		}
 			
 		textFieldDailyDose.addEventFilter(KeyEvent.KEY_TYPED, event -> {
 		    String input = event.getCharacter();
@@ -424,14 +432,14 @@ public class showPatientViewController {
 		
 		ResultSet rs = db.runQuery(q);
 		
-		ResultSet rsSymptoms, rsTherapies, rsPathologies;
+		ResultSet rsSymptoms, rsTherapies, rsPathologies, rsDrugs;
 		
-		String getSymptoms, getTherapies, getPathologies; 
+		String getSymptoms, getTherapies, getPathologies, getDrugName; 
 		
 		HashMap<Integer, Symptom> uniqueSymptom = new HashMap<>();
 		HashMap<Integer, Therapy> uniqueTherapies = new HashMap<>();
 		HashMap<Integer, Pathology> uniquePathologies = new HashMap<>();
-		
+		Therapy temp;
 		while (rs.next()) {
 			System.out.println("Datetime: " + rs.getTimestamp("datetime"));
 			getSymptoms = "SELECT id, description FROM Symptom INNER JOIN measurement_symptom ms ON Symptom.id=ms.IDsymptom WHERE IDmeasurement='" + rs.getInt(4) + "';";
@@ -452,7 +460,9 @@ public class showPatientViewController {
 			while(rsTherapies.next()) {
 				
 				if (!uniqueTherapies.containsKey(rsTherapies.getInt("id"))) {
-					uniqueTherapies.put(rsTherapies.getInt("id"), new Therapy(rsTherapies.getInt("id"), rsTherapies.getInt("dailydose"), rsTherapies.getInt("quantity"), rsTherapies.getString("directions") ,rsTherapies.getDate("startdate").toLocalDate(), rsTherapies.getDate("enddate")==null ? null : rsTherapies.getDate("enddate").toLocalDate(), rsTherapies.getInt("IDdrug"), rsTherapies.getString("CFpatient"), rsTherapies.getString("CFphysician")));
+					temp = new Therapy(rsTherapies.getInt("id"), rsTherapies.getInt("dailydose"), rsTherapies.getInt("quantity"), rsTherapies.getString("directions") ,rsTherapies.getDate("startdate").toLocalDate(), rsTherapies.getDate("enddate")==null ? null : rsTherapies.getDate("enddate").toLocalDate(), rsTherapies.getInt("IDdrug"), rsTherapies.getString("CFpatient"), rsTherapies.getString("CFphysician"));
+					temp.setDrug(drugNames.get(rsTherapies.getInt("IDdrug")));
+					uniqueTherapies.put(rsTherapies.getInt("id"), temp);
 				}
 			}
 			
@@ -481,7 +491,7 @@ public class showPatientViewController {
 		tableViewTherapies.setItems(tableTherapyContent);
 		tableViewTherapiesID.setCellValueFactory(new PropertyValueFactory<>("id"));
 		tableViewTherapiesDirections.setCellValueFactory(new PropertyValueFactory<>("directions"));
-		tableViewTherapiesIDDrug.setCellValueFactory(new PropertyValueFactory<>("IDDrug"));
+		tableViewTherapiesIDDrug.setCellValueFactory(new PropertyValueFactory<>("drug"));
 		
 		ObservableList<Pathology> tablePathologyContent = FXCollections.<Pathology>observableArrayList(uniquePathologies.values());
 		
@@ -576,6 +586,11 @@ public class showPatientViewController {
     @FXML
     void btnInsertNewTherapyOnClicked(ActionEvent event) throws SQLException, ParseException {
     	
+    	if (textFieldDailyDose.getText().isEmpty() || textFieldQuantity.getText().isEmpty() || textFieldDirections.getText().isEmpty()) {
+			alert.launchAlert(Alert.AlertType.ERROR, "Fields Error", "You need to insert all of the fields");
+			return;
+    	}
+    	
     	int daily_dose = Integer.parseInt(textFieldDailyDose.getText());
     	int quantity = Integer.parseInt(textFieldQuantity.getText());
     	String directions = textFieldDirections.getText();
@@ -609,8 +624,9 @@ public class showPatientViewController {
     void bntUpdateTherapyOnClicked(ActionEvent event) throws SQLException {
     	
     	ObservableList<Therapy> allItems = tableViewAllTherapies.getItems();
-    	
-    	if (allItems == null) {
+    	System.out.println("Size: " + allItems.size());
+    	if (allItems.size() == 0) {
+			alert.launchAlert(Alert.AlertType.ERROR, "Fields Error", "No Therapies to update");
     		return;
     	}
     	String q, directions;
@@ -639,6 +655,7 @@ public class showPatientViewController {
     	Therapy selectedRow = selectionModel.getSelectedItem();
     	
     	if (selectedRow == null) {
+			alert.launchAlert(Alert.AlertType.ERROR, "Fields Error", "No Therapy to end");
     		return;
     	}
     	
@@ -706,6 +723,7 @@ public class showPatientViewController {
     	Pathology selectedItem = choiceBoxPathologies.getValue();
     	
     	if (selectedItem == null) {
+			alert.launchAlert(Alert.AlertType.ERROR, "Fields Error", "No Pathology Selected");
     		return;
     	}
     	
@@ -728,6 +746,7 @@ public class showPatientViewController {
     	PatientPathology selectedRow = selectionModel.getSelectedItem();
     	
     	if (selectedRow == null) {
+			alert.launchAlert(Alert.AlertType.ERROR, "Fields Error", "No Pathology to End");
     		return;
     	}
     	

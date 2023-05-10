@@ -17,7 +17,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="1000" minWidth="1000" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.showPatientViewController">
+<AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.showPatientViewController">
    <children>
       <TabPane fx:id="tabpane" prefHeight="1000.0" prefWidth="1000.0" side="LEFT" stylesheets="@../css/tablePane.css" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <tabs>
@@ -75,13 +75,13 @@
                         </Label>
                         <TableView fx:id="tableViewAllTherapies" editable="true" layoutX="85.0" layoutY="155.0" prefHeight="200.0" prefWidth="807.0">
                            <columns>
-                              <TableColumn fx:id="tableViewAllTherapiesID" prefWidth="75.0" text="ID" />
-                              <TableColumn fx:id="tableViewAllTherapiesDailyDose" prefWidth="75.0" text="Daily Dose" />
-                              <TableColumn fx:id="tableViewAllTherapiesQuantity" prefWidth="75.0" text="Quantity" />
-                              <TableColumn fx:id="tableViewAllTherapiesDirections" prefWidth="135.0" text="Directions" />
-                              <TableColumn fx:id="tableViewAllTherapiesStartDate" minWidth="0.0" prefWidth="66.0" text="Start Date" />
-                              <TableColumn fx:id="tableViewAllTherapiesEndDate" prefWidth="73.0" text="End Date" />
-                              <TableColumn fx:id="tableViewAllTherapiesIDDrug" prefWidth="79.0" text="Drug" />
+                              <TableColumn fx:id="tableViewAllTherapiesID" prefWidth="62.0" text="ID" />
+                              <TableColumn fx:id="tableViewAllTherapiesDailyDose" prefWidth="74.0" text="Daily Dose" />
+                              <TableColumn fx:id="tableViewAllTherapiesQuantity" prefWidth="57.0" text="Quantity" />
+                              <TableColumn fx:id="tableViewAllTherapiesDirections" prefWidth="208.0" text="Directions" />
+                              <TableColumn fx:id="tableViewAllTherapiesStartDate" minWidth="0.0" prefWidth="91.0" text="Start Date" />
+                              <TableColumn fx:id="tableViewAllTherapiesEndDate" prefWidth="107.0" text="End Date" />
+                              <TableColumn fx:id="tableViewAllTherapiesIDDrug" prefWidth="207.0" text="Drug" />
                            </columns>
                         </TableView>
                         <Label layoutX="296.0" layoutY="407.0" text="Daily Dose" />
@@ -124,20 +124,20 @@
                         <TableView fx:id="tableViewSymptoms" layoutX="134.0" layoutY="380.0" prefHeight="200.0" prefWidth="668.0">
                           <columns>
                             <TableColumn fx:id="tableViewSymptomID" prefWidth="75.0" text="ID" />
-                            <TableColumn fx:id="tableViewSymptomDescription" prefWidth="75.0" text="Description" />
+                            <TableColumn fx:id="tableViewSymptomDescription" prefWidth="592.0" text="Description" />
                           </columns>
                         </TableView>
                         <TableView fx:id="tableViewTherapies" layoutX="134.0" layoutY="587.0" prefHeight="200.0" prefWidth="669.0">
                           <columns>
                             <TableColumn fx:id="tableViewTherapiesID" prefWidth="75.0" text="ID" />
-                            <TableColumn fx:id="tableViewTherapiesDirections" prefWidth="75.0" text="Directions" />
-                              <TableColumn fx:id="tableViewTherapiesIDDrug" prefWidth="75.0" text="IDDrug" />
+                            <TableColumn fx:id="tableViewTherapiesDirections" prefWidth="444.0" text="Directions" />
+                              <TableColumn fx:id="tableViewTherapiesIDDrug" prefWidth="149.0" text="IDDrug" />
                           </columns>
                         </TableView>
                         <TableView fx:id="tableViewPathologies" layoutX="135.0" layoutY="795.0" prefHeight="200.0" prefWidth="668.0">
                           <columns>
                             <TableColumn fx:id="tableViewPathologiesID" prefWidth="75.0" text="ID" />
-                            <TableColumn fx:id="tableViewPathologiesDescription" prefWidth="75.0" text="Description" />
+                            <TableColumn fx:id="tableViewPathologiesDescription" prefWidth="592.0" text="Description" />
                           </columns>
                         </TableView>
                      
@@ -159,9 +159,9 @@
                      <children>
                         <TableView fx:id="tableViewMyPathologies" layoutX="119.0" layoutY="138.0" prefHeight="200.0" prefWidth="640.0">
                           <columns>
-                            <TableColumn fx:id="tableViewMyPathologiesDescription" prefWidth="260.0" text="Description" />
-                              <TableColumn fx:id="tableViewMyPathologiesStartDate" prefWidth="75.0" text="Start Date" />
-                              <TableColumn fx:id="tableViewMyPathologiesEndDate" prefWidth="75.0" text="End Date" />
+                            <TableColumn fx:id="tableViewMyPathologiesDescription" prefWidth="449.0" text="Description" />
+                              <TableColumn fx:id="tableViewMyPathologiesStartDate" prefWidth="93.0" text="Start Date" />
+                              <TableColumn fx:id="tableViewMyPathologiesEndDate" prefWidth="97.0" text="End Date" />
                           </columns>
                         </TableView>
                         <ChoiceBox fx:id="choiceBoxPathologies" layoutX="240.0" layoutY="406.0" prefWidth="150.0" />

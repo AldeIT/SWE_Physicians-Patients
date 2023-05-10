@@ -1,6 +1,9 @@
 package controller;
 
+import java.awt.Desktop;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -140,6 +143,8 @@ public class patientViewController {
     
     private AlertHandler alert = AlertHandler.getInstance();
     
+    @FXML
+    private Button contactPhysician;
 
     
     /**
@@ -247,6 +252,26 @@ public class patientViewController {
 		
 		
 	}
+	
+    @FXML
+    void contactPhysicianOnClicked(ActionEvent event) throws SQLException {
+    	String q = "SELECT email FROM Physician WHERE CF='" + session.getCFPhysician() + "';";
+    	ResultSet rs = db.runQuery(q);
+    	
+    	String recipient = rs.getString(1);
+        String subject = "";
+        String body = "";
+        try {
+            // Create a mailto: URI with the recipient, subject, and body
+            URI mailtoUri = new URI("mailto:" + recipient +
+                                    "?subject=" + subject +
+                                    "&body=" + body);
+             // Open the default mail application with the mailto: URI
+            Desktop.getDesktop().mail(mailtoUri);
+        } catch (URISyntaxException | IOException e) {
+            e.printStackTrace();
+        }
+    }
 	
 	public void firstAlert() throws SQLException {
 		
@@ -406,10 +431,8 @@ public class patientViewController {
 				temp.setDrug(rs3.getString(1));
 				temp.setTotalQuantityRemaining(max - rs2.getInt(1));
 				if (temp.getDailyDoseRemaining() == 0 && temp.getTotalQuantityRemaining() != 0) {
-					Alert alert = new Alert(Alert.AlertType.ERROR);
-			        alert.setTitle("Warning Daily Doses");
-			        alert.setHeaderText("You have already taken pills for your daily dose indications, but you did something wrong because you probably missed some pills, pls contact your medic!");
-			        alert.showAndWait();
+					alert.launchAlert(Alert.AlertType.ERROR, "Warning Daily Doses", "You have already taken pills for your daily dose indications, but you did something wrong because you probably missed some pills, pls contact your medic!");
+
 				}
 				if (max - rs2.getInt(1) < temp.getQuantity()) {
 					temp.setQuantityRemaining(max - rs2.getInt(1));
@@ -427,6 +450,12 @@ public class patientViewController {
 	
 	@FXML
     void btnInsertMeasurementClicked(ActionEvent event) throws ParseException, SQLException {
+		
+		if (textFieldSBP.getText().isEmpty() || textFieldDBP.getText().isEmpty()) {
+			alert.launchAlert(Alert.AlertType.ERROR, "Fields Error", "You need to insert values in the label");
+			return;
+		}
+		
 		int sbp = Integer.parseInt(textFieldSBP.getText());
 		
 		int dbp = Integer.parseInt(textFieldDBP.getText());

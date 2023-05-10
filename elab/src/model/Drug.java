@@ -2,16 +2,17 @@ package model;
 
 import javafx.beans.property.ReadOnlyIntegerProperty;
 import javafx.beans.property.ReadOnlyIntegerWrapper;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 public class Drug {
-    private final ReadOnlyIntegerWrapper id = new ReadOnlyIntegerWrapper(this, "id");
+    private final SimpleIntegerProperty id = new SimpleIntegerProperty(this, "id");
     private StringProperty name = new SimpleStringProperty(this, "name");
 	private StringProperty description = new SimpleStringProperty(this, "description");
 
     public Drug(int id, String name, String description){
-        this.id.set(id);
+    	this.id.set(id);
         this.name.set(name);
         this.description.set(description);
     }
@@ -20,8 +21,8 @@ public class Drug {
         return id.get();
     }
     /*gets the idproperty*/
-    public final ReadOnlyIntegerProperty idProperty() {
-        return id.getReadOnlyProperty();
+    public final SimpleIntegerProperty idProperty() {
+        return id;
     }
 
     /*gets the name*/
@@ -48,4 +49,9 @@ public class Drug {
 	public String toString() {
 		return "IDDrug: " + getId() + ", Name: " + getName();
 	}
+    
+    public boolean equals(Object other) {
+    	if (!(other instanceof Drug))return false;
+    	return this.getName().equals(((Drug)other).getName()) && this.getDescription().equals(((Drug)other).getDescription());
+    }
 }
