@@ -174,10 +174,7 @@
                         <Label fx:id="labelSex" layoutX="319.0" layoutY="297.0" text="M" />
                         <Label fx:id="labelBirthdate" layoutX="675.0" layoutY="208.0" text="17/04/2002" />
                         <Label fx:id="labelNationality" layoutX="690.0" layoutY="254.0" text="Italian" />
-                        <Label fx:id="labelStreet" layoutX="724.0" layoutY="25.0" text="e" />
                         <Label fx:id="labelCivicNumber" layoutX="401.0" layoutY="344.0" text="Via Marconi 89, Castel d' Azzano Verona" />
-                        <Label fx:id="labelCAP" layoutX="752.0" layoutY="25.0" text="i" />
-                        <Label fx:id="labelCity" layoutX="795.0" layoutY="25.0" text="a" />
                         <Label fx:id="labelPhoneNumber" layoutX="671.0" layoutY="296.0" prefHeight="19.0" prefWidth="65.0" text="3402938423" />
                         <Label layoutX="204.0" layoutY="611.0" text="Name" textFill="WHITE">
                            <font>

@@ -60,18 +60,6 @@
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font></Label>
-                        <Label layoutX="66.0" layoutY="771.0" text="Civic Number">
-                           <font>
-                              <Font name="Comic Sans MS Bold" size="16.0" />
-                           </font></Label>
-                        <Label layoutX="219.0" layoutY="783.0" text="CAP">
-                           <font>
-                              <Font name="Comic Sans MS Bold" size="16.0" />
-                           </font></Label>
-                        <Label layoutX="303.0" layoutY="783.0" text="City">
-                           <font>
-                              <Font name="Comic Sans MS Bold" size="16.0" />
-                           </font></Label>
                         <Label layoutX="507.0" layoutY="353.0" text="Phone Number" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="14.0" />
@@ -108,18 +96,6 @@
                         <Label fx:id="labelStreet" layoutX="386.0" layoutY="426.0" text="Via Marconi 89 castel d' azxzano verona">
                            <font>
                               <Font size="14.0" />
-                           </font></Label>
-                        <Label fx:id="labelCivicNumber" layoutX="92.0" layoutY="738.0" text="ccc">
-                           <font>
-                              <Font name="Comic Sans MS" size="16.0" />
-                           </font></Label>
-                        <Label fx:id="labelCAP" layoutX="227.0" layoutY="760.0" text="cc">
-                           <font>
-                              <Font name="Comic Sans MS" size="16.0" />
-                           </font></Label>
-                        <Label fx:id="labelCity" layoutX="316.0" layoutY="750.0" text="cb">
-                           <font>
-                              <Font name="Comic Sans MS" size="16.0" />
                            </font></Label>
                         <Label fx:id="labelPhoneNumber" layoutX="681.0" layoutY="353.0" text="3402948423">
                            <font>

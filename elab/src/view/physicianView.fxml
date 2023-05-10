@@ -160,9 +160,6 @@
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font></Label>
-                        <Label layoutX="116.0" layoutY="623.0" text="Civic Number" />
-                        <Label layoutX="141.0" layoutY="691.0" text="CAP" />
-                        <Label layoutX="142.0" layoutY="755.0" text="City" />
                         <Label layoutX="490.0" layoutY="381.0" text="Phone Number" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="14.0" />
@@ -175,9 +172,6 @@
                         <Label fx:id="labelBirthdate" layoutX="652.0" layoutY="269.0" text="00/00/0000" />
                         <Label fx:id="labelNationality" layoutX="667.0" layoutY="332.0" text="Italian" />
                         <Label fx:id="labelStreet" layoutX="414.0" layoutY="446.0" text="Via Mizzole 89, Mizzole, Verona" />
-                        <Label fx:id="labelCivicNumber" layoutX="229.0" layoutY="623.0" text="fefe" />
-                        <Label fx:id="labelCAP" layoutX="232.0" layoutY="691.0" text="efee" />
-                        <Label fx:id="labelCity" layoutX="234.0" layoutY="755.0" text="fe" />
                         <Label fx:id="labelPhoneNumber" layoutX="651.0" layoutY="384.0" text="0000000000" />
                         <Label layoutX="299.0" layoutY="59.0" text="Your Informations">
                            <textFill>
