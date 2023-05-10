@@ -37,10 +37,11 @@ public class Main extends Application {
         primaryStage.setOnCloseRequest(stageController::handleCloseRequest);
         
         /*Showing the first View*/
+        primaryStage.setTitle("Login");
         primaryStage.setScene(scene);
-        primaryStage.setMinWidth(900);
-        primaryStage.setMinHeight(800);
-        primaryStage.setResizable(true);
+        primaryStage.setMinWidth(500);
+        primaryStage.setMinHeight(600);
+        primaryStage.setResizable(false);
         primaryStage.show();
 	}
 	

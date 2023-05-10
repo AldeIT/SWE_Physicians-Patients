@@ -276,7 +276,7 @@ public class showPatientViewController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+		this.root.setStyle("-fx-background-color: #0099cc;");
 		System.out.println("init");
 		
 		setLabels();	
