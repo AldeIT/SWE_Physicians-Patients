@@ -9,8 +9,12 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="1000.0" minWidth="1000.0" prefHeight="500.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.patientViewController">
+<AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="1000.0" minWidth="1000.0" prefHeight="500.0" prefWidth="750.0" style="-fx-background-color: #0099cc;" stylesheets="@../css/tablePane.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.patientViewController">
    <children>
       <TabPane fx:id="tabpane" prefHeight="1000.0" prefWidth="1006.0" side="LEFT" stylesheets="@../css/tablePane.css" tabClosingPolicy="UNAVAILABLE">
         <tabs>
@@ -18,11 +22,41 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <Label alignment="CENTER" layoutX="209.0" layoutY="78.0" prefHeight="37.0" prefWidth="524.0" text="Select the Therapy and Insert the amount of medication that you have taken" />
-                        <ListView fx:id="listViewCurrentTherapies" layoutX="180.0" layoutY="188.0" prefHeight="200.0" prefWidth="594.0" />
-                        <TextField fx:id="textFieldQuantity" layoutX="275.0" layoutY="488.0" />
-                        <Label layoutX="189.0" layoutY="492.0" prefHeight="17.0" prefWidth="79.0" text="Quantity: " />
-                        <Button fx:id="btnInsertIntake" layoutX="569.0" layoutY="488.0" mnemonicParsing="false" onAction="#btnInsertIntakeOnClicked" text="Insert Intake" />
+                        <Label alignment="CENTER" layoutX="215.0" layoutY="194.0" prefHeight="17.0" prefWidth="524.0" text="Select the Therapy and Insert the amount of medication that you have taken" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font></Label>
+                        <ListView fx:id="listViewCurrentTherapies" layoutX="180.0" layoutY="216.0" prefHeight="200.0" prefWidth="594.0" />
+                        <TextField fx:id="textFieldQuantity" layoutX="397.0" layoutY="501.0" />
+                        <Label layoutX="436.0" layoutY="481.0" prefHeight="20.0" prefWidth="70.0" text="Quantity: " textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font></Label>
+                        <Button fx:id="btnInsertIntake" layoutX="416.0" layoutY="591.0" mnemonicParsing="false" onAction="#btnInsertIntakeOnClicked" prefHeight="40.0" prefWidth="110.0" style="-fx-background-color: #cc0086;" text="Insert Intake" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font></Button>
+                        <Label fx:id="titleLabel" layoutX="325.0" layoutY="58.0" prefHeight="50.0" prefWidth="305.0" text="Your Medications">
+                           <font>
+                              <Font name="System Bold" size="36.0" />
+                           </font>
+                           <textFill>
+                              <LinearGradient endX="1.0" endY="0.3886255924170616" startX="1.0" startY="0.8483412322274881">
+                                 <stops>
+                                    <Stop>
+                                       <color>
+                                          <Color red="0.800000011920929" blue="0.5254902243614197" />
+                                       </color>
+                                    </Stop>
+                                    <Stop offset="1.0">
+                                       <color>
+                                          <Color red="1.0" green="1.0" blue="1.0" />
+                                       </color>
+                                    </Stop>
+                                 </stops>
+                              </LinearGradient>
+                           </textFill>
+                        </Label>
                      </children></AnchorPane>
               </content>
                <graphic>
@@ -37,14 +71,52 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <Label layoutX="184.0" layoutY="198.0" text="Inserisci SBP/DBP" />
-                        <TextField fx:id="textFieldSBP" layoutX="322.0" layoutY="194.0" />
-                        <Label layoutX="471.0" layoutY="198.0" text="/" />
+                        <Label layoutX="351.0" layoutY="59.0" prefHeight="50.0" prefWidth="240.0" text="Measurement">
+                           <font>
+                              <Font name="System Bold" size="36.0" />
+                           </font>
+                           <textFill>
+                              <LinearGradient endX="1.0" endY="0.3886255924170616" startX="1.0" startY="0.8483412322274881">
+                                 <stops>
+                                    <Stop>
+                                       <color>
+                                          <Color red="0.800000011920929" blue="0.5254902243614197" />
+                                       </color>
+                                    </Stop>
+                                    <Stop offset="1.0">
+                                       <color>
+                                          <Color red="1.0" green="1.0" blue="1.0" />
+                                       </color>
+                                    </Stop>
+                                 </stops>
+                              </LinearGradient>
+                           </textFill>
+                        </Label>
+                        <Label layoutX="184.0" layoutY="198.0" text="Insert SBP/DBP" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font></Label>
+                        <TextField fx:id="textFieldSBP" layoutX="319.0" layoutY="194.0" />
+                        <Label layoutX="469.0" layoutY="197.0" text="/" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font></Label>
                         <TextField fx:id="textFieldDBP" layoutX="476.0" layoutY="194.0" />
-                        <ListView fx:id="listViewSymptoms" layoutX="371.0" layoutY="264.0" prefHeight="200.0" prefWidth="200.0" />
-                        <Button fx:id="btnInsertMeasurement" layoutX="413.0" layoutY="692.0" mnemonicParsing="false" onAction="#btnInsertMeasurementClicked" text="Insert Measurement" />
-                        <TextField fx:id="textFieldInformations" layoutX="370.0" layoutY="495.0" prefHeight="124.0" prefWidth="201.0" />
-                        <Label layoutX="184.0" layoutY="540.0" text="Informations (Optional)" />
+                        <ListView fx:id="listViewSymptoms" layoutX="366.0" layoutY="270.0" prefHeight="155.0" prefWidth="210.0" />
+                        <Button fx:id="btnInsertMeasurement" layoutX="391.0" layoutY="648.0" mnemonicParsing="false" onAction="#btnInsertMeasurementClicked" prefHeight="40.0" prefWidth="160.0" style="-fx-background-color: #cc0086;" text="Insert Measurement" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font></Button>
+                        <TextField fx:id="textFieldInformations" layoutX="366.0" layoutY="511.0" prefHeight="75.0" prefWidth="210.0" />
+                        <Label layoutX="184.0" layoutY="540.0" text="Informations (Optional)" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font></Label>
+                        <Label layoutX="152.0" layoutY="339.0" text="Select Symptoms (Optional)" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Label>
                      </children></AnchorPane>
             </content>
                <graphic>
@@ -57,43 +129,122 @@
           </Tab>
           <Tab fx:id="profileTab">
             <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="770.0" prefWidth="772.0">
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1001.0" prefWidth="927.0">
                      <children>
-                     <Label layoutX="167.0" layoutY="106.0" text="CF" />
-                        <Label layoutX="159.0" layoutY="199.0" text="Name" />
-                        <Label layoutX="160.0" layoutY="147.0" text="Email" />
-                        <Label layoutX="152.0" layoutY="245.0" prefHeight="17.0" prefWidth="52.0" text="Surname" />
-                        <Label layoutX="166.0" layoutY="297.0" text="Sex" />
-                        <Label layoutX="150.0" layoutY="355.0" text="Birthdate" />
-                        <Label layoutX="146.0" layoutY="405.0" text="Nationality" />
-                        <Label layoutX="157.0" layoutY="460.0" text="Street" />
-                        <Label layoutX="138.0" layoutY="514.0" text="Civic Number" />
-                        <Label layoutX="163.0" layoutY="582.0" text="CAP" />
-                        <Label layoutX="164.0" layoutY="646.0" text="City" />
-                        <Label layoutX="134.0" layoutY="689.0" text="Phone Number" />
-                        <Label fx:id="labelCF" layoutX="454.0" layoutY="106.0" />
-                        <Label fx:id="labelEmail" layoutX="454.0" layoutY="147.0" />
-                        <Label fx:id="labelName" layoutX="454.0" layoutY="199.0" />
-                        <Label fx:id="labelSurname" layoutX="454.0" layoutY="245.0" />
-                        <Label fx:id="labelSex" layoutX="454.0" layoutY="297.0" />
-                        <Label fx:id="labelBirthdate" layoutX="454.0" layoutY="355.0" />
-                        <Label fx:id="labelNationality" layoutX="454.0" layoutY="405.0" />
-                        <Label fx:id="labelStreet" layoutX="454.0" layoutY="460.0" />
-                        <Label fx:id="labelCivicNumber" layoutX="454.0" layoutY="514.0" />
-                        <Label fx:id="labelCAP" layoutX="454.0" layoutY="582.0" />
-                        <Label fx:id="labelCity" layoutX="454.0" layoutY="646.0" />
-                        <Label fx:id="labelPhoneNumber" layoutX="454.0" layoutY="689.0" />
-                        <Label layoutX="144.0" layoutY="742.0" text="Informations" />
-                        <Label fx:id="labelInformations" layoutX="463.0" layoutY="742.0" />
-                        <Label layoutX="160.0" layoutY="798.0" text="Name" />
-                        <Label layoutX="363.0" layoutY="798.0" text="Surname" />
-                        <Label layoutX="561.0" layoutY="798.0" text="Email" />
-                        <Label layoutX="771.0" layoutY="798.0" text="Phone Number" />
-                        <Label fx:id="labelPhysicianName" layoutX="164.0" layoutY="856.0" />
-                        <Label fx:id="labelPhysicianSurname" layoutX="373.0" layoutY="856.0" />
-                        <Label fx:id="labelPhysicianPhoneNumber" layoutX="798.0" layoutY="856.0" />
-                        <Label fx:id="labelPhysicianEmail" layoutX="561.0" layoutY="848.0" textOverrun="LEADING_ELLIPSIS" />
-                        <Button fx:id="contactPhysician" layoutX="419.0" layoutY="901.0" mnemonicParsing="false" onAction="#contactPhysicianOnClicked" text="CONTACT" />
+                     <Label layoutX="250.0" layoutY="154.0" text="CF" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font></Label>
+                        <Label layoutX="241.0" layoutY="206.0" text="Name" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font></Label>
+                        <Label layoutX="561.0" layoutY="156.0" text="Email" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font></Label>
+                        <Label layoutX="231.0" layoutY="252.0" prefHeight="20.0" prefWidth="65.0" text="Surname" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font></Label>
+                        <Label layoutX="248.0" layoutY="295.0" text="Sex" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font></Label>
+                        <Label layoutX="551.0" layoutY="208.0" text="Birthdate" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font></Label>
+                        <Label layoutX="547.0" layoutY="254.0" text="Nationality" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font></Label>
+                        <Label layoutX="232.0" layoutY="335.0" text="Address" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font></Label>
+                        <Label layoutX="536.0" layoutY="297.0" text="Phone Number" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font></Label>
+                        <Label fx:id="labelCF" layoutX="348.0" layoutY="154.0" text="cccccc" />
+                        <Label fx:id="labelEmail" layoutX="683.0" layoutY="155.0" prefHeight="19.0" prefWidth="42.0" text="emaaaa" />
+                        <Label fx:id="labelName" layoutX="343.0" layoutY="206.0" text="naamels" />
+                        <Label fx:id="labelSurname" layoutX="354.0" layoutY="252.0" text="surn" />
+                        <Label fx:id="labelSex" layoutX="347.0" layoutY="295.0" text="seeeee" />
+                        <Label fx:id="labelBirthdate" layoutX="682.0" layoutY="206.0" text="complea" />
+                        <Label fx:id="labelNationality" layoutX="691.0" layoutY="254.0" text="natio" />
+                        <Label fx:id="labelStreet" layoutX="724.0" layoutY="25.0" text="e" />
+                        <Label fx:id="labelCivicNumber" layoutX="348.0" layoutY="336.0" text="adddd" />
+                        <Label fx:id="labelCAP" layoutX="752.0" layoutY="25.0" text="i" />
+                        <Label fx:id="labelCity" layoutX="795.0" layoutY="25.0" text="a" />
+                        <Label fx:id="labelPhoneNumber" layoutX="689.0" layoutY="297.0" text="pnum" />
+                        <Label layoutX="243.0" layoutY="612.0" text="Name" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font></Label>
+                        <Label layoutX="561.0" layoutY="612.0" text="Surname" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font></Label>
+                        <Label layoutX="244.0" layoutY="669.0" text="Email" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font></Label>
+                        <Label layoutX="542.0" layoutY="669.0" text="Phone Number" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font></Label>
+                        <Label fx:id="labelPhysicianName" layoutX="349.0" layoutY="614.0" text="gbgfh" />
+                        <Label fx:id="labelPhysicianSurname" layoutX="693.0" layoutY="614.0" text="surn" />
+                        <Label fx:id="labelPhysicianPhoneNumber" layoutX="695.0" layoutY="671.0" text="pfd" />
+                        <Label fx:id="labelPhysicianEmail" layoutX="354.0" layoutY="671.0" text="gfgf" textOverrun="LEADING_ELLIPSIS" />
+                        <Button fx:id="contactPhysician" layoutX="413.0" layoutY="724.0" mnemonicParsing="false" onAction="#contactPhysicianOnClicked" prefHeight="30.0" prefWidth="100.0" style="-fx-background-color: #cc0086;" text="CONTACT" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font></Button>
+                        <Label layoutX="298.0" layoutY="62.0" prefHeight="50.0" prefWidth="330.0" text="Your Informations">
+                           <font>
+                              <Font name="System Bold" size="36.0" />
+                           </font>
+                           <textFill>
+                              <LinearGradient endX="1.0" endY="0.3886255924170616" startX="1.0" startY="0.8483412322274881">
+                                 <stops>
+                                    <Stop>
+                                       <color>
+                                          <Color red="0.800000011920929" blue="0.5254902243614197" />
+                                       </color>
+                                    </Stop>
+                                    <Stop offset="1.0">
+                                       <color>
+                                          <Color red="1.0" green="1.0" blue="1.0" />
+                                       </color>
+                                    </Stop>
+                                 </stops>
+                              </LinearGradient>
+                           </textFill>
+                        </Label>
+                        <Label layoutX="204.0" layoutY="512.0" prefHeight="50.0" prefWidth="500.0" text="Your Physician Informations">
+                           <font>
+                              <Font name="System Bold" size="36.0" />
+                           </font>
+                           <textFill>
+                              <LinearGradient endX="1.0" endY="0.3886255924170616" startX="1.0" startY="0.8483412322274881">
+                                 <stops>
+                                    <Stop>
+                                       <color>
+                                          <Color red="0.800000011920929" blue="0.5254902243614197" />
+                                       </color>
+                                    </Stop>
+                                    <Stop offset="1.0">
+                                       <color>
+                                          <Color red="1.0" green="1.0" blue="1.0" />
+                                       </color>
+                                    </Stop>
+                                 </stops>
+                              </LinearGradient>
+                           </textFill>
+                        </Label>
                      
                      
                      </children></AnchorPane>
