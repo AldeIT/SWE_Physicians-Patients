@@ -256,8 +256,8 @@ public class physicianViewController{
 				Scene scene = new Scene(root);
 				Stage stage = (Stage) tabpane.getScene().getWindow();
 				stage.setScene(scene);
-				stage.setMinWidth(1000);
-		        stage.setMinHeight(1000);
+				stage.setMinWidth(500);
+		        stage.setMinHeight(600);
 		        stage.setResizable(true);
 				stage.show();
 		    }
@@ -272,15 +272,12 @@ public class physicianViewController{
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		String formattedDate = session.getBirthdate().format(formatter);		
 		labelBirthdate.setText(formattedDate);	
-		labelStreet.setText(session.getStreet());
+		labelStreet.setText(session.getStreet() + " " + session.getCivicNumber() + ", " + session.getCAP() + " " + session.getCity());
 		labelSurname.setText(session.getSurname());
 		labelPhoneNumber.setText(session.getPhoneNumber());
 		labelSex.setText(session.getSex());
 		labelNationality.setText(session.getNationality());
 		labelEmail.setText(session.getEmail());
-		labelCAP.setText(Integer.toString(session.getCAP()));
-		labelCity.setText(session.getCity());
-		labelCivicNumber.setText(Integer.toString(session.getCivicNumber()));
 	}
 	
 	

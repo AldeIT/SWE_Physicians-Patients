@@ -256,15 +256,12 @@ public class showPatientViewController {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		String formattedDate = patient.getBirthdate().format(formatter);		
 		labelBirthdate.setText(formattedDate);	
-		labelStreet.setText(patient.getStreet());
+		labelStreet.setText(patient.getStreet() + " " + patient.getCivicNumber() + ", " + patient.getCAP() + " " + patient.getCity());
 		labelSurname.setText(patient.getSurname());
 		labelPhoneNumber.setText(patient.getPhoneNumber());
 		labelSex.setText(patient.getSex());
 		labelNationality.setText(patient.getNationality());
 		labelEmail.setText(patient.getEmail());
-		labelCAP.setText(Integer.toString(patient.getCAP()));
-		labelCity.setText(patient.getCity());
-		labelCivicNumber.setText(Integer.toString(patient.getCivicNumber()));
 		textFieldInformations.setText(patient.getInformations());
 	}
 	
