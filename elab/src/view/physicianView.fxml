@@ -16,7 +16,7 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="1000.0" minWidth="1000.0" prefHeight="500.0" prefWidth="750.0" style="-fx-background-color: #0099cc;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.physicianViewController">
+<AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="900.0" minWidth="1000.0" prefHeight="500.0" prefWidth="750.0" style="-fx-background-color: #0099cc;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.physicianViewController">
    <children>
       <TabPane fx:id="tabpane" prefHeight="1000.0" prefWidth="1000.0" side="LEFT" stylesheets="@../css/tablePane.css" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <tabs>
@@ -24,7 +24,7 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TableView fx:id="tableViewBloodPressure" layoutX="137.0" layoutY="167.0" prefHeight="200.0" prefWidth="663.0">
+                        <TableView fx:id="tableViewBloodPressure" layoutX="137.0" layoutY="196.0" prefHeight="200.0" prefWidth="663.0">
                           <columns>
                             <TableColumn fx:id="tableViewBloodPressureName" prefWidth="84.0" text="Name" />
                             <TableColumn fx:id="tableViewBloodPressureSurname" prefWidth="93.0" text="Surname" />
@@ -35,7 +35,7 @@
                               <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                            </columnResizePolicy>
                         </TableView>
-                        <TableView fx:id="tableViewTherapiesNotTaken" layoutX="137.0" layoutY="482.0" prefHeight="200.0" prefWidth="663.0">
+                        <TableView fx:id="tableViewTherapiesNotTaken" layoutX="137.0" layoutY="511.0" prefHeight="200.0" prefWidth="663.0">
                            <columns>
                               <TableColumn fx:id="tableViewTherapiesNotTakenName" prefWidth="99.0" text="Name" />
                               <TableColumn fx:id="tableViewTherapiesNotTakenSurname" prefWidth="101.0" text="Surname" />
@@ -103,13 +103,13 @@
                               </LinearGradient>
                            </textFill>
                         </Label>
-                        <ListView fx:id="listViewPatients" layoutX="113.0" layoutY="239.0" prefHeight="342.0" prefWidth="722.0" />
-                        <TextField fx:id="textFieldCF" layoutX="206.0" layoutY="183.0" onKeyTyped="#textFieldCFOnTyped" />
-                        <Button fx:id="btnShowPatient" layoutX="434.0" layoutY="620.0" mnemonicParsing="false" onAction="#btnShowPatientOnClicked" prefHeight="40.0" prefWidth="80.0" style="-fx-background-color: #cc0086;" text="Show" textFill="WHITE">
+                        <ListView fx:id="listViewPatients" layoutX="113.0" layoutY="276.0" prefHeight="342.0" prefWidth="722.0" />
+                        <TextField fx:id="textFieldCF" layoutX="206.0" layoutY="220.0" onKeyTyped="#textFieldCFOnTyped" />
+                        <Button fx:id="btnShowPatient" layoutX="434.0" layoutY="657.0" mnemonicParsing="false" onAction="#btnShowPatientOnClicked" prefHeight="40.0" prefWidth="80.0" style="-fx-background-color: #cc0086;" text="Show" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font></Button>
-                        <Label layoutX="134.0" layoutY="185.0" text="Search:" textFill="WHITE">
+                        <Label layoutX="134.0" layoutY="222.0" text="Search:" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font>
@@ -128,57 +128,57 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="486.0" prefWidth="667.0">
                      <children>
-                        <Label layoutX="185.0" layoutY="186.0" text="CF" textFill="WHITE">
+                        <Label layoutX="185.0" layoutY="191.0" text="CF" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font></Label>
-                        <Label layoutX="178.0" layoutY="262.0" text="Name" textFill="WHITE">
+                        <Label layoutX="178.0" layoutY="267.0" text="Name" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font></Label>
-                        <Label layoutX="522.0" layoutY="188.0" text="Email" textFill="WHITE">
+                        <Label layoutX="522.0" layoutY="193.0" text="Email" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font></Label>
-                        <Label layoutX="168.0" layoutY="325.0" prefHeight="20.0" prefWidth="63.0" text="Surname" textFill="WHITE">
+                        <Label layoutX="168.0" layoutY="330.0" prefHeight="20.0" prefWidth="63.0" text="Surname" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font></Label>
-                        <Label layoutX="182.0" layoutY="377.0" text="Sex" textFill="WHITE">
+                        <Label layoutX="182.0" layoutY="382.0" text="Sex" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font></Label>
-                        <Label layoutX="509.0" layoutY="262.0" text="Birthdate" textFill="WHITE">
+                        <Label layoutX="509.0" layoutY="267.0" text="Birthdate" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font></Label>
-                        <Label layoutX="503.0" layoutY="325.0" text="Nationality" textFill="WHITE">
+                        <Label layoutX="503.0" layoutY="330.0" text="Nationality" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font></Label>
-                        <Label layoutX="314.0" layoutY="439.0" text="Address" textFill="WHITE">
+                        <Label layoutX="314.0" layoutY="444.0" text="Address" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font></Label>
-                        <Label layoutX="202.0" layoutY="744.0" text="Civic Number" />
-                        <Label layoutX="227.0" layoutY="812.0" text="CAP" />
-                        <Label layoutX="228.0" layoutY="876.0" text="City" />
-                        <Label layoutX="490.0" layoutY="376.0" text="Phone Number" textFill="WHITE">
+                        <Label layoutX="116.0" layoutY="623.0" text="Civic Number" />
+                        <Label layoutX="141.0" layoutY="691.0" text="CAP" />
+                        <Label layoutX="142.0" layoutY="755.0" text="City" />
+                        <Label layoutX="490.0" layoutY="381.0" text="Phone Number" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font></Label>
-                        <Label fx:id="labelCF" layoutX="263.0" layoutY="188.0" text="LDGLSN02S18F861T" />
-                        <Label fx:id="labelEmail" layoutX="621.0" layoutY="188.0" text="alealde012@gmail.com" />
-                        <Label fx:id="labelName" layoutX="288.0" layoutY="264.0" text="Alessandro" />
-                        <Label fx:id="labelSurname" layoutX="291.0" layoutY="327.0" text="Aldegheri" />
-                        <Label fx:id="labelSex" layoutX="312.0" layoutY="379.0" text="M" />
-                        <Label fx:id="labelBirthdate" layoutX="652.0" layoutY="264.0" text="00/00/0000" />
-                        <Label fx:id="labelNationality" layoutX="667.0" layoutY="327.0" text="Italian" />
-                        <Label fx:id="labelStreet" layoutX="414.0" layoutY="441.0" text="Via Mizzole 89, Mizzole, Verona" />
-                        <Label fx:id="labelCivicNumber" layoutX="315.0" layoutY="744.0" text="fefe" />
-                        <Label fx:id="labelCAP" layoutX="318.0" layoutY="812.0" text="efee" />
-                        <Label fx:id="labelCity" layoutX="320.0" layoutY="876.0" text="fe" />
-                        <Label fx:id="labelPhoneNumber" layoutX="651.0" layoutY="379.0" text="0000000000" />
+                        <Label fx:id="labelCF" layoutX="263.0" layoutY="193.0" text="LDGLSN02S18F861T" />
+                        <Label fx:id="labelEmail" layoutX="621.0" layoutY="193.0" text="alealde012@gmail.com" />
+                        <Label fx:id="labelName" layoutX="288.0" layoutY="269.0" text="Alessandro" />
+                        <Label fx:id="labelSurname" layoutX="291.0" layoutY="332.0" text="Aldegheri" />
+                        <Label fx:id="labelSex" layoutX="312.0" layoutY="384.0" text="M" />
+                        <Label fx:id="labelBirthdate" layoutX="652.0" layoutY="269.0" text="00/00/0000" />
+                        <Label fx:id="labelNationality" layoutX="667.0" layoutY="332.0" text="Italian" />
+                        <Label fx:id="labelStreet" layoutX="414.0" layoutY="446.0" text="Via Mizzole 89, Mizzole, Verona" />
+                        <Label fx:id="labelCivicNumber" layoutX="229.0" layoutY="623.0" text="fefe" />
+                        <Label fx:id="labelCAP" layoutX="232.0" layoutY="691.0" text="efee" />
+                        <Label fx:id="labelCity" layoutX="234.0" layoutY="755.0" text="fe" />
+                        <Label fx:id="labelPhoneNumber" layoutX="651.0" layoutY="384.0" text="0000000000" />
                         <Label layoutX="299.0" layoutY="59.0" text="Your Informations">
                            <textFill>
                               <LinearGradient endX="1.0" endY="0.3459715639810427" startX="1.0" startY="0.8530805687203792">

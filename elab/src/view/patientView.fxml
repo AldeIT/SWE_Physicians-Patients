@@ -14,25 +14,25 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="1000.0" minWidth="1000.0" prefHeight="500.0" prefWidth="750.0" style="-fx-background-color: #0099cc;" stylesheets="@../css/tablePane.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.patientViewController">
+<AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="900.0" minWidth="1000.0" prefHeight="500.0" prefWidth="750.0" style="-fx-background-color: #0099cc;" stylesheets="@../css/tablePane.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.patientViewController">
    <children>
-      <TabPane fx:id="tabpane" prefHeight="1000.0" prefWidth="1006.0" side="LEFT" stylesheets="@../css/tablePane.css" tabClosingPolicy="UNAVAILABLE">
+      <TabPane fx:id="tabpane" prefHeight="900.0" prefWidth="1000.0" side="LEFT" stylesheets="@../css/tablePane.css" tabClosingPolicy="UNAVAILABLE">
         <tabs>
             <Tab fx:id="drugTab">
               <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1003.0" prefWidth="939.0">
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="892.0" prefWidth="942.0">
                      <children>
-                        <Label alignment="CENTER" layoutX="215.0" layoutY="194.0" prefHeight="17.0" prefWidth="524.0" text="Select the Therapy and Insert the amount of medication that you have taken" textFill="WHITE">
+                        <Label alignment="CENTER" layoutX="215.0" layoutY="210.0" prefHeight="17.0" prefWidth="524.0" text="Select the Therapy and Insert the amount of medication that you have taken" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font></Label>
-                        <ListView fx:id="listViewCurrentTherapies" layoutX="180.0" layoutY="216.0" prefHeight="200.0" prefWidth="594.0" />
-                        <TextField fx:id="textFieldQuantity" layoutX="397.0" layoutY="501.0" />
-                        <Label layoutX="436.0" layoutY="481.0" prefHeight="20.0" prefWidth="70.0" text="Quantity: " textFill="WHITE">
+                        <ListView fx:id="listViewCurrentTherapies" layoutX="180.0" layoutY="232.0" prefHeight="200.0" prefWidth="594.0" />
+                        <TextField fx:id="textFieldQuantity" layoutX="397.0" layoutY="517.0" />
+                        <Label layoutX="436.0" layoutY="497.0" prefHeight="20.0" prefWidth="70.0" text="Quantity: " textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font></Label>
-                        <Button fx:id="btnInsertIntake" layoutX="416.0" layoutY="591.0" mnemonicParsing="false" onAction="#btnInsertIntakeOnClicked" prefHeight="40.0" prefWidth="110.0" style="-fx-background-color: #cc0086;" text="Insert Intake" textFill="WHITE">
+                        <Button fx:id="btnInsertIntake" layoutX="416.0" layoutY="607.0" mnemonicParsing="false" onAction="#btnInsertIntakeOnClicked" prefHeight="40.0" prefWidth="110.0" style="-fx-background-color: #cc0086;" text="Insert Intake" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font></Button>
@@ -92,27 +92,27 @@
                               </LinearGradient>
                            </textFill>
                         </Label>
-                        <Label layoutX="184.0" layoutY="198.0" text="Insert SBP/DBP" textFill="WHITE">
+                        <Label layoutX="184.0" layoutY="210.0" text="Insert SBP/DBP" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font></Label>
-                        <TextField fx:id="textFieldSBP" layoutX="319.0" layoutY="194.0" />
-                        <Label layoutX="469.0" layoutY="197.0" text="/" textFill="WHITE">
+                        <TextField fx:id="textFieldSBP" layoutX="319.0" layoutY="206.0" />
+                        <Label layoutX="469.0" layoutY="209.0" text="/" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font></Label>
-                        <TextField fx:id="textFieldDBP" layoutX="476.0" layoutY="194.0" />
-                        <ListView fx:id="listViewSymptoms" layoutX="366.0" layoutY="270.0" prefHeight="155.0" prefWidth="210.0" />
-                        <Button fx:id="btnInsertMeasurement" layoutX="391.0" layoutY="648.0" mnemonicParsing="false" onAction="#btnInsertMeasurementClicked" prefHeight="40.0" prefWidth="160.0" style="-fx-background-color: #cc0086;" text="Insert Measurement" textFill="WHITE">
+                        <TextField fx:id="textFieldDBP" layoutX="476.0" layoutY="206.0" />
+                        <ListView fx:id="listViewSymptoms" layoutX="366.0" layoutY="282.0" prefHeight="155.0" prefWidth="210.0" />
+                        <Button fx:id="btnInsertMeasurement" layoutX="391.0" layoutY="660.0" mnemonicParsing="false" onAction="#btnInsertMeasurementClicked" prefHeight="40.0" prefWidth="160.0" style="-fx-background-color: #cc0086;" text="Insert Measurement" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font></Button>
-                        <TextField fx:id="textFieldInformations" layoutX="366.0" layoutY="511.0" prefHeight="75.0" prefWidth="210.0" />
-                        <Label layoutX="184.0" layoutY="540.0" text="Informations (Optional)" textFill="WHITE">
+                        <TextField fx:id="textFieldInformations" layoutX="366.0" layoutY="523.0" prefHeight="75.0" prefWidth="210.0" />
+                        <Label layoutX="184.0" layoutY="552.0" text="Informations (Optional)" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font></Label>
-                        <Label layoutX="152.0" layoutY="339.0" text="Select Symptoms (Optional)" textFill="WHITE">
+                        <Label layoutX="152.0" layoutY="351.0" text="Select Symptoms (Optional)" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font>
