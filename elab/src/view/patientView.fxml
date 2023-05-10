@@ -20,7 +20,7 @@
         <tabs>
             <Tab fx:id="drugTab">
               <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1003.0" prefWidth="939.0">
                      <children>
                         <Label alignment="CENTER" layoutX="215.0" layoutY="194.0" prefHeight="17.0" prefWidth="524.0" text="Select the Therapy and Insert the amount of medication that you have taken" textFill="WHITE">
                            <font>
@@ -129,7 +129,7 @@
           </Tab>
           <Tab fx:id="profileTab">
             <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1001.0" prefWidth="927.0">
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1001.0" prefWidth="1002.0">
                      <children>
                      <Label layoutX="201.0" layoutY="154.0" text="CF" textFill="WHITE">
                            <font>
