@@ -22,6 +22,8 @@
     -fx-background-insets: 0.0;
     -fx-background-radius: 0.0;
     -fx-padding: 0 30 0 30;
+    -fx-border-width: 0 0 5 0;
+    -fx-border-color: #FFFFFF;
 }
 
 .tab:selected
@@ -30,7 +32,7 @@
     -fx-background-radius: 0;
     -fx-background-insets: 0;
     -fx-border-width: 5 0 0 0;
-    -fx-border-color: #3FE387;
+    -fx-border-color: #cc0086;
 
 
 
