@@ -38,6 +38,10 @@ import model.Patient;
 import model.Physician;
 import model.TherapyNotTaken;
 
+
+/**
+ *The controller class for the Patient view
+ */
 public class physicianViewController{
 	
 	@FXML
@@ -139,7 +143,15 @@ public class physicianViewController{
     private AlertHandler alert = AlertHandler.getInstance();
 
 	
-	@FXML
+	/**
+	 * Handles the "Show Patient" button click event. Retrieves the selected patient from the list view and
+	 * displays the patient information in a new scene using the showPatientView.fxml file.
+	 *	
+	 * @param event An ActionEvent representing the button click event.
+	 * @throws IOException If an input or output exception occurs during loading of the FXML file.
+	 * @throws SQLException If an SQL exception occurs when retrieving patient information from the database.
+	 */
+	 @FXML
     void btnShowPatientOnClicked(ActionEvent event) throws IOException, SQLException {
 		
 		
@@ -172,6 +184,15 @@ public class physicianViewController{
 		stage.show();
     }
 
+    
+	/**
+	 * This method is called whenever the text in the CF (Codice Fiscale) text field changes.
+	 * It searches for patients with CF containing the entered text and displays the results in the list view.
+	 * If the text field is empty, it displays all patients.
+	 *
+	 * @param event the KeyEvent triggered by typing in the CF text field
+	 * @throws SQLException if there is an error in the SQL query to retrieve the searched patients
+	 */
     @FXML
     void textFieldCFOnTyped(KeyEvent event) throws SQLException {
     	String content = textFieldCF.getText();
@@ -185,17 +206,34 @@ public class physicianViewController{
     	
     }
     
-
+	/**	
+	 * Sets the currentPatients list with the patients that are associated with the current session's physician.
+	 *
+	 * @throws SQLException if there's an error while retrieving data from the database
+	 */
+	 @FXML
 	void setCurrentPatients() throws SQLException {
 		currentPatients = db.getPatientsPhysician(session.getCF());
 		listViewPatients.setItems(currentPatients);
 	}
 	
+	/**
+     * Sets the session for the controller
+     *
+     * @param session the physician who has authenticated.
+     */
 	public void setSession(Physician session) {
 		this.session = new Physician(session);
 		System.out.println("sessione" + this.session.getCF());
 	}
-
+	
+	
+	/**
+	 * Initializes a lot of informations, session's labels, listview's content...
+	 * @throws SQLException if there's an error while retrieving data from the database
+	 * @throws IllegalArgumentException if either width or height is negative or zero.
+	 */
+	@FXML
 	public void initInfo() throws SQLException, ParseException {
 		
 		try {
@@ -266,6 +304,11 @@ public class physicianViewController{
 		});
 	}
 	
+	
+	/**
+     * Sets the labels in the patient information view with the information of the current patient in the session.
+     */
+    @FXML
 	void setLabels() {
 		labelCF.setText(session.getCF());
 		labelName.setText(session.getName());
@@ -279,10 +322,17 @@ public class physicianViewController{
 		labelNationality.setText(session.getNationality());
 		labelEmail.setText(session.getEmail());
 	}
-	
-	
-	
 		
+	
+	/**
+	 * Sets the warnings about patients' blood pressure according to their recent measurements.
+	 * Retrieves patient data from the database and calculates the average blood pressure
+	 * of the last week. Based on the calculated blood pressure, assigns a warning level
+	 * to each patient and displays the result on the TableView for the physician.
+	 *
+	 * @throws SQLException if there is an error in the SQL query execution
+	 */
+	@FXML
 	void setWarnings() throws SQLException {
 		String q = "SELECT * FROM Patient WHERE CFphysician='" + session.getCF() + "';";
 		ResultSet rs = db.runQuery(q), rs2;
@@ -352,13 +402,15 @@ public class physicianViewController{
 		
 	}
 	
-	public class PatientBloodPressureComparator implements Comparator<Patient> {
-	    @Override
-	    public int compare(Patient p1, Patient p2) {
-	        return p1.getEnum().compareTo(p2.getEnum());
-	    }
-	}
 	
+	/**
+	 * Populates a table view with information about therapies that have not been taken
+	 * by patients of the logged in physician in the last 3 days.
+	 *
+	 * @throws SQLException if a database access error occurs
+	 * @throws ParseException if a date string cannot be parsed as a date
+	 */
+	@FXML
 	void setNotTaken() throws SQLException, ParseException {
 		String q="SELECT CF, name, surname, email FROM Patient WHERE CFphysician='" + session.getCF() + "';", queryTherapies, countIntakes, nameDrug;
 		
@@ -400,5 +452,21 @@ public class physicianViewController{
 		
 	}
 	
-
+	/**
+ 	 * A Comparator implementation that compares Patients based on their blood pressure enum values.
+     */
+	public class PatientBloodPressureComparator implements Comparator<Patient> {
+	    /**
+         * Compares two Patients based on their blood pressure enum values.
+         *
+         * @param p1 the first Patient to compare
+         * @param p2 the second Patient to compare
+         * @return a negative integer, zero, or a positive integer as the first argument is less than,
+         *         equal to, or greater than the second argument based on their blood pressure enum values
+         */
+	    public int compare(Patient p1, Patient p2) {
+	        return p1.getEnum().compareTo(p2.getEnum());
+	    }
+	}
+	
 }

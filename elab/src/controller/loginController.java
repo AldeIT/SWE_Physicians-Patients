@@ -22,22 +22,21 @@ import model.DB_Model;
 import model.Physician;
 import model.Patient;
 
-/*The controller for the login view*/
+/**
+ *The controller class for the login view
+ */
 public class loginController {
 	
 	@FXML
-    private AnchorPane root;
-	
+    private AnchorPane root;	
 	@FXML
 	private Button btnLogin;
 	@FXML
 	private TextField labelCF;
 	@FXML
 	private PasswordField labelPassword;
-	
 	@FXML
     private RadioButton radioBtnPatient;
-
     @FXML
     private RadioButton radioBtnPhysician;
 
@@ -45,7 +44,7 @@ public class loginController {
     /**
      * Performs login operation on both Physician and Patient.
      *
-     * @param the Action Event.
+     * @param event the Action Event.
      * @throws IOException if there is a problem loading the new view.
      * @throws SQLException 
      */
@@ -60,7 +59,6 @@ public class loginController {
 		try {
 			db = DB_Model.getInstance();
 		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
 			//e1.printStackTrace();
 			System.out.println("Error during the initialization of the Database");
 		}
@@ -117,9 +115,18 @@ public class loginController {
 		}
 		return false;
 		
-		//System.out.println("CF: "+ labelCF.getText() + ", Password: " + labelPassword.getText());
 	}
 	
+	/**
+	 * Opens a new Physician session and switches the current scene to the Physician view. 
+	 * 
+	 * @param st the ResultSet containing the Physician's information
+	 * @param password the password of the Physician's account
+	 * @param event the ActionEvent that triggered the method call
+	 * @return true if the scene was successfully changed, false otherwise
+	 * @throws SQLException if an error occurs while accessing the database
+	 * @throws IOException if an error occurs while loading the FXML file for the Physician view
+	 */
 	boolean openPhysician(ResultSet st, String password, ActionEvent event) throws SQLException, IOException {
 		System.out.println(st.getString("CF"));
 		System.out.println("Andiamo in un'altra schermata Physician");
@@ -163,6 +170,16 @@ public class loginController {
 		return true;
 	}
 	
+	/**
+	 * Opens a new Patient session and switches the current scene to the Patient view. 
+	 * 
+	 * @param st the ResultSet containing the Patient's information
+	 * @param password the password of the Patient's account
+	 * @param event the ActionEvent that triggered the method call
+	 * @return true if the scene was successfully changed, false otherwise
+	 * @throws SQLException if an error occurs while accessing the database
+	 * @throws IOException if an error occurs while loading the FXML file for the Patient view
+	 */
 	boolean openPatient(ResultSet st, String password, ActionEvent event) throws SQLException, IOException {
 		System.out.println(st.getString("CF"));
 		System.out.println("Andiamo in un'altra schermata Patient");
@@ -223,9 +240,6 @@ public class loginController {
     void radioBtnPhysicianSelected(ActionEvent event) {
     	System.out.println("Physician selected/non selected");
     	radioBtnPatient.setSelected(false);
-    }
-	
-	
-    
+    }   
 	
 }

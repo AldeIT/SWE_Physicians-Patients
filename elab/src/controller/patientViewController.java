@@ -45,6 +45,10 @@ import model.Patient;
 import model.Symptom;
 import model.Therapy;
 
+
+/**
+ *The controller class for the Patient view
+ */
 public class patientViewController {
 	@FXML
 	private AnchorPane root;
@@ -150,8 +154,7 @@ public class patientViewController {
     /**
      * Sets the session for the controller
      *
-     * @param the patient who has authenticated.
-     * @throws SQLException if there are any problems getting the instance of the db model.
+     * @param session the patient who has authenticated.
      */
 	public void setSession(Patient session)  {
 		this.session = new Patient(session);
@@ -166,9 +169,10 @@ public class patientViewController {
 	
 	/**
 	 * Initializes a lot of informations, session's labels, listview's content...
-	 * @throws SQLException 
+	 * @throws SQLException if there's an error while retrieving data from the database
 	 * @throws IllegalArgumentException if either width or height is negative or zero.
 	 */
+	@FXML
 	public void initInfo() throws SQLException {
 		System.out.println("init");
 		
@@ -189,7 +193,6 @@ public class patientViewController {
 		    	try {
 					setCurrentSymptoms();
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
 					alert.launchAlert(Alert.AlertType.ERROR, "Database Error", "There was an error accessing to the database");
 				}
 		    }
@@ -198,7 +201,6 @@ public class patientViewController {
 		    	try {
 					setCurrentTherapies();
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
 					alert.launchAlert(Alert.AlertType.ERROR, "Database Error", "There was an error accessing to the database");
 				}
 		    }
@@ -210,7 +212,6 @@ public class patientViewController {
 				try {
 					root = loader.load();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				System.out.println("Switchamo Scene");
@@ -253,7 +254,16 @@ public class patientViewController {
 		
 	}
 	
-    @FXML
+    /**
+	 * This method is called when the user clicks the "Contact Physician" button.
+	 * It retrieves the email address of the physician associated with the current session from the database,
+	 * and creates a mailto: URI with the recipient, subject, and body.
+	 * Then, it opens the default mail application with the mailto: URI to allow the user to send an email to the physician.
+	 *	
+	 * @param event the event triggered by the user clicking the "Contact Physician" button
+	 * @throws SQLException if there is an error retrieving the email address of the physician from the database
+	 */
+	@FXML
     void contactPhysicianOnClicked(ActionEvent event) throws SQLException {
     	String q = "SELECT email FROM Physician WHERE CF='" + session.getCFPhysician() + "';";
     	ResultSet rs = db.runQuery(q);
@@ -273,6 +283,13 @@ public class patientViewController {
         }
     }
 	
+	/**
+	 * This method retrieves from the database the therapies of the patient that have not yet ended, and check if the drugs have been taken for the current day.
+	 * If not, it creates a warning message and launches it as an alert.
+	 *
+	 * @throws SQLException if an error occurs while retrieving data from the database
+	 */
+	@FXML
 	public void firstAlert() throws SQLException {
 		
 		String q = "SELECT * FROM Therapy\n"
@@ -295,7 +312,7 @@ public class patientViewController {
     	long startDay = startOfDay.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
     	long endDay = endOfDay.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
 		int taken;
-		String out = "You still have to take\n";
+		String message = "You still have to take\n";
 		int count = 0;
 		while(rs.next()) {
 			count++;
@@ -307,31 +324,31 @@ public class patientViewController {
 			rs3 = db.runQuery(countIntakes);
 			taken = rs3.getInt(1);
 			if (taken < rs.getInt("dailydose") * rs.getInt("quantity")) {
-				out += nameDrug + ", Quantity Remaining: " + (rs.getInt("dailydose") * rs.getInt("quantity") - taken) + "\n";
+				message += nameDrug + ", Quantity Remaining: " + (rs.getInt("dailydose") * rs.getInt("quantity") - taken) + "\n";
 			}
 		 
 		}
 		
-		if (count!=0)alert.launchAlert(Alert.AlertType.WARNING, "Warning Daily Doses", out);
-		
+		if (count!=0)alert.launchAlert(Alert.AlertType.WARNING, "Warning Daily Doses", message);	
 	}
 	
+	
+	
 	/**
-	 * Calculates the area of a rectangle with the given width and height.
+	 * This method sets the information labels in the UI to display the information of the logged in physician. It gets the
+ 	 * information from the current session object and from the database by running a query. It sets the text of the	
+	 * labels with the retrieved information. If an exception occurs during the query, it sets the labels to "error".
 	 *
-	 * @param width The width of the rectangle.
-	 * @param height The height of the rectangle.
-	 * @return The area of the rectangle.
-	 * @throws SQLException 
-	 * @throws IllegalArgumentException if either width or height is negative or zero.
+	 * @throws SQLException If an error occurs during the database query.
 	 */
+	@FXML
 	void setLabelsInformations() throws SQLException {
 		labelCF.setText(session.getCF());
 		labelName.setText(session.getName());
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		String formattedDate = session.getBirthdate().format(formatter);		
 		labelBirthdate.setText(formattedDate);	
-		labelStreet.setText(session.getStreet() + " " + session.getCivicNumber() + ", " + session.getCAP() + " " + session.getCity());
+		labelCivicNumber.setText(session.getStreet() + " " + session.getCivicNumber() + ", " + session.getCAP() + " " + session.getCity());
 		labelSurname.setText(session.getSurname());
 		labelPhoneNumber.setText(session.getPhoneNumber());
 		labelSex.setText(session.getSex());
@@ -362,6 +379,16 @@ public class patientViewController {
 		labelPhysicianEmail.setText(physician.getString("email"));
 	}
 	
+	
+	/**
+	 * Sets the current symptoms in the symptom list view.
+	 * Uses the database to retrieve all available symptoms.
+	 * Sets the selection mode of the list view to MULTIPLE and
+	 * populates it with the retrieved symptoms.
+	 *
+	 * @throws SQLException if there is an error retrieving the symptoms from the database
+	 */
+	@FXML
 	void setCurrentSymptoms() throws SQLException {
 		ObservableList<Symptom> allSymptoms = db.getSymptoms();
 		listViewSymptoms.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
@@ -369,6 +396,15 @@ public class patientViewController {
 		listViewSymptoms.setItems(allSymptoms);
 	}
 	
+	/**
+	 * Set the current therapies for the patient by querying the database and adding them to an observable list,
+	 * and then setting the list view to show these therapies. If a therapy's daily dose is not fully taken for the day,
+	 * it will be added to the list with the remaining daily dose and the total quantity remaining. If the patient has
+	 * taken all their daily doses but missed some pills, an error alert will be displayed.
+	 *
+	 * @throws SQLException if there is an error executing the SQL query to retrieve the current therapies from the database
+     */
+	@FXML
 	void setCurrentTherapies() throws SQLException {
 		ObservableList<Therapy> currentTherapies = FXCollections.<Therapy>observableArrayList(
                 therapy -> new Observable[] {
@@ -438,13 +474,20 @@ public class patientViewController {
 				currentTherapies.add(temp);
 			}
 			
-			
-			
 		}
 		
 		listViewCurrentTherapies.setItems(currentTherapies);
 	}
 	
+	/**
+	 * This method is called when the "Insert Measurement" button is clicked.
+	 * It validates the input fields, inserts a new measurement record into the database,
+	 * and updates the MeasurementSymptom, MeasurementPathology, and MeasurementTherapy tables accordingly.
+	 *
+	 * @param event The ActionEvent triggered by clicking the "Insert Measurement" button.
+	 * @throws ParseException If the date/time cannot be parsed from the system time zone.
+	 * @throws SQLException If there is an error with the database connection or query.
+	 */
 	@FXML
     void btnInsertMeasurementClicked(ActionEvent event) throws ParseException, SQLException {
 		
@@ -478,9 +521,7 @@ public class patientViewController {
 		ResultSet res = db.runQuery(q);
 		int idMeasurement = res.getInt(1);
 		int idSymptom;
-		MeasurementSymptom ms = null;
-		
-		
+		MeasurementSymptom ms = null;	
 		
 		for (Symptom s:uniqueSymptoms) {
 			q = "SELECT id FROM Symptom\n" +
@@ -560,12 +601,21 @@ public class patientViewController {
 		
 		for (MeasurementTherapy m:measurementsTherapies) {
 			System.out.println(m);
-		}
-		
-		
+		}		
 		
     }
 	
+	
+	/**
+	 * This method is called when the user clicks on the Insert Intake button.
+	 * It gets the selected item from the current therapies list view and inserts a new drug intake into the database
+	 * with the selected item's ID and the quantity entered in the quantity text field.
+	 * If no item is selected, or if the quantity text field is empty, or if the quantity entered is more than the remaining quantity,
+	 * appropriate error messages are displayed.
+	 *	
+	 * @param event the event that triggered the method call
+	 * @throws SQLException if there is an error while inserting the drug intake into the database
+	 */
 	@FXML
     void btnInsertIntakeOnClicked(ActionEvent event) throws SQLException {
 		
@@ -575,7 +625,7 @@ public class patientViewController {
 		Therapy selected = selectionModel.getSelectedItem();
 		
 		if (selected == null) {
-			//non ha selezionato
+			alert.launchAlert(Alert.AlertType.ERROR, "Selection Error", "You have not selected a therapy, please select one!");
 			return;
 		}
 		
@@ -597,7 +647,6 @@ public class patientViewController {
 			//System.out.println();
 			return;
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return;
 		}
@@ -606,5 +655,4 @@ public class patientViewController {
 		System.out.println("Intake Button Clicked");
     }
 	
-
 }

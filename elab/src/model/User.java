@@ -10,9 +10,15 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
+/**
+ * The abstract User class represents a basic user in a system. It includes properties such as
+ * the user's name, email, password, and address.
+ */
 public abstract class User {
 
-	/*Declaring all the Class properties*/
+	/**
+	 * Declaring all the Class properties
+	 */
 	private StringProperty CF = new SimpleStringProperty(this, "CF");
 	private StringProperty email = new SimpleStringProperty(this, "email");
 	private StringProperty password = new SimpleStringProperty(this, "password");
@@ -27,6 +33,25 @@ public abstract class User {
 	private StringProperty city = new SimpleStringProperty(this, "city");
 	private StringProperty phone_number = new SimpleStringProperty(this, "phone_number");
 	
+	/**
+     * Creates a new User object with the specified properties.
+     * 
+     * @param CF            the user's Codice Fiscale (tax code)
+     * @param email         the user's email address
+     * @param password      the user's password
+     * @param name          the user's first name
+     * @param surname       the user's last name
+     * @param sex           the user's gender
+     * @param birthdate     the user's date of birth
+     * @param nationality   the user's nationality
+     * @param street        the user's street address
+     * @param civic_number  the user's civic number (address number)
+     * @param cap           the user's postal code
+     * @param city          the user's city
+     * @param phone_number  the user's phone number
+     * @throws IllegalArgumentException if any of the specified values are null, or if the
+     *         CF, email, or phone_number values are invalid
+     */
 	public User(String CF, String email, String password, String name, String surname, String sex, LocalDate birthdate, String nationality, String street, int civic_number, int cap, String city, String phone_number) {
 		if (CF == null || email == null || password == null || name == null || surname == null || sex == null || birthdate == null || nationality == null || street == null || city == null || phone_number == null)
 			throw new IllegalArgumentException("Something is null!");
@@ -54,9 +79,13 @@ public abstract class User {
 		this.phone_number.set(phone_number);
 	}
 	
-	/*Checks if the given CF is a valid "Codice Fiscale"
-	 * returns true if valid, false otherwise*/
-	private boolean isValidCF(String CF) {
+	/**
+     * Returns true if the specified CF value is a valid Codice Fiscale, false otherwise.
+     * 
+     * @param CF  the Codice Fiscale to validate
+     * @return true if the CF is valid, false otherwise
+     */
+	private static boolean isValidCF(String CF) {
 		if (CF.length() != 16)return false;
 		CF = CF.toUpperCase();
 		int i;
@@ -80,9 +109,13 @@ public abstract class User {
 		return true;
 	}
 	
-	/*Checks if the given phone_number is valid 
-	 * returns true if valid, false otherwise*/
-	private boolean isValidPhoneNumber(String phone_number) {	
+	/**
+     * Returns true if the specified phone_number value is valid, false otherwise.
+     * 
+     * @param phone_number  the phone number to validate
+     * @return true if the phone number is valid, false otherwise
+     */
+	private static boolean isValidPhoneNumber(String phone_number) {	
 		if (phone_number.length() != 10)return false;
 		
 		for (int i=0; i<phone_number.length(); i++) {
@@ -91,8 +124,12 @@ public abstract class User {
 		return true;
 	}
 	
-	/*Checks if the given email is valid 
-	 * returns true if valid, false otherwise*/
+	/**
+     * Returns true if the specified email value is valid, false otherwise.
+     * 
+     * @param email  the email address to validate
+     * @return true if the email is valid, false otherwise
+     */
 	public static boolean isValidEmail(String email){
         String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+
                             "[a-zA-Z0-9_+&*-]+)*@" +
@@ -105,137 +142,245 @@ public abstract class User {
         return pat.matcher(email).matches();
     }
 
-	
-	/*gets the CF*/
+	/**
+     * Returns the user's Codice Fiscale (tax code).
+     * 
+     * @return the user's CF
+     */
 	public String getCF() {
 		return CF.get();
 	}
 	
-	/*gets the CFProperty*/
+	/**
+     * Returns the StringProperty for the user's CF.
+     * 
+     * @return the CF StringProperty
+     */
 	public StringProperty CFProperty() {
 		return CF;
 	}
 	
-	/*gets the email*/
+	/**
+     * Returns the StringProperty for the user's CF.
+     * 
+     * @return the CF StringProperty
+     */
 	public String getEmail() {
 		return email.get();
 	}
 	
-	/*gets the emailProperty*/
+	/**
+     * Returns the StringProperty for the user's email.
+     * 
+     * @return the email StringProperty
+     */
 	public StringProperty emailProperty() {
 		return email;
 	}
 	
-	/*gets the password*/
+	/**
+     * Returns the user's password.
+     * 
+     * @return the user's password
+     */
 	public String getPassword() {
 		return password.get();
 	}
 	
-	/*gets the passwordProperty*/
+	/**
+     * Returns the StringProperty for the user's password.
+     * 
+     * @return the password StringProperty
+     */
 	public StringProperty passwordProperty() {
 		return password;
 	}
 	
-	/*gets the name*/
+	/**
+     * Returns the user's first name.
+     * 
+     * @return the user's first name
+     */
 	public String getName() {
 		return name.get();
 	}
 	
-	/*gets the nameProperty*/
+	/**
+     * Returns the StringProperty for the user's name.
+     * 
+     * @return the name StringProperty
+     */
 	public StringProperty nameProperty() {
 		return name;
 	}
 	
-	/*gets the surname*/
+	/**
+     * Returns the user's surname.
+     * 
+     * @return the user's surname
+     */
 	public String getSurname() {
 		return surname.get();
 	}
 	
-	/*gets the surnameProperty*/
+	/**
+     * Returns the StringProperty for the user's surname.
+     * 
+     * @return the surname StringProperty
+     */
 	public StringProperty surnameProperty() {
 		return surname;
 	}
 	
-	/*gets the sex*/
+	/**
+     * Returns the user's gender.
+     * 
+     * @return the user's gender
+     */
 	public String getSex() {
 		return sex.get();
 	}
 	
-	/*gets the sexProperties*/
+	/**
+     * Returns the StringProperty for the user's gender.
+     * 
+     * @return the gender StringProperty
+     */
 	public StringProperty sexProperty() {
 		return sex;
 	}
 	
-	/*gets the birthdate*/
+	/**
+     * Returns the user's birthdate.
+     * 
+     * @return the user's birthdate
+     */
 	public LocalDate getBirthdate() {
 		return birthdate.get();
 	}
 	
-	/*gets the birthdateProperty*/
+	/**
+     * Returns the StringProperty for the user's birthdate.
+     * 
+     * @return the birthdate LocalDate Property
+     */
 	public ObjectProperty<LocalDate> birthdateProperty() {
 		return birthdate;
 	}
 	
-	/*gets the nationality*/
+	/**
+     * Returns the user's nationality.
+     * 
+     * @return the user's nationality
+     */
 	public String getNationality() {
 		return nationality.get();
 	}
 	
-	/*gets the nationalityProperty*/
+	/**
+     * Returns the StringProperty for the user's nationality.
+     * 
+     * @return the nationality StringProperty
+     */
 	public StringProperty nationalityProperty() {
 		return nationality;
 	}
 	
-	/*gets the street*/
+	/**
+     * Returns the user's street.
+     * 
+     * @return the user's street
+     */
 	public String getStreet() {
 		return street.get();
 	}
 	
-	/*gets the streetProperty*/
+	/**
+     * Returns the StringProperty for the user's street.
+     * 
+     * @return the street StringProperty
+     */
 	public StringProperty streetProperty() {
 		return street;
 	}
 	
-	/*gets the civicNumber*/
+	/**
+     * Returns the user's civic number.
+     * 
+     * @return the user's civic number
+     */
 	public int getCivicNumber() {
 		return civic_number.get();
 	}
 	
-	/*gets the civicNumberProperty*/
+	/**
+     * Returns the StringProperty for the user's civic number.
+     * 
+     * @return the civic number IntegerProperty
+     */
 	public IntegerProperty civicNumberProperty() {
 		return civic_number;
 	}
 	
-	/*gets the CAP*/
+	/**
+     * Returns the user's CAP.
+     * 
+     * @return the user's CAP
+     */
 	public int getCAP() {
 		return cap.get();
 	}
 	
-	/*gets the capProperty*/
+	/**
+     * Returns the StringProperty for the user's CAP.
+     * 
+     * @return the CAP IntegerProperty
+     */
 	public IntegerProperty capProperty() {
 		return cap;
 	}
 	
-	/*gets the city*/
+	/**
+     * Returns the user's city.
+     * 
+     * @return the user's city
+     */
 	public String getCity() {
 		return city.get();
 	}
 	
-	/*gets the cityProperty*/
+	/**
+     * Returns the StringProperty for the user's city.
+     * 
+     * @return the city StringProperty
+     */
 	public StringProperty cityProperty() {
 		return city;
 	}
 	
-	/*gets the phoneNumber*/
+	/**
+     * Returns the user's phone number.
+     * 
+     * @return the user's phone number
+     */
 	public String getPhoneNumber() {
 		return phone_number.get();
 	}
 	
-	/*gets the phoneNumberProperty*/
+	/**
+     * Returns the StringProperty for the user's phone number.
+     * 
+     * @return the phone number StringProperty
+     */
 	public StringProperty phoneNumberProperty() {
 		return phone_number;
 	}
 	
+	/**
+	 * Returns a string representation of the User.
+	 * 
+	 * @return a string representation of the User
+	 */
 	public abstract String toString();
 	
 }

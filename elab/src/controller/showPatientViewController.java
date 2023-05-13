@@ -46,6 +46,9 @@ import model.Physician;
 import model.Symptom;
 import model.Therapy;
 
+/**
+ *The controller class for the show Patient view
+ */
 public class showPatientViewController {
 	@FXML
     private Tab backToPhysician;
@@ -104,7 +107,6 @@ public class showPatientViewController {
     @FXML
     private TextField textFieldInformations;
 
-    
 	private Patient patient;
 	
 	private Physician myPhysician;
@@ -222,12 +224,18 @@ public class showPatientViewController {
     private AlertHandler alert = AlertHandler.getInstance();
     
     private HashMap<Integer, String> drugNames = new HashMap<>();
-
 	
 	LocalDateTime defaultStart;
 	
 	LocalDateTime defaultEnd;
 	
+	 /**
+	  * Updates the patient's information in the database and logs the action.
+	  *
+	  * @param event the ActionEvent triggered by clicking the "Update" button	
+	  * @throws SQLException if there is an error accessing the database
+	  * @throws ParseException if there is an error parsing a date
+	  */
 	 @FXML
 	 void btnUpdateInformationsOnClicked(ActionEvent event) throws SQLException, ParseException {
 		 String content = textFieldInformations.getText();
@@ -245,11 +253,21 @@ public class showPatientViewController {
 		 }
 	 }
 	
+	/**
+	 *Sets the session with the given patient and physician objects.
+	 *
+	 *@param patient the patient object to set the session with
+	 * @param physician the physician object to set the session with
+	 */
 	void setSession(Patient patient, Physician physician) {
 		this.patient = new Patient(patient);
 		this.myPhysician = new Physician (physician);
 	}
 	
+	/**
+     * Sets the labels in the patient information view with the information of the current patient in the session.
+     */
+    @FXML
 	void setLabels() {
 		labelCF.setText(patient.getCF());
 		labelName.setText(patient.getName());
@@ -265,12 +283,21 @@ public class showPatientViewController {
 		textFieldInformations.setText(patient.getInformations());
 	}
 	
-	void initInfo() throws SQLException {
-		
+	/**
+	 *Initializes the patient information tab.
+	 *It sets the background color of the root and initializes the labels, date pickers, and choice boxes.
+	 *It also sets the default start and end dates, and populates the drug names map.
+	 *Additionally, it sets event filters on the daily dose and quantity text fields to only allow numeric input.
+	 *Finally, it sets listeners on the tab pane to handle switching between tabs and calling the appropriate methods
+	 *to update the UI.
+     *	
+	 *@throws SQLException if there is a problem connecting to or querying the database
+	 */
+	@FXML
+	void initInfo() throws SQLException {	
 		try {
 			db = DB_Model.getInstance();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		this.root.setStyle("-fx-background-color: #0099cc;");
@@ -314,7 +341,6 @@ public class showPatientViewController {
 				try {
 					root = loader.load();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					alert.launchAlert(Alert.AlertType.ERROR, "Loading Error", "Error while changing view");
 				}
 				/*Getting the controller*/
@@ -323,10 +349,8 @@ public class showPatientViewController {
 				try {
 					controller.initInfo();
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
 					alert.launchAlert(Alert.AlertType.ERROR, "Database Error", "Error while working on the database");
 				} catch (ParseException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				System.out.println("Switchamo Scene");
@@ -347,7 +371,6 @@ public class showPatientViewController {
 		    		LocalDateTime end = datePickerMeasurementEnd.getValue() == null ? null : datePickerMeasurementEnd.getValue().atTime(LocalTime.of(23, 59));
 					setLineChartMeasurement(start, end);
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 		    }
@@ -361,7 +384,6 @@ public class showPatientViewController {
 					setAllTherapies();
 					setDrugChoiceBox();
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
 					alert.launchAlert(Alert.AlertType.ERROR, "Database Error", "Error while working on the database");
 				}
 		    }
@@ -372,22 +394,22 @@ public class showPatientViewController {
 		    		
 		    		setChoiceBoxPathologies();
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 		    }
 		});
 	}
 	
+	
+	/**
+	 * Populates the choiceBoxDrug ChoiceBox with all drugs stored in the database.
+	 * @throws SQLException if there is an error accessing the database
+	 */
+	@FXML
 	private void setDrugChoiceBox() throws SQLException {
 		String q = "SELECT * FROM Drug;";
-		
 		ResultSet rs = db.runQuery(q);
-		
 		ObservableList<Drug> allDrugs = FXCollections.observableArrayList();
-		
-		
-		
 		while(rs.next()) {
 			allDrugs.add(new Drug(rs.getInt(1), rs.getString(2), rs.getString(3)));
 		}
@@ -396,12 +418,21 @@ public class showPatientViewController {
 		
 	}
 
+
+	/**
+	 * This method is used to display a LineChart showing the Systolic Blood Pressure and the Diastolic Blood Pressure of the Patient between the chosen start and end date.
+	 * The method clears the previous data and gets the new data using a SQL query. It then creates two series for the Systolic Blood Pressure and Diastolic Blood Pressure and sets their values to the data obtained from the query.
+	 * Additionally, the method queries the database for Symptoms, Therapies, and Pathologies associated with the Patient's measurements during the selected time period.
+	 * Finally, the method sets the corresponding TableView with the results of the queries and shows an Alert if the start date is after the end date.
+	 *
+	 * @param start the start date to show measurements
+	 * @param end the end date to show measurements
+	 * @throws SQLException if the SQL query fails
+	 */
 	void setLineChartMeasurement(LocalDateTime start, LocalDateTime end) throws SQLException {
 		linechartMeasurement.getData().clear();
 		XYChart.Series<String, Integer> sbpSeries = new XYChart.Series<>();
 		XYChart.Series<String, Integer> dbpSeries = new XYChart.Series<>();
-		
-		
 		
 		if (start == null) {
 			start = defaultStart;
@@ -505,18 +536,28 @@ public class showPatientViewController {
 		linechartMeasurement.getData().add(dbpSeries);
 	}
 	
+	/**
+	 * This method is called when the user interacts with the date picker for measurements.
+	 * It sets the start and end times for the measurements and updates the line chart accordingly.
+	 *
+	 *@param event The ActionEvent representing the user's interaction with the date picker.
+	 * @throws SQLException if there is an error accessing the database.
+	 */
 	@FXML
     void datePickerMeasurementOnAction(ActionEvent event) throws SQLException {
 		System.out.println("ORA");
 		LocalDateTime start = datePickerMeasurementStart.getValue() == null ? null : datePickerMeasurementStart.getValue().atTime(LocalTime.of(1, 0));
-		LocalDateTime end = datePickerMeasurementEnd.getValue() == null ? null : datePickerMeasurementEnd.getValue().atTime(LocalTime.of(23, 59));
-		
-
-		
-		
+		LocalDateTime end = datePickerMeasurementEnd.getValue() == null ? null : datePickerMeasurementEnd.getValue().atTime(LocalTime.of(23, 59));		
 		setLineChartMeasurement(start, end);
     }
 	
+	
+	
+	/**	
+	 * Sets all the therapies of the patient in the table view with editable fields to modify the data of each therapy
+	 *
+	 * @throws SQLException if there is an error while running the SQL queries
+	 */
 	void setAllTherapies() throws SQLException {
 		String q = "SELECT * FROM Therapy\n" +
 				   "WHERE CFpatient='" + patient.getCF() +"';"
@@ -576,11 +617,17 @@ public class showPatientViewController {
         tableViewAllTherapiesIDDrug.setEditable(true);
         tableViewAllTherapies.setEditable(true);
 
-		
 	}
 	
 
-    @FXML
+    /**
+	 *Inserts a new Therapy in the database, after performing some checks on user input.
+	 *
+	 * @param event The ActionEvent triggered by the user clicking on the "Insert New Therapy" button.
+	 * @throws SQLException if an error occurs while interacting with the database.
+	 * @throws ParseException if an error occurs while parsing user input.
+	 */
+	@FXML
     void btnInsertNewTherapyOnClicked(ActionEvent event) throws SQLException, ParseException {
     	
     	if (textFieldDailyDose.getText().isEmpty() || textFieldQuantity.getText().isEmpty() || textFieldDirections.getText().isEmpty()) {
@@ -617,6 +664,15 @@ public class showPatientViewController {
     	System.out.println("Insert New Therapy Clicked");
     }
     
+    /**
+	 * Update therapy details for each therapy in the table view of all therapies.
+ 	 * If there are no therapies to update, displays an error message.
+	 * For each therapy, extracts the daily dose, quantity, and directions values from the table view and
+	 * updates the corresponding therapy in the database.
+	 *
+	 * @param event the event triggering the method call
+	 * @throws SQLException if there is an error executing the SQL query
+	 */
     @FXML
     void bntUpdateTherapyOnClicked(ActionEvent event) throws SQLException {
     	
@@ -637,13 +693,18 @@ public class showPatientViewController {
     		
     		System.out.println("Modified : " + dailyDose + ",   " + quantity);
     	}
-    	
-    	
-    	
-    	
+    		
     	setAllTherapies();
     }
 
+    /**
+	 * Handles the action when the "End Therapy" button is clicked. Ends the selected therapy by setting its end date to the current date and time.
+	 * If no therapy is selected, an error alert is displayed.
+	 *
+	 * @param event the ActionEvent representing the button click
+	 * @throws SQLException if a database access error occurs
+	 * @throws ParseException if a parse error occurs while converting the current date to a timestamp
+	 */
     @FXML
     void btnEndTherapyOnClicked(ActionEvent event) throws SQLException, ParseException {
     	
@@ -670,6 +731,14 @@ public class showPatientViewController {
     	setAllTherapies();
     }
     
+    /**
+	 * Retrieves and sets the list of pathologies associated with the current patient.	
+	 * Queries the database to get the pathology information and creates PatientPathology objects for each pathology.
+	 * Adds the PatientPathology objects to an ObservableList and sets it to the TableView.
+	 *
+	 * @throws SQLException if there is an error executing the SQL query
+	 */
+    @FXML
     void setMyPathologies() throws SQLException {
     	String q = "SELECT IDpathology, description, startDate, endDate FROM patient_pathology INNER JOIN pathology on pathology.id=patient_pathology.IDpathology \n" +
     				"WHERE CFpatient='" + patient.getCF() + "';"
@@ -695,18 +764,22 @@ public class showPatientViewController {
 		tableViewMyPathologiesStartDate.setCellValueFactory(new PropertyValueFactory<>("startdate"));
 		tableViewMyPathologiesEndDate.setCellValueFactory(new PropertyValueFactory<>("enddate"));
     	
-    	
     }
     
+    
+    /**
+	 * Retrieves all the pathologies from the database and populates a JavaFX ChoiceBox with them.
+	 *
+	 * @throws SQLException if a database access error occurs
+	 */
+    @FXML
     void setChoiceBoxPathologies() throws SQLException {
     	String q = "SELECT * FROM Pathology;";
 		
 		ResultSet rs = db.runQuery(q);
 		
 		ObservableList<Pathology> allPathologies = FXCollections.observableArrayList();
-		
-		
-		
+				
 		while(rs.next()) {
 			allPathologies.add(new Pathology(rs.getInt(1), rs.getString(2)));
 		}
@@ -714,6 +787,12 @@ public class showPatientViewController {
 		choiceBoxPathologies.setItems(allPathologies);
     }
 
+    /**
+	 *Add a new pathology to the patient's pathologies list.
+	 *
+	 * @param event the event triggering the action	
+	 * @throws SQLException if a database access error occurs
+	 */
     @FXML
     void btnAddPathologiesOnClicked(ActionEvent event) throws SQLException {
     	
@@ -735,6 +814,18 @@ public class showPatientViewController {
     	setMyPathologies();
     }
 
+    
+	/**	
+ 	 * Handles the event triggered by the "End Pathology" button.
+	 * Gets the selected row from the "My Pathologies" table view.
+	 * If no row is selected, an error alert is displayed and the function returns.
+	 * The selected pathology is then marked as ended by setting its "endDate" field to the current date in the database.
+	 * The "My Pathologies" table view is then updated to reflect the changes.
+	 *
+	 * @param event The event triggered by clicking the "End Pathology" button
+	 * @throws ParseException If there is an error parsing a date string
+	 * @throws SQLException If there is an error accessing the database
+	 */
     @FXML
     void btnEndPathologyOnClicked(ActionEvent event) throws ParseException, SQLException {
     	
@@ -759,9 +850,6 @@ public class showPatientViewController {
     	
     	System.out.println("Delete PatientPathology: " + selectedRow);
     	setMyPathologies();
-    	System.out.println("ZIOSANTO");
     } 
     
-    
-
 }

@@ -9,24 +9,23 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.ParseException;
 
 import org.junit.jupiter.api.Test;
 
 import model.DB_Model;
-import model.Drug;
 
-
-import javafx.beans.property.ReadOnlyIntegerProperty;
-import javafx.beans.property.ReadOnlyIntegerWrapper;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
-
-
+/**
+ * This class contains unit tests for the DB_Model class.
+ */
 class DB_ModelTest {
 
 	@Test
+	/**
+	 * Test for the connect method of the DB_Model class. It tries to connect to a database
+	 * and checks if the connection is not null.
+	 *
+	 * @throws SQLException if there is an error with the database connection
+	 */
 	void testConnect() throws SQLException {
 		
 		String url = "jdbc:sqlite:table.db";
@@ -35,6 +34,11 @@ class DB_ModelTest {
 	}
 
 	@Test
+	/**
+	 * Test for the tableExists method of the DB_Model class. It checks if a table exists in the database.
+	 *
+	 * @throws SQLException if there is an error with the database connection
+	 */
 	void testTableExists() throws SQLException {
 		var m = DB_Model.getInstance();
 		assertTrue(m.tableExists("physician"));
@@ -42,6 +46,12 @@ class DB_ModelTest {
 	}
 
 	@Test
+	/**
+	 * Test for the runQuery method of the DB_Model class. It runs a SELECT query and checks if the
+	 * ResultSet object is not null and contains at least one row.
+	 *
+	 * @throws SQLException if there is an error with the database connection or query
+	 */
 	void testRunQuery() throws SQLException {
 		var m = DB_Model.getInstance();
 		String query = "SELECT * FROM physician";
@@ -53,6 +63,11 @@ class DB_ModelTest {
 	}
 
 	@Test
+	/**
+	 * Test for the getInstance method of the DB_Model class. It checks if the DB_Model instance is not null
+	 * and if two instances are the same object.
+	 * @throws SQLException if there is an error with the database connection
+	 */
 	void testGetInstance() throws SQLException {
 		var m1 = DB_Model.getInstance();
 		assertNotNull("Model instance is null", m1);

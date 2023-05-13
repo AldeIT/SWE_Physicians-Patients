@@ -16,7 +16,7 @@
 
 <AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="900.0" minWidth="1000.0" prefHeight="500.0" prefWidth="750.0" style="-fx-background-color: #0099cc;" stylesheets="@../css/tablePane.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.patientViewController">
    <children>
-      <TabPane fx:id="tabpane" prefHeight="900.0" prefWidth="1000.0" side="LEFT" stylesheets="@../css/tablePane.css" tabClosingPolicy="UNAVAILABLE">
+      <TabPane fx:id="tabpane" layoutY="7.0" prefHeight="900.0" prefWidth="1000.0" side="LEFT" stylesheets="@../css/tablePane.css" tabClosingPolicy="UNAVAILABLE">
         <tabs>
             <Tab fx:id="drugTab">
               <content>
@@ -159,10 +159,6 @@
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font></Label>
-                        <Label layoutX="294.0" layoutY="343.0" text="Address" textFill="WHITE">
-                           <font>
-                              <Font name="System Bold" size="14.0" />
-                           </font></Label>
                         <Label layoutX="487.0" layoutY="297.0" text="Phone Number" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="14.0" />
@@ -242,6 +238,10 @@
                               </LinearGradient>
                            </textFill>
                         </Label>
+                        <Label layoutX="294.0" layoutY="343.0" text="Address" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font></Label>
                      
                      
                      </children></AnchorPane>

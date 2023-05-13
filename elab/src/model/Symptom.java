@@ -5,36 +5,68 @@ import javafx.beans.property.ReadOnlyIntegerWrapper;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
+/**
+ * Represents a symptom that a patient may experience.
+ */
 public class Symptom {
-    private ReadOnlyIntegerWrapper id = new ReadOnlyIntegerWrapper(this,"id");
-    private StringProperty description = new SimpleStringProperty(this,"description");
-
-    public Symptom(int id, String description){
+    
+    private ReadOnlyIntegerWrapper id = new ReadOnlyIntegerWrapper(this, "id");
+    private StringProperty description = new SimpleStringProperty(this, "description");
+    
+    /**
+     * Creates a new Symptom object with the given ID and description.
+     * 
+     * @param id the ID of the symptom
+     * @param description the description of the symptom
+     */
+    public Symptom(int id, String description) {
         this.id.set(id);
         this.description.set(description);
     }
-
-    /*gets the id*/
-    public int getID(){
+    
+    /**
+     * Returns the ID of the symptom.
+     * 
+     * @return the ID of the symptom
+     */
+    public int getID() {
         return id.get();
     }
-
-    /*gets the idProperty*/
-    public ReadOnlyIntegerProperty idProperty(){
+    
+    /**
+     * Returns the read-only property representing the ID of the symptom.
+     * 
+     * @return the read-only property representing the ID of the symptom
+     */
+    public ReadOnlyIntegerProperty idProperty() {
         return id.getReadOnlyProperty();
     }
-
-    /*gets the description*/
-    public String getDescription(){
+    
+    /**
+     * Returns the description of the symptom.
+     * 
+     * @return the description of the symptom
+     */
+    public String getDescription() {
         return description.get();
     }
-
-    /*gets the descriptionProperty*/
-    public StringProperty descriptionProperty(){
+    
+    /**
+     * Returns the property representing the description of the symptom.
+     * 
+     * @return the property representing the description of the symptom
+     */
+    public StringProperty descriptionProperty() {
         return description;
     }
-
-    public String toString(){
+    
+    /**
+     * Returns a string representation of the symptom.
+     * 
+     * @return a string representation of the symptom
+     */
+    public String toString() {
         return getDescription();
     }
 }
+
