@@ -15,9 +15,6 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.paint.Color?>
-<?import javafx.scene.paint.LinearGradient?>
-<?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="900.0" minWidth="1000.0" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.showPatientViewController">
@@ -30,43 +27,43 @@
                      <children>
                         <Label layoutX="191.0" layoutY="155.0" text="CF" textFill="WHITE">
                            <font>
-                              <Font name="System Bold" size="14.0" />
+                              <Font name="System Bold" size="16.0" />
                            </font></Label>
                         <Label layoutX="539.0" layoutY="155.0" text="Email" textFill="WHITE">
                            <font>
-                              <Font name="System Bold" size="14.0" />
+                              <Font name="System Bold" size="16.0" />
                            </font></Label>
                         <Label layoutX="180.0" layoutY="217.0" text="Name" textFill="WHITE">
                            <font>
-                              <Font name="System Bold" size="14.0" />
+                              <Font name="System Bold" size="16.0" />
                            </font></Label>
                         <Label layoutX="170.0" layoutY="290.0" text="Surname" textFill="WHITE">
                            <font>
-                              <Font name="System Bold" size="14.0" />
+                              <Font name="System Bold" size="16.0" />
                            </font></Label>
                         <Label layoutX="188.0" layoutY="353.0" text="Sex" textFill="WHITE">
                            <font>
-                              <Font name="System Bold" size="14.0" />
+                              <Font name="System Bold" size="16.0" />
                            </font></Label>
                         <Label layoutX="526.0" layoutY="217.0" text="Birthdate" textFill="WHITE">
                            <font>
-                              <Font name="System Bold" size="14.0" />
+                              <Font name="System Bold" size="16.0" />
                            </font></Label>
                         <Label layoutX="520.0" layoutY="280.0" text="Nationality" textFill="WHITE">
                            <font>
-                              <Font name="System Bold" size="14.0" />
+                              <Font name="System Bold" size="16.0" />
                            </font></Label>
                         <Label layoutX="296.0" layoutY="426.0" text="Street" textFill="WHITE">
                            <font>
-                              <Font name="System Bold" size="14.0" />
+                              <Font name="System Bold" size="16.0" />
                            </font></Label>
                         <Label layoutX="507.0" layoutY="353.0" text="Phone Number" textFill="WHITE">
                            <font>
-                              <Font name="System Bold" size="14.0" />
+                              <Font name="System Bold" size="16.0" />
                            </font></Label>
                         <Label layoutX="157.0" layoutY="514.0" text="Informations" textFill="WHITE">
                            <font>
-                              <Font name="System Bold" size="14.0" />
+                              <Font name="System Bold" size="16.0" />
                            </font></Label>
                         <Label fx:id="labelCF" layoutX="268.0" layoutY="157.0" text="VNTDVD02D17L949I" />
                         <Label fx:id="labelEmail" layoutX="631.0" layoutY="156.0" text="venturi.davide17@gmail.com">
@@ -106,26 +103,10 @@
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font></Button>
-                        <Label layoutX="280.0" layoutY="59.0" text="Patient's Informations">
+                        <Label layoutX="260.0" layoutY="57.0" text="Patient's Informations" textFill="WHITE">
                            <font>
-                              <Font name="System Bold" size="36.0" />
+                              <Font name="System Bold" size="40.0" />
                            </font>
-                           <textFill>
-                              <LinearGradient endX="1.0" endY="0.39336492890995256" startX="1.0" startY="0.8341232227488151">
-                                 <stops>
-                                    <Stop>
-                                       <color>
-                                          <Color red="0.800000011920929" blue="0.5254902243614197" />
-                                       </color>
-                                    </Stop>
-                                    <Stop offset="1.0">
-                                       <color>
-                                          <Color red="1.0" green="1.0" blue="1.0" />
-                                       </color>
-                                    </Stop>
-                                 </stops>
-                              </LinearGradient>
-                           </textFill>
                         </Label>
                      </children>
             
@@ -143,26 +124,10 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <Label layoutX="386.0" layoutY="60.0" text="Therapies">
+                        <Label layoutX="377.0" layoutY="57.0" text="Therapies" textFill="WHITE">
                            <font>
-                              <Font name="System Bold" size="36.0" />
+                              <Font name="System Bold" size="40.0" />
                            </font>
-                           <textFill>
-                              <LinearGradient endX="1.0" endY="0.39336492890995256" startX="1.0" startY="0.8341232227488151">
-                                 <stops>
-                                    <Stop>
-                                       <color>
-                                          <Color red="0.800000011920929" blue="0.5254902243614197" />
-                                       </color>
-                                    </Stop>
-                                    <Stop offset="1.0">
-                                       <color>
-                                          <Color red="1.0" green="1.0" blue="1.0" />
-                                       </color>
-                                    </Stop>
-                                 </stops>
-                              </LinearGradient>
-                           </textFill>
                         </Label>
                         <TableView fx:id="tableViewAllTherapies" editable="true" layoutX="85.0" layoutY="155.0" prefHeight="200.0" prefWidth="807.0">
                            <columns>
@@ -175,25 +140,25 @@
                               <TableColumn fx:id="tableViewAllTherapiesIDDrug" prefWidth="154.0" text="Drug" />
                            </columns>
                         </TableView>
-                        <Label layoutX="321.0" layoutY="523.0" text="Daily Dose" textFill="WHITE">
+                        <Label layoutX="323.0" layoutY="523.0" text="Daily Dose" textFill="WHITE">
                            <font>
-                              <Font name="System Bold" size="14.0" />
+                              <Font name="System Bold" size="16.0" />
                            </font></Label>
-                        <Label layoutX="327.0" layoutY="558.0" text="Quantity" textFill="WHITE">
+                        <Label layoutX="329.0" layoutY="558.0" text="Quantity" textFill="WHITE">
                            <font>
-                              <Font name="System Bold" size="14.0" />
+                              <Font name="System Bold" size="16.0" />
                            </font></Label>
-                        <Label layoutX="323.0" layoutY="647.0" text="Directions" textFill="WHITE">
+                        <Label layoutX="325.0" layoutY="647.0" text="Directions" textFill="WHITE">
                            <font>
-                              <Font name="System Bold" size="14.0" />
+                              <Font name="System Bold" size="16.0" />
                            </font></Label>
-                        <TextField fx:id="textFieldDailyDose" layoutX="446.0" layoutY="520.0" />
-                        <TextField fx:id="textFieldQuantity" layoutX="446.0" layoutY="555.0" />
-                        <TextField fx:id="textFieldDirections" layoutX="446.0" layoutY="621.0" prefHeight="71.0" prefWidth="151.0" />
-                        <ChoiceBox fx:id="choiceBoxDrug" layoutX="447.0" layoutY="743.0" prefWidth="150.0" />
-                        <Label layoutX="339.0" layoutY="746.0" text="Drug" textFill="WHITE">
+                        <TextField fx:id="textFieldDailyDose" layoutX="448.0" layoutY="520.0" />
+                        <TextField fx:id="textFieldQuantity" layoutX="448.0" layoutY="555.0" />
+                        <TextField fx:id="textFieldDirections" layoutX="448.0" layoutY="621.0" prefHeight="71.0" prefWidth="151.0" />
+                        <ChoiceBox fx:id="choiceBoxDrug" layoutX="449.0" layoutY="743.0" prefWidth="150.0" />
+                        <Label layoutX="341.0" layoutY="746.0" text="Drug" textFill="WHITE">
                            <font>
-                              <Font name="System Bold" size="14.0" />
+                              <Font name="System Bold" size="16.0" />
                            </font></Label>
                         <Button fx:id="btnInsertNewTherapy" layoutX="395.0" layoutY="818.0" mnemonicParsing="false" onAction="#btnInsertNewTherapyOnClicked" style="-fx-background-color: #cc0086;" text="Insert New Therapy" textFill="WHITE">
                            <font>
@@ -207,26 +172,10 @@
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font></Button>
-                        <Label layoutX="316.0" layoutY="436.0" text="Add New Therapy">
+                        <Label layoutX="299.0" layoutY="435.0" text="Add New Therapy" textFill="WHITE">
                            <font>
-                              <Font name="System Bold" size="36.0" />
+                              <Font name="System Bold" size="40.0" />
                            </font>
-                           <textFill>
-                              <LinearGradient endX="1.0" endY="0.39336492890995256" startX="1.0" startY="0.8341232227488151">
-                                 <stops>
-                                    <Stop>
-                                       <color>
-                                          <Color red="0.800000011920929" blue="0.5254902243614197" />
-                                       </color>
-                                    </Stop>
-                                    <Stop offset="1.0">
-                                       <color>
-                                          <Color red="1.0" green="1.0" blue="1.0" />
-                                       </color>
-                                    </Stop>
-                                 </stops>
-                              </LinearGradient>
-                           </textFill>
                         </Label>
                      </children></AnchorPane>
               </content>
@@ -273,35 +222,19 @@
                             <TableColumn fx:id="tableViewPathologiesDescription" prefWidth="274.0" text="Description" />
                           </columns>
                         </TableView>
-                        <Label layoutX="337.0" layoutY="60.0" text="Measurements">
+                        <Label layoutX="330.0" layoutY="54.0" text="Measurements" textFill="WHITE">
                            <font>
-                              <Font name="System Bold" size="36.0" />
-                           </font>
-                           <textFill>
-                              <LinearGradient endX="1.0" endY="0.39336492890995256" startX="1.0" startY="0.8341232227488151">
-                                 <stops>
-                                    <Stop>
-                                       <color>
-                                          <Color red="0.800000011920929" blue="0.5254902243614197" />
-                                       </color>
-                                    </Stop>
-                                    <Stop offset="1.0">
-                                       <color>
-                                          <Color red="1.0" green="1.0" blue="1.0" />
-                                       </color>
-                                    </Stop>
-                                 </stops>
-                              </LinearGradient>
-                           </textFill>
-                        </Label>
-                        <Label layoutX="735.0" layoutY="169.0" text="Start Date" textFill="WHITE">
-                           <font>
-                              <Font name="System Bold" size="14.0" />
+                              <Font name="System Bold" size="40.0" />
                            </font>
                         </Label>
-                        <Label layoutX="738.0" layoutY="308.0" text="End Date" textFill="WHITE">
+                        <Label layoutX="730.0" layoutY="164.0" text="Start Date" textFill="WHITE">
                            <font>
-                              <Font name="System Bold" size="14.0" />
+                              <Font name="System Bold" size="16.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="733.0" layoutY="303.0" text="End Date" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="16.0" />
                            </font>
                         </Label>
                      
@@ -321,63 +254,31 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TableView fx:id="tableViewMyPathologies" layoutX="148.0" layoutY="163.0" prefHeight="200.0" prefWidth="640.0">
+                        <TableView fx:id="tableViewMyPathologies" layoutX="148.0" layoutY="173.0" prefHeight="200.0" prefWidth="640.0">
                           <columns>
                             <TableColumn fx:id="tableViewMyPathologiesDescription" prefWidth="449.0" text="Description" />
                               <TableColumn fx:id="tableViewMyPathologiesStartDate" prefWidth="93.0" text="Start Date" />
                               <TableColumn fx:id="tableViewMyPathologiesEndDate" prefWidth="97.0" text="End Date" />
                           </columns>
                         </TableView>
-                        <ChoiceBox fx:id="choiceBoxPathologies" layoutX="349.0" layoutY="614.0" prefWidth="150.0" />
-                        <Button fx:id="btnAddPathologies" layoutX="543.0" layoutY="612.0" mnemonicParsing="false" onAction="#btnAddPathologiesOnClicked" style="-fx-background-color: #cc0086;" text="Add" textFill="WHITE">
+                        <ChoiceBox fx:id="choiceBoxPathologies" layoutX="349.0" layoutY="619.0" prefWidth="150.0" />
+                        <Button fx:id="btnAddPathologies" layoutX="543.0" layoutY="617.0" mnemonicParsing="false" onAction="#btnAddPathologiesOnClicked" style="-fx-background-color: #cc0086;" text="Add" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font></Button>
-                        <Label layoutX="363.0" layoutY="58.0" prefHeight="53.0" prefWidth="210.0" text="Pathologies">
+                        <Label layoutX="356.0" layoutY="58.0" prefHeight="58.0" prefWidth="224.0" text="Pathologies" textFill="WHITE">
                            <font>
-                              <Font name="System Bold" size="36.0" />
+                              <Font name="System Bold" size="40.0" />
                            </font>
-                           <textFill>
-                              <LinearGradient endX="1.0" endY="0.4028436018957346" startX="1.0" startY="0.8483412322274881">
-                                 <stops>
-                                    <Stop>
-                                       <color>
-                                          <Color red="0.800000011920929" blue="0.5254902243614197" />
-                                       </color>
-                                    </Stop>
-                                    <Stop offset="1.0">
-                                       <color>
-                                          <Color red="1.0" green="1.0" blue="1.0" />
-                                       </color>
-                                    </Stop>
-                                 </stops>
-                              </LinearGradient>
-                           </textFill>
                         </Label>
-                        <Button fx:id="btnEndPathology" layoutX="745.0" layoutY="378.0" mnemonicParsing="false" onAction="#btnEndPathologyOnClicked" style="-fx-background-color: #cc0086;" text="End" textFill="WHITE">
+                        <Button fx:id="btnEndPathology" layoutX="745.0" layoutY="391.0" mnemonicParsing="false" onAction="#btnEndPathologyOnClicked" style="-fx-background-color: #cc0086;" text="End" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font></Button>
-                        <Label layoutX="342.0" layoutY="506.0" text="Add Pathology">
+                        <Label layoutX="328.0" layoutY="515.0" text="Add Pathology" textFill="WHITE">
                            <font>
-                              <Font name="System Bold" size="36.0" />
+                              <Font name="System Bold" size="40.0" />
                            </font>
-                           <textFill>
-                              <LinearGradient endX="1.0" endY="0.4028436018957346" startX="1.0" startY="0.8483412322274881">
-                                 <stops>
-                                    <Stop>
-                                       <color>
-                                          <Color red="0.800000011920929" blue="0.5254902243614197" />
-                                       </color>
-                                    </Stop>
-                                    <Stop offset="1.0">
-                                       <color>
-                                          <Color red="1.0" green="1.0" blue="1.0" />
-                                       </color>
-                                    </Stop>
-                                 </stops>
-                              </LinearGradient>
-                           </textFill>
                         </Label>
                      </children>
                 </AnchorPane>
