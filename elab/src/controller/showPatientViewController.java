@@ -359,8 +359,8 @@ public class showPatientViewController {
 				Stage stage = (Stage) tabpane.getScene().getWindow();
 				stage.setScene(scene);
 				stage.setMinWidth(1000);
-		        stage.setMinHeight(1000);
-		        stage.setResizable(true);
+		        stage.setMinHeight(900);
+		        stage.setResizable(false);
 				stage.show();
 				this.patient = null;
 		    	this.myPhysician = null;

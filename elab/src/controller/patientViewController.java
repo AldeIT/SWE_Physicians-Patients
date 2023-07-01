@@ -221,7 +221,7 @@ public class patientViewController {
 				stage.setScene(scene);
 				stage.setMinWidth(500);
 		        stage.setMinHeight(600);
-		        stage.setResizable(true);
+		        stage.setResizable(false);
 				stage.show();
 		    }
 		});
@@ -315,7 +315,6 @@ public class patientViewController {
 		String message = "You still have to take\n";
 		int count = 0;
 		while(rs.next()) {
-			count++;
 			queryName = "SELECT name FROM Drug WHERE id='" + rs.getInt("IDdrug") + "';";
 			rs2 = db.runQuery(queryName);
 			nameDrug = rs2.getString(1);
@@ -324,6 +323,7 @@ public class patientViewController {
 			rs3 = db.runQuery(countIntakes);
 			taken = rs3.getInt(1);
 			if (taken < rs.getInt("dailydose") * rs.getInt("quantity")) {
+				count++;
 				message += nameDrug + ", Quantity Remaining: " + (rs.getInt("dailydose") * rs.getInt("quantity") - taken) + "\n";
 			}
 		 

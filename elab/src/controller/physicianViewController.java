@@ -178,9 +178,9 @@ public class physicianViewController{
 		Scene scene = new Scene(root);
 		Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 		stage.setScene(scene);
-		/*stage.setMinWidth(1000);
-        stage.setMinHeight(1000);*/
-        stage.setResizable(true);
+		stage.setMinWidth(1000);
+        stage.setMinHeight(900);
+        stage.setResizable(false);
 		stage.show();
     }
 
@@ -296,7 +296,7 @@ public class physicianViewController{
 				stage.setScene(scene);
 				stage.setMinWidth(500);
 		        stage.setMinHeight(600);
-		        stage.setResizable(true);
+		        stage.setResizable(false);
 				stage.show();
 		    }
 		    
