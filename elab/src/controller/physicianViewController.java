@@ -40,7 +40,7 @@ import model.TherapyNotTaken;
 
 
 /**
- *The controller class for the Patient view
+ *The controller class for the Physician view
  */
 public class physicianViewController{
 	

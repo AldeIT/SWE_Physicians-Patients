@@ -39,6 +39,14 @@ public class loginController {
     private RadioButton radioBtnPatient;
     @FXML
     private RadioButton radioBtnPhysician;
+    
+    
+    /**
+ 	*The controller class for the login view
+ 	*/
+    public loginController() {
+		//implicit
+	}
 
 	
     /**
