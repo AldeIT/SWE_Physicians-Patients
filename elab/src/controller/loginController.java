@@ -174,6 +174,7 @@ public class loginController {
 		stage.setMinWidth(1000);
         stage.setMinHeight(900);
         stage.setResizable(false);
+        stage.setTitle("Physician");
 		stage.show();
 		return true;
 	}
@@ -219,6 +220,7 @@ public class loginController {
 		Scene scene = new Scene(root);
 		Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 		stage.setScene(scene);
+		stage.setTitle("Patient");
 		stage.setMinWidth(1000);
         stage.setMinHeight(900);
         stage.setResizable(false);

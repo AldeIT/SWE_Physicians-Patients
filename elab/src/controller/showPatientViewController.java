@@ -358,6 +358,7 @@ public class showPatientViewController {
 				Scene scene = new Scene(root);
 				Stage stage = (Stage) tabpane.getScene().getWindow();
 				stage.setScene(scene);
+				stage.setTitle("Physician");
 				stage.setMinWidth(1000);
 		        stage.setMinHeight(900);
 		        stage.setResizable(false);
