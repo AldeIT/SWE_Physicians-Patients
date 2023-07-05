@@ -96,67 +96,106 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1001.0" prefWidth="1002.0">
                      <children>
-                     <Label layoutX="201.0" layoutY="154.0" text="CF" textFill="WHITE">
+                     <Label layoutX="188.0" layoutY="156.0" text="CF" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="16.0" />
                            </font></Label>
-                        <Label layoutX="192.0" layoutY="206.0" text="Name" textFill="WHITE">
+                        <Label layoutX="187.0" layoutY="206.0" text="Name" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="16.0" />
                            </font></Label>
-                        <Label layoutX="512.0" layoutY="156.0" text="Email" textFill="WHITE">
+                        <Label layoutX="505.0" layoutY="156.0" text="Email" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="16.0" />
                            </font></Label>
-                        <Label layoutX="175.0" layoutY="252.0" prefHeight="25.0" prefWidth="72.0" text="Surname" textFill="WHITE">
+                        <Label layoutX="187.0" layoutY="254.0" prefHeight="25.0" prefWidth="72.0" text="Surname" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="16.0" />
                            </font></Label>
-                        <Label layoutX="199.0" layoutY="295.0" text="Sex" textFill="WHITE">
+                        <Label layoutX="186.0" layoutY="295.0" text="Sex" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="16.0" />
                            </font></Label>
-                        <Label layoutX="502.0" layoutY="208.0" text="Birthdate" textFill="WHITE">
+                        <Label layoutX="504.0" layoutY="208.0" text="Birthdate" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="16.0" />
                            </font></Label>
-                        <Label layoutX="498.0" layoutY="254.0" text="Nationality" textFill="WHITE">
+                        <Label layoutX="502.0" layoutY="254.0" text="Nationality" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="16.0" />
                            </font></Label>
-                        <Label layoutX="487.0" layoutY="297.0" text="Phone Number" textFill="WHITE">
+                        <Label layoutX="504.0" layoutY="297.0" text="Phone Number" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="16.0" />
                            </font></Label>
-                        <Label fx:id="labelCF" layoutX="277.0" layoutY="156.0" text="VNTDVD02D17L949I" />
-                        <Label fx:id="labelEmail" layoutX="634.0" layoutY="155.0" prefHeight="19.0" prefWidth="170.0" text="venturi.davide17@gmail.com" />
-                        <Label fx:id="labelName" layoutX="306.0" layoutY="206.0" text="Davide" />
-                        <Label fx:id="labelSurname" layoutX="305.0" layoutY="254.0" text="Venturi" />
-                        <Label fx:id="labelSex" layoutX="319.0" layoutY="297.0" text="M" />
-                        <Label fx:id="labelBirthdate" layoutX="675.0" layoutY="208.0" text="17/04/2002" />
-                        <Label fx:id="labelNationality" layoutX="690.0" layoutY="254.0" text="Italian" />
-                        <Label fx:id="labelCivicNumber" layoutX="401.0" layoutY="344.0" text="Via Marconi 89, Castel d' Azzano Verona" />
-                        <Label fx:id="labelPhoneNumber" layoutX="671.0" layoutY="296.0" prefHeight="19.0" prefWidth="65.0" text="3402938423" />
+                        <Label fx:id="labelCF" layoutX="297.0" layoutY="156.0" text="VNTDVD02D17L949I">
+                           <font>
+                              <Font size="14.0" />
+                           </font></Label>
+                        <Label fx:id="labelEmail" layoutX="666.0" layoutY="155.0" prefHeight="20.0" prefWidth="181.0" text="venturi.davide17@gmail.com">
+                           <font>
+                              <Font size="14.0" />
+                           </font></Label>
+                        <Label fx:id="labelName" layoutX="297.0" layoutY="206.0" text="Davide">
+                           <font>
+                              <Font size="14.0" />
+                           </font></Label>
+                        <Label fx:id="labelSurname" layoutX="298.0" layoutY="254.0" text="Venturi">
+                           <font>
+                              <Font size="14.0" />
+                           </font></Label>
+                        <Label fx:id="labelSex" layoutX="296.0" layoutY="297.0" text="M">
+                           <font>
+                              <Font size="14.0" />
+                           </font></Label>
+                        <Label fx:id="labelBirthdate" layoutX="664.0" layoutY="208.0" text="17/04/2002">
+                           <font>
+                              <Font size="14.0" />
+                           </font></Label>
+                        <Label fx:id="labelNationality" layoutX="665.0" layoutY="254.0" text="Italian">
+                           <font>
+                              <Font size="14.0" />
+                           </font></Label>
+                        <Label fx:id="labelCivicNumber" layoutX="401.0" layoutY="346.0" text="Via Marconi 89, Castel d' Azzano Verona">
+                           <font>
+                              <Font size="14.0" />
+                           </font></Label>
+                        <Label fx:id="labelPhoneNumber" layoutX="664.0" layoutY="300.0" prefHeight="20.0" prefWidth="79.0" text="3402938423">
+                           <font>
+                              <Font size="14.0" />
+                           </font></Label>
                         <Label layoutX="204.0" layoutY="611.0" text="Name" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="16.0" />
                            </font></Label>
-                        <Label layoutX="522.0" layoutY="611.0" text="Surname" textFill="WHITE">
+                        <Label layoutX="528.0" layoutY="611.0" text="Surname" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="16.0" />
                            </font></Label>
-                        <Label layoutX="205.0" layoutY="668.0" text="Email" textFill="WHITE">
+                        <Label layoutX="204.0" layoutY="668.0" text="Email" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="16.0" />
                            </font></Label>
-                        <Label layoutX="503.0" layoutY="668.0" text="Phone Number" textFill="WHITE">
+                        <Label layoutX="527.0" layoutY="668.0" text="Phone Number" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="16.0" />
                            </font></Label>
-                        <Label fx:id="labelPhysicianName" layoutX="319.0" layoutY="613.0" text="Alessandro" />
-                        <Label fx:id="labelPhysicianSurname" layoutX="663.0" layoutY="613.0" text="Aldegheri" />
-                        <Label fx:id="labelPhysicianPhoneNumber" layoutX="656.0" layoutY="670.0" text="3402939423" />
-                        <Label fx:id="labelPhysicianEmail" layoutX="296.0" layoutY="670.0" text="alealde02@gmail.com" textOverrun="LEADING_ELLIPSIS" />
+                        <Label fx:id="labelPhysicianName" layoutX="301.0" layoutY="613.0" text="Alessandro">
+                           <font>
+                              <Font size="14.0" />
+                           </font></Label>
+                        <Label fx:id="labelPhysicianSurname" layoutX="683.0" layoutY="613.0" text="Aldegheri">
+                           <font>
+                              <Font size="14.0" />
+                           </font></Label>
+                        <Label fx:id="labelPhysicianPhoneNumber" layoutX="682.0" layoutY="672.0" text="3402939423">
+                           <font>
+                              <Font size="14.0" />
+                           </font></Label>
+                        <Label fx:id="labelPhysicianEmail" layoutX="300.0" layoutY="670.0" text="alealde02@gmail.com" textOverrun="LEADING_ELLIPSIS">
+                           <font>
+                              <Font size="14.0" />
+                           </font></Label>
                         <Button fx:id="contactPhysician" layoutX="413.0" layoutY="728.0" mnemonicParsing="false" onAction="#contactPhysicianOnClicked" prefHeight="30.0" prefWidth="100.0" style="-fx-background-color: #cc0086;" text="CONTACT" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="14.0" />
