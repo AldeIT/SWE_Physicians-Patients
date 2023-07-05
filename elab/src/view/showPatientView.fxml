@@ -213,7 +213,7 @@
                           <columns>
                             <TableColumn fx:id="tableViewTherapiesID" prefWidth="75.0" text="ID" />
                             <TableColumn fx:id="tableViewTherapiesDirections" prefWidth="444.0" text="Directions" />
-                              <TableColumn fx:id="tableViewTherapiesIDDrug" prefWidth="149.0" text="IDDrug" />
+                              <TableColumn fx:id="tableViewTherapiesIDDrug" prefWidth="149.0" text="Drug" />
                           </columns>
                         </TableView>
                         <TableView fx:id="tableViewPathologies" layoutX="493.0" layoutY="438.0" prefHeight="200.0" prefWidth="350.0">
@@ -247,7 +247,7 @@
                               <Font name="System Bold" size="14.0" />
                            </font>
                         </Label>
-                        <Label layoutX="134.0" layoutY="658.0" prefHeight="20.0" prefWidth="154.0" text="Cocncurrent Therapies" textFill="WHITE">
+                        <Label layoutX="134.0" layoutY="658.0" prefHeight="20.0" prefWidth="154.0" text="Concurrent Therapies" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font>
