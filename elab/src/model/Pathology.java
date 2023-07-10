@@ -59,7 +59,7 @@ public class Pathology {
      * @return a string representation of the pathology object
      */
     public String toString(){
-        return "Pathology: " + getID() + ", " + getDescription();
+        return getDescription();
     }
 }
 

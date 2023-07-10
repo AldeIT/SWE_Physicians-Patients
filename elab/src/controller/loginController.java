@@ -39,6 +39,14 @@ public class loginController {
     private RadioButton radioBtnPatient;
     @FXML
     private RadioButton radioBtnPhysician;
+    
+    
+    /**
+ 	*The controller class for the login view
+ 	*/
+    public loginController() {
+		//implicit
+	}
 
 	
     /**
@@ -164,8 +172,9 @@ public class loginController {
 		Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 		stage.setScene(scene);
 		stage.setMinWidth(1000);
-        stage.setMinHeight(1000);
-        stage.setResizable(true);
+        stage.setMinHeight(900);
+        stage.setResizable(false);
+        stage.setTitle("Physician");
 		stage.show();
 		return true;
 	}
@@ -211,9 +220,10 @@ public class loginController {
 		Scene scene = new Scene(root);
 		Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 		stage.setScene(scene);
+		stage.setTitle("Patient");
 		stage.setMinWidth(1000);
-        stage.setMinHeight(1000);
-        stage.setResizable(true);
+        stage.setMinHeight(900);
+        stage.setResizable(false);
 		stage.show();
 		controller.firstAlert();
 		return true;

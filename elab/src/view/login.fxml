@@ -8,9 +8,6 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.paint.Color?>
-<?import javafx.scene.paint.LinearGradient?>
-<?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="500.0" style="-fx-background-color: #0099cc;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.loginController">
@@ -19,13 +16,13 @@
          <font>
             <Font name="System Bold" size="18.0" />
          </font></Button>
-      <Label layoutX="224.0" layoutY="337.0" prefHeight="25.0" prefWidth="52.0" text="Insert CF" textFill="WHITE">
+      <Label layoutX="221.0" layoutY="337.0" prefHeight="25.0" prefWidth="59.0" text="Insert CF" textFill="WHITE">
          <font>
-            <Font name="System Bold" size="12.0" />
+            <Font name="System Bold" size="14.0" />
          </font></Label>
-      <Label layoutX="221.0" layoutY="400.0" prefHeight="25.0" prefWidth="59.0" text="Password" textFill="WHITE">
+      <Label layoutX="218.0" layoutY="400.0" prefHeight="25.0" prefWidth="65.0" text="Password" textFill="WHITE">
          <font>
-            <Font name="System Bold" size="12.0" />
+            <Font name="System Bold" size="14.0" />
          </font></Label>
       <TextField fx:id="labelCF" layoutX="176.0" layoutY="362.0" />
       <PasswordField fx:id="labelPassword" layoutX="176.0" layoutY="425.0" />
@@ -45,36 +42,10 @@
                </image>
             </ImageView>
          </graphic></RadioButton>
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="176.0" layoutY="61.0" prefHeight="36.0" prefWidth="149.0" text="Welcome" textAlignment="CENTER">
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="172.0" layoutY="58.0" prefHeight="41.0" prefWidth="157.0" text="Welcome" textAlignment="CENTER" textFill="WHITE">
          <font>
-            <Font name="Britannic Bold" size="36.0" />
+            <Font name="Britannic Bold" size="40.0" />
          </font>
-         <textFill>
-            <LinearGradient endX="0.5402843601895735" endY="0.38388625592417064" startX="0.5402843601895735" startY="1.0">
-               <stops>
-                  <Stop>
-                     <color>
-                        <Color red="0.800000011920929" blue="0.5254902243614197" />
-                     </color>
-                  </Stop>
-                  <Stop offset="0.006711409395973154">
-                     <color>
-                        <Color red="0.800000011920929" blue="0.5254902243614197" />
-                     </color>
-                  </Stop>
-                  <Stop offset="0.006711409395973154">
-                     <color>
-                        <Color red="0.800000011920929" blue="0.5333333611488342" />
-                     </color>
-                  </Stop>
-                  <Stop offset="1.0">
-                     <color>
-                        <Color red="1.0" green="1.0" blue="1.0" />
-                     </color>
-                  </Stop>
-               </stops>
-            </LinearGradient>
-         </textFill>
       </Label>
    </children>
 </AnchorPane>

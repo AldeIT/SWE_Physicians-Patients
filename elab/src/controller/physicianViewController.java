@@ -40,7 +40,7 @@ import model.TherapyNotTaken;
 
 
 /**
- *The controller class for the Patient view
+ *The controller class for the Physician view
  */
 public class physicianViewController{
 	
@@ -178,9 +178,10 @@ public class physicianViewController{
 		Scene scene = new Scene(root);
 		Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 		stage.setScene(scene);
-		/*stage.setMinWidth(1000);
-        stage.setMinHeight(1000);*/
-        stage.setResizable(true);
+		stage.setTitle("Patient View");
+		stage.setMinWidth(1000);
+        stage.setMinHeight(900);
+        stage.setResizable(false);
 		stage.show();
     }
 
@@ -294,9 +295,10 @@ public class physicianViewController{
 				Scene scene = new Scene(root);
 				Stage stage = (Stage) tabpane.getScene().getWindow();
 				stage.setScene(scene);
+				stage.setTitle("Login");
 				stage.setMinWidth(500);
 		        stage.setMinHeight(600);
-		        stage.setResizable(true);
+		        stage.setResizable(false);
 				stage.show();
 		    }
 		    
